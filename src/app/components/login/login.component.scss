@@ -1,0 +1,22 @@
+@use "../../sass-utiles/color";
+
+form {
+    > * {
+        margin: 1em 0;
+    }
+}
+button {
+    background: linear-gradient(to right, color.$accent-dark, color.$accent-light);
+    padding: 0.5em;
+    border-radius: 0.5em;
+    width: 100%;
+    text-align: center;
+}
+.row {
+    display: flex;
+    flex-direction: column;
+    &-center {
+        justify-content: center;
+        align-items: center;
+    }
+}

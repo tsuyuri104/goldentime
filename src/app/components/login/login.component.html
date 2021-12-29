@@ -1,1 +1,13 @@
-<p>login works!</p>
+<h2>Login</h2>
+<form (ngSubmit)="LoginProcess()" #frmLogin="ngForm">
+    <div class="row">
+        <label for="txtEmail">Your email</label>
+        <input ngModel type="email" [(ngModel)]="login.email" name="txtEmail" required>
+    </div>
+    <div class="row"> <label for="txtPassword">Your password</label>
+        <input ngModel type="password" [(ngModel)]="login.password" name="txtPassword" required>
+    </div>
+    <div class="row row-center">
+        <button type="submit">Login</button>
+    </div>
+</form>
