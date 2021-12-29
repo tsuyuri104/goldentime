@@ -110,6 +110,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "urdayin:build:production",
+            "firebaseProject": "urdayin",
+            "firebaseHostingSite": "urdayin"
+          }
         }
       }
     }

@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "urdayin"
+  },
+  "targets": {
+    "urdayin": {
+      "hosting": {
+        "urdayin": [
+          "urdayin"
+        ]
+      }
+    }
   }
 }
