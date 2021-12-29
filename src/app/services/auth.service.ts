@@ -6,6 +6,8 @@ import { signInWithEmailAndPassword, getAuth, UserCredential } from 'firebase/au
 })
 export class AuthService {
 
+  user: any;
+
   //#region コンストラクタ
 
   constructor() {
@@ -22,6 +24,9 @@ export class AuthService {
    */
   login(email: string, password: string): Promise<UserCredential | void> {
     const auth = getAuth();
-    return signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password)
+      .then((u) => {
+        this.user = u;
+      });
   }
 }

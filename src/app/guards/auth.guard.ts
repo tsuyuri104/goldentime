@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RouteName } from '../classes/route-name';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthGuard implements CanActivate {
 
   //#region コンストラクタ
 
-  constructor(private router: Router) {
+  constructor(private sAuth: AuthService, private router: Router) {
 
   }
 
@@ -21,12 +22,10 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (user === null) {
-      this.router.navigate([RouteName.LOGIN]);
+    if (this.sAuth.user === null || undefined) {
+      this.router.navigateByUrl(RouteName.LOGIN);
     }
-    return !(user === null);
+
+    return !(this.sAuth.user === null || undefined);
   }
 }
