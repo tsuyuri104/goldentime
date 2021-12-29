@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@use "./app/sass-utiles/destyle";
+@use "./app/sass-utiles/color";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400;600&display=swap");
+
+body {
+    font-family: "Noto Serif JP", serif;
+    font-weight: 200;
+    background-color: color.$base;
+}
+
+@mixin common-header($font-rate) {
+    color: color.$text;
+    font-size: $font-rate * 1em;
+    font-weight: 600;
+    display: inline;
+}
+
+h1 {
+    @include common-header(2.2);
+}
+h2 {
+    @include common-header(1.8);
+}
+h3 {
+    @include common-header(1.6);
+}
