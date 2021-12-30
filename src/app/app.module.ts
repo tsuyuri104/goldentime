@@ -15,6 +15,7 @@ import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { DailyDataComponent } from './components/daily-data/daily-data.component';
+import { MonthlyDataComponent } from './components/monthly-data/monthly-data.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { DailyDataComponent } from './components/daily-data/daily-data.component
     OverviewComponent,
     LoginComponent,
     DailyDataComponent,
+    MonthlyDataComponent
   ],
   imports: [
     BrowserModule,
