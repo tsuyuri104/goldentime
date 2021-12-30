@@ -14,12 +14,14 @@ import { provideFunctions, getFunctions } from '@angular/fire/functions';
 
 import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
+import { DailyDataComponent } from './components/daily-data/daily-data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OverviewComponent,
-    LoginComponent
+    LoginComponent,
+    DailyDataComponent,
   ],
   imports: [
     BrowserModule,
