@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   /**
    * ログイン入力項目
    */
-  login: InputsOfLogin = {
+  public login: InputsOfLogin = {
     email: "",
     password: ""
   }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   /**
    * ログイン処理
    */
-  LoginProcess(): void {
+  public LoginProcess(): void {
     this.sAuth.login(this.login.email, this.login.password)
       .then(() => {
         this.router.navigateByUrl(RouteName.OVERVIEW)
