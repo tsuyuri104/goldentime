@@ -22,10 +22,10 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (this.sAuth.user === null || undefined) {
+    if (this.sAuth.user === null || this.sAuth.user === undefined) {
       this.router.navigateByUrl(RouteName.LOGIN);
     }
 
-    return !(this.sAuth.user === null || undefined);
+    return !(this.sAuth.user === null || this.sAuth.user === undefined);
   }
 }
