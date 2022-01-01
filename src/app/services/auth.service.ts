@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword, getAuth, UserCredential } from 'firebase/au
 })
 export class AuthService {
 
-  public user: any;
+  public user: UserCredential | undefined;
 
   //#region コンストラクタ
 
