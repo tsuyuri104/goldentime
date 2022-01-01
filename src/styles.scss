@@ -28,4 +28,18 @@ textarea {
     padding: 0.5em;
     border: 1px solid color.$text-light;
     border-radius: 0.25em;
+    &:focus {
+        border: 2px solid color.$accent-dark;
+        outline: none;
+    }
+}
+textarea {
+    height: calc(1.2em * 5);
+    line-height: 1.2em;
+    width: 100%;
+    resize: none;
+}
+label {
+    margin-bottom: 0.25em;
+    display: block;
 }

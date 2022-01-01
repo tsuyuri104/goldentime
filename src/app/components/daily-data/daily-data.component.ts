@@ -20,6 +20,7 @@ export class DailyDataComponent implements OnInit {
   public selectedDate: Date = new Date();
   public selectedUserName: string = "";
   public dailyTotalHours: number = 0;
+  public submitMessage: string = "";
 
   /**
    * 編集権限ないユーザー用表示データ
@@ -142,9 +143,13 @@ export class DailyDataComponent implements OnInit {
    * 日次データを更新する
    */
   public updateDailyData(): void {
+    this.submitMessage = "";
     let inputData: Daily = this.frmDaily.value;
     inputData.total = this.calcTotalHours();
-    this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToStrig(this.selectedDate));
+    this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToStrig(this.selectedDate))
+      .then(arg => {
+        this.submitMessage = "Successed submit";
+      });
   }
   //#endregion
 

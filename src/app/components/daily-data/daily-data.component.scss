@@ -1,0 +1,61 @@
+@use "./../../sass-utiles/mixins";
+@use "./../../sass-utiles/color";
+
+button[type="submit"] {
+    @include mixins.common-submit-button();
+}
+button[type="button"] {
+    background-color: color.$white;
+    border: 2px solid color.$main;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    width: 100%;
+    text-align: center;
+}
+.selected {
+    margin: 1em 0;
+}
+.card {
+    background-color: color.$white;
+    filter: drop-shadow(0px 0px 8px color.$text-light);
+    padding: 1em;
+
+    &-wrapper {
+        > * {
+            margin: 1em 0;
+        }
+    }
+    &-header,
+    &-body,
+    &-footer {
+        > * {
+            display: block;
+        }
+    }
+    &-body {
+        margin: 1em 0;
+    }
+}
+.form-group {
+    margin: 1em 0;
+    span {
+        display: block;
+    }
+}
+.submit-message {
+    background: color.$gradation-neon;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeout 5s ease 0s 1 forwards;
+}
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
