@@ -18,3 +18,6 @@ main {
     min-height: calc(100vh - $header-height - ($main-margin * 2));
     margin: $main-margin 0;
 }
+.wrapper {
+    min-width: 50vw;
+}
