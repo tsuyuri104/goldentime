@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  //#region グローバル変数
+  //#region 変数
 
   /**
    * ログイン入力項目
@@ -25,26 +25,27 @@ export class LoginComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-
   constructor(private router: Router, private sAuth: AuthService) {
 
   }
-
   //#endregion
 
   //#region イベント
 
+  //#region ngOnInit
   /**
    * 初期設定
    */
   ngOnInit(): void {
 
   }
+  //#endregion
 
   //#endregion
 
   //#region メソッド
 
+  //#region loginProcess
   /**
    * ログイン処理
    */
@@ -57,6 +58,7 @@ export class LoginComponent implements OnInit {
         alert(error);
       });
   }
+  //#endregion
 
   //#endregion
 }

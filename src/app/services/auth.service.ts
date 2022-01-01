@@ -6,16 +6,19 @@ import { signInWithEmailAndPassword, getAuth, UserCredential } from 'firebase/au
 })
 export class AuthService {
 
+  //#region 変数
+
   public user: UserCredential | undefined;
-
-  //#region コンストラクタ
-
-  constructor() {
-
-  }
 
   //#endregion
 
+  //#region コンストラクタ
+  constructor() {
+
+  }
+  //#endregion
+
+  //#region login
   /**
    * ログインする
    * @param email 
@@ -29,4 +32,5 @@ export class AuthService {
         this.user = u;
       });
   }
+  //#endregion
 }

@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor() { }
+  //#region コンストラク
+  constructor() {
 
-  ngOnInit(): void {
   }
+  //#endregion
+
+  //#region イベント
+
+  //#region  ngOnInit
+  ngOnInit(): void {
+
+  }
+  //#endregion
+
+  //#endregion
 
 }
