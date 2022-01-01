@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "./app/sass-utiles/destyle";
 @use "./app/sass-utiles/color";
+@use "./app/sass-utiles/mixins";
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400;600&display=swap");
 
 body {
@@ -9,19 +10,22 @@ body {
     background-color: color.$base;
 }
 
-@mixin common-header($font-rate) {
-    color: color.$text;
-    font-size: $font-rate * 1em;
-    font-weight: 600;
-    display: inline;
-}
-
 h1 {
-    @include common-header(2.2);
+    @include mixins.common-header(2.2);
 }
 h2 {
-    @include common-header(1.8);
+    @include mixins.common-header(1.8);
 }
 h3 {
-    @include common-header(1.6);
+    @include mixins.common-header(1.6);
+}
+h4 {
+    @include mixins.common-header(1.4);
+}
+input,
+textarea {
+    height: 2em;
+    padding: 0.5em;
+    border: 1px solid color.$text-light;
+    border-radius: 0.25em;
 }
