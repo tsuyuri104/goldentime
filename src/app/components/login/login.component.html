@@ -1,5 +1,5 @@
 <h2>Login</h2>
-<form (ngSubmit)="LoginProcess()" #frmLogin="ngForm">
+<form (ngSubmit)="loginProcess()" #frmLogin="ngForm">
     <div class="row">
         <label for="txtEmail">Your email</label>
         <input ngModel type="email" [(ngModel)]="login.email" name="txtEmail" required>

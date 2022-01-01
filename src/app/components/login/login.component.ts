@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
   /**
    * ログイン処理
    */
-  public LoginProcess(): void {
+  public loginProcess(): void {
     this.sAuth.login(this.login.email, this.login.password)
       .then(() => {
         this.router.navigateByUrl(RouteName.OVERVIEW)
