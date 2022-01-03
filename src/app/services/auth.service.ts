@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { signInWithEmailAndPassword, getAuth, UserCredential } from 'firebase/auth'
+import { signInWithEmailAndPassword, getAuth, UserCredential, signOut } from 'firebase/auth'
 
 @Injectable({
   providedIn: 'root'
@@ -33,4 +33,19 @@ export class AuthService {
       });
   }
   //#endregion
+
+  //#region logout
+  /**
+   * ログアウトする
+   * @returns 
+   */
+  public logout() {
+    const auth = getAuth();
+    return signOut(auth)
+      .then(() => {
+        this.user = undefined;
+      });
+  }
+  //#endregion
+
 }
