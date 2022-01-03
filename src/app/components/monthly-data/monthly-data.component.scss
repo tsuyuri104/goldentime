@@ -1,0 +1,27 @@
+.calendar {
+    margin: 1em;
+    &-nav {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-head,
+    &-body {
+        span {
+            padding: 0.6em;
+            min-width: 2em;
+        }
+    }
+    &-sunday {
+        color: red;
+    }
+    &-saturday {
+        color: blue;
+    }
+    &-row {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-day {
+        cursor: pointer;
+    }
+}
