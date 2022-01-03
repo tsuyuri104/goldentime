@@ -1,3 +1,4 @@
+import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Daily } from 'src/app/interfaces/daily';
@@ -81,9 +82,10 @@ export class DailyDataComponent implements OnInit {
    */
   public async setDailyData(email: string, date: string): Promise<void> {
     this.dailyDatum = <Daily>await this.sDaily.getData(email, date);
-    if (this.dailyDatum.jobs.length === 0) {
-      console.log("empty");
-    }
+
+    //データが空の場合、初期値を設定する
+    this.dailyDatum = this.setDefaultDailuDatum(this.dailyDatum);
+
     this.frmDaily = this.convertFormGroup(this.dailyDatum);
     this.dailyTotalHours = this.dailyDatum.total;
   }
@@ -195,6 +197,35 @@ export class DailyDataComponent implements OnInit {
     });
 
     return group;
+  }
+  //#endregion
+
+  //#region setDefaultDailuDatum
+  /**
+   * データが空の場合は、初期値を設定する
+   * @param datum DBから取得したデータ
+   * @returns 初期値を設定したデータ
+   */
+  private setDefaultDailuDatum(datum: Daily): Daily {
+
+    //対象日のデータがない場合
+    if (datum === undefined) {
+      datum = {
+        memo: '',
+        total: 0,
+        jobs: []
+      }
+    }
+
+    //対象日の記録がない場合
+    if (datum.jobs.length === 0) {
+      datum.jobs.push(<Jobs>{
+        job: "",
+        hours: 0,
+      });
+    }
+
+    return datum;
   }
   //#endregion
 
