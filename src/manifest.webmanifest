@@ -1,8 +1,8 @@
 {
   "name": "urdayin",
   "short_name": "urdayin",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#cdf0ea",
+  "background_color": "#f9f9f9",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
