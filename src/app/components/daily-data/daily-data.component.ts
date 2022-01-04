@@ -147,7 +147,7 @@ export class DailyDataComponent implements OnInit {
     this.submitMessage = "";
     let inputData: Daily = this.frmDaily.value;
     inputData.total = this.calcTotalHours();
-    this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToStrig(this.selectedDate))
+    this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToString(this.selectedDate))
       .then(arg => {
         this.submitMessage = "Successed submit";
       });
