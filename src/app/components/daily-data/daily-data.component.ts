@@ -64,7 +64,7 @@ export class DailyDataComponent implements OnInit {
     this.selectedDate = this.sUrdayin.getSelectedDate();
     this.allowEdit = this.isEditUser();
 
-    this.setDailyData(this.sUrdayin.getSelectedUser(), Common.dateToStrig(this.selectedDate));
+    this.setDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.selectedDate));
     this.getUserName(this.sUrdayin.getSelectedUser());
   }
   //#endregion
