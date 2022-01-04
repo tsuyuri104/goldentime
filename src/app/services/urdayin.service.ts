@@ -23,6 +23,7 @@ export class UrdayinService {
   public FIELD_NAME = class {
     public static readonly USER_NAME: string = "user_name";
     public static readonly DAILY: string = 'daily';
+    public static readonly MONTHLY: string = 'monthly';
   }
 
   //#endregion

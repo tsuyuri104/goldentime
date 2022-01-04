@@ -4,6 +4,7 @@ import { Daily } from 'src/app/interfaces/daily';
 import { Jobs } from 'src/app/interfaces/jobs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DailyService } from 'src/app/services/daily.service';
+import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Common } from 'src/app/utilities/common';
 
@@ -45,6 +46,7 @@ export class DailyDataComponent implements OnInit {
   //#region コンストラクタ
   constructor(
     private sDaily: DailyService
+    , private sMonthly: MonthlyService
     , private sUrdayin: UrdayinService
     , private sAuth: AuthService
     , private fb: FormBuilder
@@ -149,6 +151,8 @@ export class DailyDataComponent implements OnInit {
     inputData.total = this.calcTotalHours();
     this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToString(this.selectedDate))
       .then(arg => {
+        //月次データのトータルを更新する
+        this.sMonthly.updateMonthlyTotal(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
         this.submitMessage = "Successed submit";
       });
   }
