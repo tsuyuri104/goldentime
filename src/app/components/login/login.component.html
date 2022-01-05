@@ -1,13 +1,13 @@
-<h2>Login</h2>
+<h2>ログイン</h2>
 <form (ngSubmit)="loginProcess()" #frmLogin="ngForm">
     <div class="row">
-        <label for="txtEmail">Your email</label>
+        <label for="txtEmail">メールアドレス</label>
         <input ngModel type="email" [(ngModel)]="login.email" name="txtEmail" required>
     </div>
-    <div class="row"> <label for="txtPassword">Your password</label>
+    <div class="row"> <label for="txtPassword">パスワード</label>
         <input ngModel type="password" [(ngModel)]="login.password" name="txtPassword" required>
     </div>
     <div class="row row-center">
-        <button type="submit">Login</button>
+        <button type="submit">ログイン</button>
     </div>
 </form>
