@@ -37,6 +37,7 @@ export class MonthlyDataComponent implements OnInit {
    */
   ngOnInit(): void {
     this.createCalender();
+    this.getMonthlyData();
   }
   //#endregion
 
