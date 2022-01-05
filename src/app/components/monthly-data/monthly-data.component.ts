@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Calendar } from 'src/app/interfaces/calendar';
 import { CalendarDay } from 'src/app/interfaces/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/calendar-row';
+import { Monthly } from 'src/app/interfaces/monthly';
 import { DailyService } from 'src/app/services/daily.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { Common } from 'src/app/utilities/common';
 
 @Component({
   selector: 'app-monthly-data',
@@ -17,6 +19,7 @@ export class MonthlyDataComponent implements OnInit {
 
   public selectedMonth: Date = new Date();
   public calendar: Calendar = { rows: [] };
+  public monthly: Monthly = { total: 0 };
 
   //#endregion
 
@@ -117,6 +120,15 @@ export class MonthlyDataComponent implements OnInit {
     calender.rows.push(row);
 
     this.calendar = calender;
+  }
+  //#endregion
+
+  //#region getMonthlyData
+  /**
+   * 月次データを取得する
+   */
+  public async getMonthlyData(): Promise<void> {
+    this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
   }
   //#endregion
 

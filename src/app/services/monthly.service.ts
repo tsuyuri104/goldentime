@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, doc, getDocs, getFirestore, query, where, documentId, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, query, where, documentId, setDoc, getDoc, DocumentData } from 'firebase/firestore';
 import { Daily } from '../interfaces/daily';
 import { Monthly } from '../interfaces/monthly';
 import { UrdayinService } from './urdayin.service';
@@ -51,6 +51,21 @@ export class MonthlyService {
     }
 
     await setDoc(docRef, monthly);
+  }
+  //#endregion
+
+  //#region getMonthlyData
+  /**
+   * 月次データを取得する
+   * @param email 対象のユーザーのメールアドレス
+   * @param yearmonth 対象の年月
+   * @returns 月次データ
+   */
+  public async getMonthlyData(email: string, yearmonth: string): Promise<DocumentData | undefined> {
+    const db = getFirestore();
+    const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.MONTHLY, yearmonth);
+    const snap = await getDoc(ref);
+    return snap.data();
   }
   //#endregion
 
