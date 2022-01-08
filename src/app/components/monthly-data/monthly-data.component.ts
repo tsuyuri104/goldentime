@@ -52,7 +52,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
-  //#region 
+  //#region ngOnDestroy
   /**
    * 破棄設定
    */
