@@ -41,7 +41,6 @@ export class MonthlyService {
     const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.DAILY), where(documentId(), ">=", yearmonth + "01"), where(documentId(), "<=", yearmonth + "31"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.id);
       const datum: Daily = <Daily>doc.data();
       monthTotal += datum.total;
     });
