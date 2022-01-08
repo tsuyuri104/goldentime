@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Daily } from 'src/app/interfaces/daily';
 import { Jobs } from 'src/app/interfaces/jobs';
+import { Monthly } from 'src/app/interfaces/monthly';
 import { AuthService } from 'src/app/services/auth.service';
 import { DailyService } from 'src/app/services/daily.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
@@ -13,7 +15,7 @@ import { Common } from 'src/app/utilities/common';
   templateUrl: './daily-data.component.html',
   styleUrls: ['./daily-data.component.scss']
 })
-export class DailyDataComponent implements OnInit {
+export class DailyDataComponent implements OnInit, OnDestroy {
 
   //#region 変数
 
@@ -68,6 +70,15 @@ export class DailyDataComponent implements OnInit {
 
     this.setDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.selectedDate));
     this.getUserName(this.sUrdayin.getSelectedUser());
+  }
+  //#endregion
+
+  //#region ngOnDestroy
+  /**
+   * 破棄設定
+   */
+  ngOnDestroy(): void {
+
   }
   //#endregion
 
@@ -150,9 +161,13 @@ export class DailyDataComponent implements OnInit {
     let inputData: Daily = this.frmDaily.value;
     inputData.total = this.calcTotalHours();
     this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToString(this.selectedDate))
-      .then(arg => {
+      .then(async arg => {
         //月次データのトータルを更新する
-        this.sMonthly.updateMonthlyTotal(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        await this.sMonthly.updateMonthlyTotal(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        //月次データを再取得する
+        const newMonthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        //サービスに新しい月次データを渡す
+        this.sUrdayin.onSharedMonthlyDataChanged(newMonthly);
         this.submitMessage = "Successed submit";
       });
   }

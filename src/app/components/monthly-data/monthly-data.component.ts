@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Calendar } from 'src/app/interfaces/calendar';
 import { CalendarDay } from 'src/app/interfaces/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/calendar-row';
@@ -13,13 +14,15 @@ import { Common } from 'src/app/utilities/common';
   templateUrl: './monthly-data.component.html',
   styleUrls: ['./monthly-data.component.scss']
 })
-export class MonthlyDataComponent implements OnInit {
+export class MonthlyDataComponent implements OnInit, OnDestroy {
 
   //#region 変数
 
   public selectedMonth: Date = new Date();
   public calendar: Calendar = { rows: [] };
   public monthly: Monthly = { total: 0 };
+
+  private subscriptionMonthly!: Subscription;
 
   //#endregion
 
@@ -38,6 +41,23 @@ export class MonthlyDataComponent implements OnInit {
   ngOnInit(): void {
     this.createCalender();
     this.getMonthlyData();
+
+    //監視対象の設定
+    this.subscriptionMonthly = this.sUrdayin.sharedMonthlyDataSource$.subscribe(
+      data => {
+        //月次データの表示を更新する
+        this.monthly = data;
+      }
+    );
+  }
+  //#endregion
+
+  //#region 
+  /**
+   * 破棄設定
+   */
+  ngOnDestroy(): void {
+    this.subscriptionMonthly.unsubscribe();
   }
   //#endregion
 
