@@ -37,7 +37,7 @@ export class UrdayinService {
 
   //#region コンストラクタ
   constructor(private sAuth: AuthService) {
-    this.selectedUser = this.sAuth.user === undefined ? "" : String(this.sAuth.user.user.email);
+    this.setSelectedUser(this.sAuth.user);
   }
   //#endregion
 
@@ -82,8 +82,12 @@ export class UrdayinService {
    * 対象のユーザーを設定する
    * @param user ユーザー情報
    */
-  public setSelectedUser(user: UserCredential): void {
-    this.selectedUser = String(user.user.email);
+  public setSelectedUser(user: UserCredential | undefined): void {
+    if (user === undefined) {
+      this.selectedUser = "";
+    } else {
+      this.selectedUser = String(user.user.email);
+    }
   }
   //#endregion
 
