@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public title = 'urdayin';
-  public version = '1.2.2';
+  public version = '1.3.0';
 }
