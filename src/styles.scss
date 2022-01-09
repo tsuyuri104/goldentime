@@ -4,7 +4,8 @@
 @use "./app/sass-utiles/mixins";
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400;600&display=swap");
 
-body {
+body,
+th {
     font-family: "Noto Serif JP", serif;
     font-weight: 200;
     background-color: color.$base;

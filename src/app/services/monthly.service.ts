@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { collection, doc, getDocs, getFirestore, query, where, documentId, setDoc, getDoc, DocumentData } from 'firebase/firestore';
 import { Daily } from '../interfaces/daily';
+import { Jobs } from '../interfaces/jobs';
 import { Monthly } from '../interfaces/monthly';
+import { DailyService } from './daily.service';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({
@@ -18,7 +20,7 @@ export class MonthlyService {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService) {
+  constructor(private sUrdayin: UrdayinService, private sDaily: DailyService) {
 
   }
   //#endregion
@@ -38,12 +40,11 @@ export class MonthlyService {
     let monthTotal: number = 0;
 
     //対象年月の日次データを取得する
-    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.DAILY), where(documentId(), ">=", yearmonth + "01"), where(documentId(), "<=", yearmonth + "31"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      const datum: Daily = <Daily>doc.data();
-      monthTotal += datum.total;
-    });
+    const dailyData = await this.sDaily.getDataOneMonth(email, yearmonth);
+    dailyData.forEach(snap => {
+      const doc = <Daily>snap.data();
+      monthTotal += doc.total;
+    })
 
     const monthly: Monthly = {
       total: monthTotal,
@@ -65,6 +66,38 @@ export class MonthlyService {
     const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.MONTHLY, yearmonth);
     const snap = await getDoc(ref);
     return snap.data();
+  }
+  //#endregion
+
+  //#region getSummaryData
+  /**
+   * サマリーデータを取得する
+   * @param email 対象のユーザーのメールアドレス
+   * @param yearmonth 対象の年月
+   * @returns 工数のサマリーデータ
+   */
+  public async getSummaryData(email: string, yearmonth: string): Promise<Jobs[]> {
+    //1ヶ月分の日次データを取得する
+    const dailyData = await this.sDaily.getDataOneMonth(email, yearmonth);
+
+    //サマリーデータを作成する
+    let summaryData: Jobs[] = [];
+    dailyData.forEach(snap => {
+      const doc = <Daily>snap.data();
+      console.log(doc);
+      doc.jobs.forEach(job => {
+        const indexData = summaryData.findIndex(datum => datum.job === job.job);
+        const hasData = indexData > -1;
+        if (hasData) {
+          //加算
+          summaryData[indexData].hours += job.hours;
+        } else {
+          //追加
+          summaryData.push(job);
+        }
+      });
+    });
+    return summaryData;
   }
   //#endregion
 

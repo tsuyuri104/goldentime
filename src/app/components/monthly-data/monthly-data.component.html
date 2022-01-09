@@ -1,40 +1,60 @@
 <h3>月次</h3>
+<div class="wrapper">
+    <div class="calendar">
+        <div class="calendar-nav">
+            <div>
+                <button type="button">&#x3C;&#x3C;</button>
+            </div>
+            <div>
+                {{ selectedMonth|date:'yyyy年M月' }}
+            </div>
+            <div>
+                <button type="button">&#x3E;&#x3E;</button>
+            </div>
+        </div>
+        <div class="calendar-head">
+            <div class="calendar-row">
+                <span class="calendar-sunday">日</span>
+                <span>月</span>
+                <span>火</span>
+                <span>水</span>
+                <span>木</span>
+                <span>金</span>
+                <span class="calendar-saturday">土</span>
+            </div>
+        </div>
+        <div class="calendar-body">
+            <div class="calendar-row" *ngFor="let row of calendar.rows">
+                <ng-container *ngFor="let day of row.days">
+                    <span *ngIf="day.isBlank" class="calendar-blank"></span>
+                    <span *ngIf="day.isBlank === false" class="calendar-day" [class.calendar-sunday]="day.isSunday"
+                        [class.calendar-saturday]="day.isSaturday" (click)="setSelectedDate(day.date)">
+                        {{ day.date }}
+                    </span>
+                </ng-container>
+            </div>
+        </div>
+    </div>
 
-<div class="calendar">
-    <div class="calendar-nav">
-        <div>
-            <button type="button">&#x3C;&#x3C;</button>
-        </div>
-        <div>
-            {{ selectedMonth|date:'yyyy年M月' }}
-        </div>
-        <div>
-            <button type="button">&#x3E;&#x3E;</button>
-        </div>
+    <div class="monthly">
+        <span>{{ selectedMonth|date:'yyyy年M月' }}の合計</span>
+        <span>{{ monthly.total }} 時間</span>
     </div>
-    <div class="calendar-head">
-        <span class="calendar-sunday">日</span>
-        <span>月</span>
-        <span>火</span>
-        <span>水</span>
-        <span>木</span>
-        <span>金</span>
-        <span class="calendar-saturday">土</span>
-    </div>
-    <div class="calendar-body">
-        <div class="calendar-row" *ngFor="let row of calendar.rows">
-            <ng-container *ngFor="let day of row.days">
-                <span *ngIf="day.isBlank" class="calendar-blank"></span>
-                <span *ngIf="day.isBlank === false" class="calendar-day" [class.calendar-sunday]="day.isSunday"
-                    [class.calendar-saturday]="day.isSaturday" (click)="setSelectedDate(day.date)">
-                    {{ day.date }}
-                </span>
-            </ng-container>
-        </div>
-    </div>
-</div>
 
-<div class="monthly">
-    <span>{{ selectedMonth|date:'yyyy年M月' }}の合計</span>
-    <span>{{ monthly.total }} 時間</span>
+    <div class="summary">
+        <table>
+            <tr>
+                <th>
+                    作業内容
+                </th>
+                <th>
+                    工数
+                </th>
+            </tr>
+            <tr *ngFor="let job of summaryData">
+                <td>{{ job.job }}</td>
+                <td>{{ job.hours }} 時間</td>
+            </tr>
+        </table>
+    </div>
 </div>

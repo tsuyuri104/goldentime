@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { Calendar } from 'src/app/interfaces/calendar';
 import { CalendarDay } from 'src/app/interfaces/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/calendar-row';
+import { Daily } from 'src/app/interfaces/daily';
+import { Jobs } from 'src/app/interfaces/jobs';
 import { Monthly } from 'src/app/interfaces/monthly';
 import { DailyService } from 'src/app/services/daily.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
@@ -21,8 +23,11 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   public selectedMonth: Date = new Date();
   public calendar: Calendar = { rows: [] };
   public monthly: Monthly = { total: 0 };
+  public dailys: Daily[] = [];
+  public summaryData: Jobs[] = [];
 
   private subscriptionMonthly!: Subscription;
+  private subscriptionSummary!: Subscription;
 
   //#endregion
 
@@ -41,6 +46,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createCalender();
     this.getMonthlyData();
+    this.getSummaryData();
 
     //監視対象の設定
     this.subscriptionMonthly = this.sUrdayin.sharedMonthlyDataSource$.subscribe(
@@ -49,6 +55,12 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         this.monthly = data;
       }
     );
+    this.subscriptionSummary = this.sUrdayin.sharedSummaryDataSource$.subscribe(
+      data => {
+        //サマリーデータの表示を更新する
+        this.summaryData = data;
+      }
+    )
   }
   //#endregion
 
@@ -58,6 +70,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     this.subscriptionMonthly.unsubscribe();
+    this.subscriptionSummary.unsubscribe();
   }
   //#endregion
 
@@ -99,6 +112,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         isSunday: false,
         isSaturday: false,
         isBlank: true,
+        fullDate: "",
       });
     }
 
@@ -123,7 +137,8 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         date: tmpDate.getDate(),
         isSunday: isSunday,
         isSaturday: isSaturday,
-        isBlank: false
+        isBlank: false,
+        fullDate: Common.dateToString(tmpDate),
       });
     }
 
@@ -135,6 +150,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         isSunday: false,
         isSaturday: false,
         isBlank: true,
+        fullDate: "",
       });
     }
 
@@ -148,8 +164,17 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   /**
    * 月次データを取得する
    */
-  public async getMonthlyData(): Promise<void> {
+  private async getMonthlyData(): Promise<void> {
     this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
+  }
+  //#endregion
+
+  //#region getSummaryData
+  /**
+   * サマリーデータを取得する
+   */
+  private async getSummaryData(): Promise<void> {
+    this.summaryData = await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
   }
   //#endregion
 

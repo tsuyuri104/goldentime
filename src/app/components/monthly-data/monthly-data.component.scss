@@ -1,5 +1,11 @@
+@use "../../sass-utiles/color";
+
+.wrapper {
+    > div {
+        margin: 1em;
+    }
+}
 .calendar {
-    margin: 1em;
     &-nav {
         display: flex;
         justify-content: space-between;
@@ -23,5 +29,20 @@
     }
     &-day {
         cursor: pointer;
+    }
+}
+.summary {
+    table {
+        width: 100%;
+        // max-width: ;
+    }
+    th {
+        background-color: color.$main;
+        padding: 0.5em 1.5em;
+    }
+    td {
+        padding: 0.5em 1.5em;
+        border-bottom: 1px solid color.$main;
+        word-break: break-all;
     }
 }
