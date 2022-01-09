@@ -84,7 +84,6 @@ export class MonthlyService {
     let summaryData: Jobs[] = [];
     dailyData.forEach(snap => {
       const doc = <Daily>snap.data();
-      console.log(doc);
       doc.jobs.forEach(job => {
         const indexData = summaryData.findIndex(datum => datum.job === job.job);
         const hasData = indexData > -1;
