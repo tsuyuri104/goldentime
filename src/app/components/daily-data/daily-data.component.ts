@@ -171,7 +171,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
         //サマリーデータを再取得する
         const newSummary = <Jobs[]>await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
         //サービスに新しいサマリーデータを渡す
-        this.sUrdayin.onSharedSummaryDataChannged(newSummary);
+        this.sUrdayin.onSharedSummaryDataChanged(newSummary);
         this.submitMessage = "Successed submit";
       });
   }

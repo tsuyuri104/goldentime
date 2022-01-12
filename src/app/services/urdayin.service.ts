@@ -53,12 +53,12 @@ export class UrdayinService {
   }
   //#endregion
 
-  //#region onSharedSummaryDataChannged
+  //#region onSharedSummaryDataChanged
   /**
    * サマリーデータ変更監視
    * @param data 
    */
-  public onSharedSummaryDataChannged(data: Jobs[]): void {
+  public onSharedSummaryDataChanged(data: Jobs[]): void {
     this.sharedSummaryDataSource.next(data);
   }
   //#endregion
