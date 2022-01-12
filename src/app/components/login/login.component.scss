@@ -8,11 +8,22 @@ form {
 button {
     @include mixins.common-submit-button();
 }
+
 .row {
     display: flex;
     flex-direction: column;
     &-center {
         justify-content: center;
         align-items: center;
+    }
+}
+.wrapper {
+    > div + div {
+        margin: 5em 0;
+    }
+}
+.notice {
+    &-row {
+        margin: 1em 0;
     }
 }

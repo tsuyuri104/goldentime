@@ -3,7 +3,9 @@ import { Router } from '@angular/router'
 import { getAuth } from 'firebase/auth';
 import { RouteName } from 'src/app/classes/route-name';
 import { InputsOfLogin } from 'src/app/interfaces/input-of-frm-login';
+import { Notice } from 'src/app/interfaces/notice';
 import { AuthService } from 'src/app/services/auth.service';
+import { NoticesService } from 'src/app/services/notices.service';
 
 @Component({
   selector: 'app-login',
@@ -21,11 +23,12 @@ export class LoginComponent implements OnInit {
     email: "",
     password: ""
   }
+  public notices: Notice[] = [];
 
   //#endregion
 
   //#region コンストラクタ
-  constructor(private router: Router, private sAuth: AuthService) {
+  constructor(private router: Router, private sAuth: AuthService, private sNotices: NoticesService) {
 
   }
   //#endregion
@@ -37,6 +40,8 @@ export class LoginComponent implements OnInit {
    * 初期設定
    */
   ngOnInit(): void {
+
+    this.getNotices();
 
   }
   //#endregion
@@ -57,6 +62,22 @@ export class LoginComponent implements OnInit {
       .catch((error) => {
         alert(error);
       });
+  }
+  //#endregion
+
+  //#region getNotices
+  /**
+   * 更新情報を取得する
+   */
+  private async getNotices(): Promise<void> {
+
+    this.notices = [];
+
+    const snaps = await this.sNotices.getNotices();
+
+    snaps.forEach((snap) => {
+      this.notices.push(<Notice>snap.data());
+    });
   }
   //#endregion
 
