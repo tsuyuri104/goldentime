@@ -3,4 +3,5 @@ export interface CalendarDay {
     isSunday: boolean,
     isSaturday: boolean,
     isBlank: boolean,
+    fullDate: string,
 }
