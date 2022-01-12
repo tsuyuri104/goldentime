@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Daily } from 'src/app/interfaces/daily';
+import { Dailys } from 'src/app/interfaces/dailys';
 import { Jobs } from 'src/app/interfaces/jobs';
 import { Monthly } from 'src/app/interfaces/monthly';
 import { AuthService } from 'src/app/services/auth.service';
@@ -172,6 +173,10 @@ export class DailyDataComponent implements OnInit, OnDestroy {
         const newSummary = <Jobs[]>await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
         //サービスに新しいサマリーデータを渡す
         this.sUrdayin.onSharedSummaryDataChanged(newSummary);
+        //１ヶ月の日次データを再取得する
+        const newDailys = <Dailys>await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        //サービスに１ヶ月の日次データを渡す
+        this.sUrdayin.onSharedDailyDataChanged(newDailys);
         this.submitMessage = "Successed submit";
       });
   }

@@ -14,23 +14,46 @@
         </div>
         <div class="calendar-head">
             <div class="calendar-row">
-                <span class="calendar-sunday">日</span>
-                <span>月</span>
-                <span>火</span>
-                <span>水</span>
-                <span>木</span>
-                <span>金</span>
-                <span class="calendar-saturday">土</span>
+                <div class="calendar-box">
+                    <span class="calendar-sunday">日</span>
+                </div>
+                <div class="calendar-box">
+                    <span>月</span>
+                </div>
+                <div class="calendar-box">
+                    <span>火</span>
+                </div>
+                <div class="calendar-box">
+                    <span>水</span>
+                </div>
+                <div class="calendar-box">
+                    <span>木</span>
+                </div>
+                <div class="calendar-box">
+                    <span>金</span>
+                </div>
+                <div class="calendar-box">
+                    <span class="calendar-saturday">土</span>
+                </div>
             </div>
         </div>
         <div class="calendar-body">
             <div class="calendar-row" *ngFor="let row of calendar.rows">
                 <ng-container *ngFor="let day of row.days">
-                    <span *ngIf="day.isBlank" class="calendar-blank"></span>
-                    <span *ngIf="day.isBlank === false" class="calendar-day" [class.calendar-sunday]="day.isSunday"
-                        [class.calendar-saturday]="day.isSaturday" (click)="setSelectedDate(day.date)">
-                        {{ day.date }}
-                    </span>
+                    <div *ngIf="day.isBlank" class="calendar-box">
+                        <span *ngIf="day.isBlank" class="calendar-blank"></span>
+                        <span *ngIf="day.isBlank" class="calendar-blank"></span>
+                    </div>
+                    <div class="calendar-box">
+                        <span *ngIf="day.isBlank === false" class="calendar-day" [class.calendar-sunday]="day.isSunday"
+                            [class.calendar-saturday]="day.isSaturday" (click)="setSelectedDate(day.date)">
+                            {{ day.date }}
+                        </span>
+                        <span *ngIf="(day.isBlank === false && dailys[day.fullDate])" class="calendar-hours">
+                            {{ dailys[day.fullDate].total | number:'1.1-1' }}
+                        </span>
+                        <span *ngIf="(day.isBlank === false && !dailys[day.fullDate])" class="calendar-hours">0.0</span>
+                    </div>
                 </ng-container>
             </div>
         </div>

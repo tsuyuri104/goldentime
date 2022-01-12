@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Calendar } from 'src/app/interfaces/calendar';
 import { CalendarDay } from 'src/app/interfaces/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/calendar-row';
-import { Daily } from 'src/app/interfaces/daily';
+import { Dailys } from 'src/app/interfaces/dailys';
 import { Jobs } from 'src/app/interfaces/jobs';
 import { Monthly } from 'src/app/interfaces/monthly';
 import { DailyService } from 'src/app/services/daily.service';
@@ -23,11 +23,12 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   public selectedMonth: Date = new Date();
   public calendar: Calendar = { rows: [] };
   public monthly: Monthly = { total: 0 };
-  public dailys: Daily[] = [];
+  public dailys: Dailys = {};
   public summaryData: Jobs[] = [];
 
   private subscriptionMonthly!: Subscription;
   private subscriptionSummary!: Subscription;
+  private subscriptionDailys!: Subscription;
 
   //#endregion
 
@@ -47,6 +48,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     this.createCalender();
     this.getMonthlyData();
     this.getSummaryData();
+    this.getDailysData();
 
     //監視対象の設定
     this.subscriptionMonthly = this.sUrdayin.sharedMonthlyDataSource$.subscribe(
@@ -61,6 +63,12 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         this.summaryData = data;
       }
     )
+    this.subscriptionDailys = this.sUrdayin.sharedDailysDataSource$.subscribe(
+      data => {
+        //１ヶ月分の日次データを更新する
+        this.dailys = data;
+      }
+    )
   }
   //#endregion
 
@@ -71,6 +79,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptionMonthly.unsubscribe();
     this.subscriptionSummary.unsubscribe();
+    this.subscriptionDailys.unsubscribe();
   }
   //#endregion
 
@@ -175,6 +184,15 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    */
   private async getSummaryData(): Promise<void> {
     this.summaryData = await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
+  }
+  //#endregion
+
+  //#region getDailysData
+  /**
+   * １ヶ月分の日次データを取得する
+   */
+  private async getDailysData(): Promise<void> {
+    this.dailys = await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
   }
   //#endregion
 

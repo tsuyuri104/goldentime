@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserCredential } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { Subject } from 'rxjs';
+import { Dailys } from '../interfaces/dailys';
 import { Jobs } from '../interfaces/jobs';
 import { Monthly } from '../interfaces/monthly';
 import { Urdayin } from '../interfaces/urdayin';
@@ -18,10 +19,12 @@ export class UrdayinService {
   private selectedDate: Date = new Date;
   private sharedMonthlyDataSource = new Subject<Monthly>();
   private sharedSummaryDataSource = new Subject<Jobs[]>();
+  private sharedDailysDataSource = new Subject<Dailys>();
 
   public readonly COLLECTION_NAME: string = "urdayin";
   public sharedMonthlyDataSource$ = this.sharedMonthlyDataSource.asObservable();
   public sharedSummaryDataSource$ = this.sharedSummaryDataSource.asObservable();
+  public sharedDailysDataSource$ = this.sharedDailysDataSource.asObservable();
 
   //#endregion
 
@@ -60,6 +63,16 @@ export class UrdayinService {
    */
   public onSharedSummaryDataChanged(data: Jobs[]): void {
     this.sharedSummaryDataSource.next(data);
+  }
+  //#endregion
+
+  //#region onSharedDailyDataChanged
+  /**
+   * １ヶ月の日次データ変更監視
+   * @param data 
+   */
+  public onSharedDailyDataChanged(data: Dailys): void {
+    this.sharedDailysDataSource.next(data);
   }
   //#endregion
 

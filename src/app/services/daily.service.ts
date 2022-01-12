@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, documentId, getDocs, QuerySnapshot } from 'firebase/firestore';
 import { Daily } from '../interfaces/daily';
+import { Dailys } from '../interfaces/dailys';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({
@@ -69,6 +70,23 @@ export class DailyService {
 
     // 追加
     await setDoc(docRef, inputData);
+  }
+  //#endregion
+
+  //#region getDailysData
+  /**
+   * １ヶ月の日次データを取得する
+   * @param email 対象のユーザーのメールアドレス
+   * @param yearmonth 対象の年月
+   * @returns 対象の１ヶ月分の日次データ
+   */
+  public async getDailysData(email: string, yearmonth: string): Promise<Dailys> {
+    const newDailysSnap = await this.getDataOneMonth(email, yearmonth);
+    let newDailys: Dailys = {};
+    newDailysSnap.forEach(snap => {
+      newDailys[snap.id] = <Daily>snap.data();
+    });
+    return newDailys;
   }
   //#endregion
 

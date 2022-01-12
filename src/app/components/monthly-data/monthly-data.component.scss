@@ -10,13 +10,6 @@
         display: flex;
         justify-content: space-between;
     }
-    &-head,
-    &-body {
-        span {
-            padding: 0.6em;
-            min-width: 2em;
-        }
-    }
     &-sunday {
         color: red;
     }
@@ -29,6 +22,14 @@
     }
     &-day {
         cursor: pointer;
+    }
+    &-box {
+        padding: 0.6em;
+        display: flex;
+        flex-direction: column;
+    }
+    &-hours {
+        color: color.$accent-dark;
     }
 }
 .summary {
