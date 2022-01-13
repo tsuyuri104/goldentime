@@ -20,11 +20,13 @@ export class DailyDataComponent implements OnInit, OnDestroy {
 
   //#region 変数
 
+  public selectedDateForDisply: Date = new Date();
   public allowEdit: Boolean = false;
-  public selectedDate: Date = new Date();
   public selectedUserName: string = "";
   public dailyTotalHours: number = 0;
   public submitMessage: string = "";
+
+  private subscriptionSelectedDate!: Subscription;
 
   /**
    * 編集権限ないユーザー用表示データ
@@ -66,11 +68,14 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    this.selectedDate = this.sUrdayin.getSelectedDate();
-    this.allowEdit = this.isEditUser();
+    this.procInit();
 
-    this.setDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.selectedDate));
-    this.getUserName(this.sUrdayin.getSelectedUser());
+    this.subscriptionSelectedDate = this.sUrdayin.sharedSelectedDateDataSource$.subscribe(
+      data => {
+        //対象日が変更された場合は、初期表示を行う
+        this.procInit();
+      }
+    );
   }
   //#endregion
 
@@ -79,7 +84,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    * 破棄設定
    */
   ngOnDestroy(): void {
-
+    this.subscriptionSelectedDate.unsubscribe();
   }
   //#endregion
 
@@ -161,24 +166,36 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     this.submitMessage = "";
     let inputData: Daily = this.frmDaily.value;
     inputData.total = this.calcTotalHours();
-    this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToString(this.selectedDate))
+    this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()))
       .then(async arg => {
         //月次データのトータルを更新する
-        await this.sMonthly.updateMonthlyTotal(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        await this.sMonthly.updateMonthlyTotal(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
         //月次データを再取得する
-        const newMonthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        const newMonthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
         //サービスに新しい月次データを渡す
         this.sUrdayin.onSharedMonthlyDataChanged(newMonthly);
         //サマリーデータを再取得する
-        const newSummary = <Jobs[]>await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        const newSummary = <Jobs[]>await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
         //サービスに新しいサマリーデータを渡す
         this.sUrdayin.onSharedSummaryDataChanged(newSummary);
         //１ヶ月の日次データを再取得する
-        const newDailys = <Dailys>await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedDate));
+        const newDailys = <Dailys>await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
         //サービスに１ヶ月の日次データを渡す
         this.sUrdayin.onSharedDailyDataChanged(newDailys);
         this.submitMessage = "Successed submit";
       });
+  }
+  //#endregion
+
+  //#region procInit
+  /**
+   * 初期表示処理
+   */
+  private procInit(): void {
+    this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
+    this.allowEdit = this.isEditUser();
+    this.setDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()));
+    this.getUserName(this.sUrdayin.getSelectedUser());
   }
   //#endregion
 

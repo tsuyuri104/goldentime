@@ -24,6 +24,20 @@ export class Common {
     }
     //#endregion
 
+    //#region stringToDate
+    /**
+     * 文字列から日付型に変換する
+     * @param strDate 文字列yyyyMMdd
+     * @returns 日付型
+     */
+    public static stringToDate(strDate: string): Date {
+        const y: number = Number(strDate.substring(0, 4));
+        const m: number = Number(strDate.substring(4, 6)) - 1;
+        const d: number = Number(strDate.substring(6, 8));
+        return new Date(y, m, d);
+    }
+    //#endregion
+
     //#region dateToStringFormat
     /**
      * 日付を指定のフォーマットで文字列に変換する

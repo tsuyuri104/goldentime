@@ -20,11 +20,13 @@ export class UrdayinService {
   private sharedMonthlyDataSource = new Subject<Monthly>();
   private sharedSummaryDataSource = new Subject<Jobs[]>();
   private sharedDailysDataSource = new Subject<Dailys>();
+  private sharedSelectedDateDataSource = new Subject<Date>();
 
   public readonly COLLECTION_NAME: string = "urdayin";
   public sharedMonthlyDataSource$ = this.sharedMonthlyDataSource.asObservable();
   public sharedSummaryDataSource$ = this.sharedSummaryDataSource.asObservable();
   public sharedDailysDataSource$ = this.sharedDailysDataSource.asObservable();
+  public sharedSelectedDateDataSource$ = this.sharedSelectedDateDataSource.asObservable();
 
   //#endregion
 
@@ -76,6 +78,18 @@ export class UrdayinService {
   }
   //#endregion
 
+  //#region onSharedSelectedDateChanged
+  /**
+   * 対象日変更監視
+   * @param date 
+   */
+  public onSharedSelectedDateChanged(date: Date): void {
+    console.log("引数", date);
+    this.selectedDate = date;
+    this.sharedSelectedDateDataSource.next(date);
+  }
+  //#endregion
+
   //#endregion
 
   //#region メソッド
@@ -111,16 +125,6 @@ export class UrdayinService {
    */
   public getSelectedDate(): Date {
     return this.selectedDate;
-  }
-  //#endregion
-
-  //#region setSelectedDate
-  /**
-   * 対象の年月日を設定する
-   * @param date 対象の年月日（日付型）
-   */
-  public setSelectedDate(date: Date): void {
-    this.selectedDate = date;
   }
   //#endregion
 

@@ -22,14 +22,23 @@
     }
     &-day {
         cursor: pointer;
+        &:hover {
+            background-color: lighten(color.$accent-light, 15);
+        }
+    }
+    &-blank {
     }
     &-box {
         padding: 0.6em;
         display: flex;
         flex-direction: column;
+        min-width: 2.5em;
     }
     &-hours {
         color: color.$accent-dark;
+    }
+    &-selected {
+        background-color: color.$accent-light;
     }
 }
 .summary {

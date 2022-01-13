@@ -20,7 +20,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
 
   //#region 変数
 
-  public selectedMonth: Date = new Date();
+  public selectedDateForDisply: Date = new Date();
   public calendar: Calendar = { rows: [] };
   public monthly: Monthly = { total: 0 };
   public dailys: Dailys = {};
@@ -29,6 +29,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   private subscriptionMonthly!: Subscription;
   private subscriptionSummary!: Subscription;
   private subscriptionDailys!: Subscription;
+  private subscriptionSelectedDate!: Subscription;
 
   //#endregion
 
@@ -45,10 +46,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * 初期設定
    */
   ngOnInit(): void {
-    this.createCalender();
-    this.getMonthlyData();
-    this.getSummaryData();
-    this.getDailysData();
+    this.procInit();
 
     //監視対象の設定
     this.subscriptionMonthly = this.sUrdayin.sharedMonthlyDataSource$.subscribe(
@@ -69,6 +67,12 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         this.dailys = data;
       }
     )
+    this.subscriptionSelectedDate = this.sUrdayin.sharedSelectedDateDataSource$.subscribe(
+      data => {
+        //対象の日付が変更された場合は、初期表示を行う
+        this.procInit();
+      }
+    );
   }
   //#endregion
 
@@ -80,6 +84,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     this.subscriptionMonthly.unsubscribe();
     this.subscriptionSummary.unsubscribe();
     this.subscriptionDailys.unsubscribe();
+    this.subscriptionSelectedDate.unsubscribe();
   }
   //#endregion
 
@@ -92,8 +97,50 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * 対象日を設定する
    * @param date カレンダーの日にち
    */
-  public setSelectedDate(date: number): void {
+  public setSelectedDate(fullDate: string): void {
+    console.log("clicked");
+    const date: Date = Common.stringToDate(fullDate);
+    this.sUrdayin.onSharedSelectedDateChanged(date);
+  }
+  //#endregion
 
+  //#region setSelectedMonth
+  /**
+   * 対象の月を設定する
+   * @param range 現在選択している月からの移動月数
+   */
+  public setSelectedMonth(range: number): void {
+    const nowDate: Date = this.getFirstDate();
+    const y: number = nowDate.getFullYear();
+    const m: number = nowDate.getMonth();
+    const d: number = nowDate.getDate();
+    const newDate: Date = new Date(y, m + range, d);
+    this.sUrdayin.onSharedSelectedDateChanged(newDate);
+  }
+  //#endregion
+
+  //#region isSelectedDate
+  /**
+   * カレンダーの日付が対象の日付であるか判定する
+   * @param day カレンダーの日付
+   * @returns 真偽値
+   */
+  public isSelectedDate(day: string) {
+    return day === Common.dateToString(this.sUrdayin.getSelectedDate());
+  }
+  //#endregion
+
+  //#region procInit
+  /**
+   * 初期表示処理
+   */
+  private procInit(): void {
+    this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
+    this.createCalender();
+    this.getMonthlyData();
+    this.getSummaryData();
+    this.getDailysData();
+    console.log("end init");
   }
   //#endregion
 
@@ -174,7 +221,8 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * 月次データを取得する
    */
   private async getMonthlyData(): Promise<void> {
-    this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
+    console.log(this.sUrdayin.getSelectedDate());
+    this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
   }
   //#endregion
 
@@ -183,7 +231,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * サマリーデータを取得する
    */
   private async getSummaryData(): Promise<void> {
-    this.summaryData = await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
+    this.summaryData = await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
   }
   //#endregion
 
@@ -192,7 +240,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * １ヶ月分の日次データを取得する
    */
   private async getDailysData(): Promise<void> {
-    this.dailys = await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.selectedMonth));
+    this.dailys = await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
   }
   //#endregion
 
@@ -216,8 +264,9 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @returns 月の初日
    */
   private getFirstDate(): Date {
-    let year: number = this.selectedMonth.getFullYear();
-    let month: number = this.selectedMonth.getMonth();
+    const selectedDate: Date = this.sUrdayin.getSelectedDate();
+    let year: number = selectedDate.getFullYear();
+    let month: number = selectedDate.getMonth();
 
     return new Date(year, month, 1);
   }
@@ -229,8 +278,9 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @returns 月の最終日
    */
   private getLastDate(): Date {
-    let year: number = this.selectedMonth.getFullYear();
-    let month: number = this.selectedMonth.getMonth() + 1;
+    const selectedDate: Date = this.sUrdayin.getSelectedDate();
+    let year: number = selectedDate.getFullYear();
+    let month: number = selectedDate.getMonth() + 1;
 
     return new Date(year, month, 0);
   }
