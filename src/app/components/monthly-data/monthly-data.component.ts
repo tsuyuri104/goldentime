@@ -98,7 +98,6 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @param date カレンダーの日にち
    */
   public setSelectedDate(fullDate: string): void {
-    console.log("clicked");
     const date: Date = Common.stringToDate(fullDate);
     this.sUrdayin.onSharedSelectedDateChanged(date);
   }
@@ -140,7 +139,6 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     this.getMonthlyData();
     this.getSummaryData();
     this.getDailysData();
-    console.log("end init");
   }
   //#endregion
 
@@ -221,7 +219,6 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * 月次データを取得する
    */
   private async getMonthlyData(): Promise<void> {
-    console.log(this.sUrdayin.getSelectedDate());
     this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
   }
   //#endregion
