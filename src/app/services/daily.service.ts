@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, documentId, getDocs, QuerySnapshot } from 'firebase/firestore';
+import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, documentId, getDocs, QuerySnapshot, addDoc } from 'firebase/firestore';
 import { Daily } from '../interfaces/daily';
 import { Dailys } from '../interfaces/dailys';
+import { Jobs } from '../interfaces/jobs';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({
@@ -13,6 +14,10 @@ export class DailyService {
 
   public FIELD_NAME = class {
     public static readonly DATE: string = "date";
+  }
+
+  public SUB_COLLECTION_NAME = class {
+    public static readonly JOBS: string = 'jobs';
   }
 
   //#endregion
@@ -34,7 +39,7 @@ export class DailyService {
    */
   public async getData(email: string, date: string): Promise<DocumentData | undefined> {
     const db = getFirestore();
-    const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.DAILY, date);
+    const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date);
     const snap = await getDoc(ref);
     return snap.data();
   }
@@ -49,7 +54,7 @@ export class DailyService {
    */
   public async getDataOneMonth(email: string, yearmonth: string): Promise<QuerySnapshot<DocumentData>> {
     const db = getFirestore();
-    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.DAILY), where(documentId(), ">=", yearmonth + "01"), where(documentId(), "<=", yearmonth + "31"));
+    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY), where(documentId(), ">=", yearmonth + "01"), where(documentId(), "<=", yearmonth + "31"));
     return await getDocs(q);
   }
   //#endregion
@@ -63,13 +68,36 @@ export class DailyService {
    */
   public async deleteInsertDocs(inputData: Daily, email: string, date: string) {
     const db = getFirestore();
-    const docRef = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.DAILY, date);
 
-    // 削除
-    await deleteDoc(docRef);
+    //対象日の仕事データを削除する
+    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.SUB_COLLECTION_NAME.JOBS));
+    let docs = await getDocs(q);
+    docs.forEach(async doc => {
+      await deleteDoc(doc.ref);
+    });
 
-    // 追加
-    await setDoc(docRef, inputData);
+    //日次データ整形
+    const daily: Daily = {
+      memo: inputData.memo,
+      total: inputData.total,
+    }
+
+    //対象日の日次データを更新する
+    const docRef = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date);
+    await setDoc(docRef, daily);
+
+    //仕事データ整形
+    const jobs: Jobs[] = <Jobs[]>inputData.jobs;
+
+    jobs.forEach(job => {
+      //仕事データ整形
+      job.user = email;
+      job.date = date;
+
+      //仕事データを更新する
+      const ref2 = collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.SUB_COLLECTION_NAME.JOBS);
+      addDoc(ref2, job);
+    });
   }
   //#endregion
 

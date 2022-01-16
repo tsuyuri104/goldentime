@@ -34,6 +34,8 @@ export class UrdayinService {
 
   public FIELD_NAME = class {
     public static readonly USER_NAME: string = "user_name";
+  }
+  public SUB_COLLECTION_NAME = class {
     public static readonly DAILY: string = 'daily';
     public static readonly MONTHLY: string = 'monthly';
   }

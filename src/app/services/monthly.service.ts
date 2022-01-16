@@ -35,7 +35,7 @@ export class MonthlyService {
    */
   public async updateMonthlyTotal(email: string, yearmonth: string) {
     const db = getFirestore();
-    const docRef = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.MONTHLY, yearmonth);
+    const docRef = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.MONTHLY, yearmonth);
 
     let monthTotal: number = 0;
 
@@ -63,7 +63,7 @@ export class MonthlyService {
    */
   public async getMonthlyData(email: string, yearmonth: string): Promise<DocumentData | undefined> {
     const db = getFirestore();
-    const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.FIELD_NAME.MONTHLY, yearmonth);
+    const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.MONTHLY, yearmonth);
     const snap = await getDoc(ref);
     return snap.data();
   }
@@ -77,14 +77,23 @@ export class MonthlyService {
    * @returns 工数のサマリーデータ
    */
   public async getSummaryData(email: string, yearmonth: string): Promise<Jobs[]> {
-    //1ヶ月分の日次データを取得する
-    const dailyData = await this.sDaily.getDataOneMonth(email, yearmonth);
 
-    //サマリーデータを作成する
+    //サマリーデータ格納用変数
     let summaryData: Jobs[] = [];
-    dailyData.forEach(snap => {
-      const doc = <Daily>snap.data();
-      doc.jobs.forEach(job => {
+
+    //1ヶ月分の日次データを取得する
+    const db = getFirestore();
+    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY), where(documentId(), ">=", yearmonth + "01"), where(documentId(), "<=", yearmonth + "31"));
+    let docs = await getDocs(q);
+
+    docs.forEach(async doc => {
+      //日にち単位で仕事データを取得する
+      const q2 = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, doc.id, this.sDaily.SUB_COLLECTION_NAME.JOBS));
+      const docs2 = await getDocs(q2);
+
+      //仕事データからサマリーデータを作成する
+      docs2.forEach(doc2 => {
+        const job = <Jobs>doc2.data();
         const indexData = summaryData.findIndex(datum => datum.job === job.job);
         const hasData = indexData > -1;
         if (hasData) {
@@ -96,6 +105,7 @@ export class MonthlyService {
         }
       });
     });
+
     return summaryData;
   }
   //#endregion

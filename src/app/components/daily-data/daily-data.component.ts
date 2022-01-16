@@ -5,8 +5,8 @@ import { Daily } from 'src/app/interfaces/daily';
 import { Dailys } from 'src/app/interfaces/dailys';
 import { Jobs } from 'src/app/interfaces/jobs';
 import { Monthly } from 'src/app/interfaces/monthly';
-import { AuthService } from 'src/app/services/auth.service';
 import { DailyService } from 'src/app/services/daily.service';
+import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Common } from 'src/app/utilities/common';
@@ -43,7 +43,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     private sDaily: DailyService
     , private sMonthly: MonthlyService
     , private sUrdayin: UrdayinService
-    , private sAuth: AuthService
+    , private sJobs: JobsService
     , private fb: FormBuilder
   ) {
 
@@ -81,33 +81,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region メソッド
-
-  //#region setDailyData
-  /**
-   * 日次データを画面項目に設定する
-   * @param email 対象のユーザーのメールアドバイス
-   * @param date 対象の年月日
-   */
-  public async setDailyData(email: string, date: string): Promise<void> {
-    this.dailyDatum = <Daily>await this.sDaily.getData(email, date);
-
-    //データが空の場合、初期値を設定する
-    this.dailyDatum = this.setDefaultDailuDatum(this.dailyDatum);
-
-    this.frmDaily = this.convertFormGroup(this.dailyDatum);
-    this.dailyTotalHours = this.dailyDatum.total;
-  }
-  //#endregion
-
-  //#region getUserName
-  /**
-   * 対象のユーザーの名前を取得する
-   * @param email 対象のユーザーのメールアドレス
-   */
-  public async getUserName(email: string) {
-    this.selectedUserName = await this.sUrdayin.getUserName(email);
-  }
-  //#endregion
 
   //#region getJobsArray
   /**
@@ -188,6 +161,39 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
+  //#region setDailyData
+  /**
+   * 日次データを画面項目に設定する
+   * @param email 対象のユーザーのメールアドバイス
+   * @param date 対象の年月日
+   */
+  private async setDailyData(email: string, date: string): Promise<void> {
+    //日次データを取得する
+    const dailyData = this.setInitValueDaily(<Daily>await this.sDaily.getData(email, date));
+
+    //仕事データを取得する
+    const snaps = await this.sJobs.getData(email, date);
+    let jobs: Jobs[] = [];
+    snaps.forEach(snap => {
+      jobs.push(<Jobs>snap.data());
+    });
+    jobs = this.setInitValueJobs(jobs);
+
+    this.frmDaily = this.convertFormGroup(dailyData, jobs);
+    this.dailyTotalHours = dailyData.total;
+  }
+  //#endregion
+
+  //#region getUserName
+  /**
+   * 対象のユーザーの名前を取得する
+   * @param email 対象のユーザーのメールアドレス
+   */
+  private async getUserName(email: string) {
+    this.selectedUserName = await this.sUrdayin.getUserName(email);
+  }
+  //#endregion
+
   //#region calcTotalHours
   /**
    * 一日の合計時間を算出する
@@ -222,43 +228,50 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    * @param datum 取得した仕事情報
    * @returns フォームグループに変換した仕事情報
    */
-  private convertFormGroup(datum: Daily): FormGroup {
+  private convertFormGroup(datum: Daily, jobs: Jobs[]): FormGroup {
     let group = this.fb.group({
       memo: datum.memo,
       total: datum.total,
-      jobs: this.fb.array(this.convertFormArray(datum.jobs))
+      jobs: this.fb.array(this.convertFormArray(jobs))
     });
 
     return group;
   }
   //#endregion
 
-  //#region setDefaultDailuDatum
+  //#region setInitValueDaily
   /**
-   * データが空の場合は、初期値を設定する
-   * @param datum DBから取得したデータ
-   * @returns 初期値を設定したデータ
+   * 日次データの初期値を設定する
+   * @param datum 日次データ
+   * @returns 
    */
-  private setDefaultDailuDatum(datum: Daily): Daily {
-
-    //対象日のデータがない場合
+  private setInitValueDaily(datum: Daily): Daily {
     if (datum === undefined) {
       datum = {
-        memo: '',
         total: 0,
-        jobs: []
+        memo: ""
       }
     }
+    return datum;
+  }
+  //#endregion
 
-    //対象日の記録がない場合
-    if (datum.jobs.length === 0) {
-      datum.jobs.push(<Jobs>{
+  //#region setInitValueJobs
+  /**
+   * 仕事データの初期値を設定する
+   * @param data 
+   * @returns 
+   */
+  private setInitValueJobs(data: Jobs[]): Jobs[] {
+    if (data.length === 0) {
+      data.push({
         job: "",
         hours: 0,
+        user: "",
+        date: "",
       });
     }
-
-    return datum;
+    return data;
   }
   //#endregion
 
