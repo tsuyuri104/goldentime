@@ -21,21 +21,11 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   //#region 変数
 
   public selectedDateForDisply: Date = new Date();
-  public allowEdit: Boolean = false;
   public selectedUserName: string = "";
   public dailyTotalHours: number = 0;
   public submitMessage: string = "";
 
   private subscriptionSelectedDate!: Subscription;
-
-  /**
-   * 編集権限ないユーザー用表示データ
-   */
-  public dailyDatum: Daily = {
-    memo: "",
-    total: 0,
-    jobs: []
-  };
 
   /**
    * 入力項目
@@ -193,7 +183,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    */
   private procInit(): void {
     this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
-    this.allowEdit = this.isEditUser();
     this.setDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()));
     this.getUserName(this.sUrdayin.getSelectedUser());
   }
@@ -290,24 +279,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     });
 
     return arr;
-  }
-  //#endregion
-
-  //#region isEditUser
-  /**
-   * 編集可能なログインユーザーか判定する
-   * @returns 編集可否
-   */
-  private isEditUser(): boolean {
-    let isEditUser: boolean = false;
-
-    //ログインユーザー情報がある場合
-    if (this.sAuth.user !== undefined) {
-      //ログインユーザーのデータを表示する場合は、編集可能とする
-      isEditUser = this.sAuth.user.user.email === this.sUrdayin.getSelectedUser();
-    }
-
-    return isEditUser;
   }
   //#endregion
 

@@ -3,78 +3,43 @@
     <h4>{{ selectedUserName }} / {{ selectedDateForDisply | date:'yyyy年M月d日' }}</h4>
 </div>
 
-<!-- 表示するテンプレートを指定する -->
-<div *ngIf="allowEdit; then editmode else readmode"></div>
 
-<!-- 編集可能の場合のテンプレート　ここから -->
-<ng-template #editmode>
+<form (ngSubmit)="updateDailyData()" [formGroup]="frmDaily">
 
-    <form (ngSubmit)="updateDailyData()" [formGroup]="frmDaily">
-
-        <div class="card-wrapper" formArrayName="jobs">
-            <div *ngFor="let job of getJobsArray().controls; let i=index">
-                <div class="card" [formGroupName]="i">
-                    <div class="card-header">
-                        <label for="job">作業内容 / チケット番号</label>
-                        <input type="text" formControlName="job">
-                    </div>
-                    <div class="card-body">
-                        <label for="hours">工数（0.5単位）</label>
-                        <input type="number" step="0.5" min="0" max="24" formControlName="hours"
-                            (change)="setTotalHours()">
-                    </div>
-                    <div class="card-footer">
-                        <button type="button" (click)="deleteJobCard(i)">削除</button>
-                    </div>
+    <div class="card-wrapper" formArrayName="jobs">
+        <div *ngFor="let job of getJobsArray().controls; let i=index">
+            <div class="card" [formGroupName]="i">
+                <div class="card-header">
+                    <label for="job">作業内容 / チケット番号</label>
+                    <input type="text" formControlName="job">
+                </div>
+                <div class="card-body">
+                    <label for="hours">工数（0.5単位）</label>
+                    <input type="number" step="0.5" min="0" max="24" formControlName="hours" (change)="setTotalHours()">
+                </div>
+                <div class="card-footer">
+                    <button type="button" (click)="deleteJobCard(i)">削除</button>
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <button type="button" (click)="addJobCard()">追加</button>
-        </div>
-
-        <div class="form-group">
-            <span>合計</span>
-            <span>{{ dailyTotalHours | number:'1.1-1' }} 時間</span>
-        </div>
-        <div class="form-group">
-            <label for="memo">メモ</label>
-            <textarea type="text" formControlName="memo" id="memo"></textarea>
-        </div>
-        <div class="form-group">
-            <button type="submit">登録</button>
-            <div class="submit-message" *ngIf="submitMessage !== ''">
-                {{ submitMessage }}
-            </div>
-        </div>
-    </form>
-
-</ng-template>
-<!-- 編集可能の場合のテンプレート　ここまで -->
-
-<!-- 編集不可の場合のテンプレート　ここから -->
-<ng-template #readmode>
-    <div class=" card-wrapper">
-        <div class="card" *ngFor="let job of dailyDatum.jobs">
-
-            <div class="card-header">
-                {{job.job}}
-            </div>
-            <div class="card-body">
-                {{job.hours}}
-            </div>
-
-        </div>
     </div>
 
-    <div class="summary">
-        <div class="row">
-            {{dailyDatum.total}} H
-        </div>
-        <div class="row">
-            {{dailyDatum.memo}}
+    <div class="form-group">
+        <button type="button" (click)="addJobCard()">追加</button>
+    </div>
+
+    <div class="form-group">
+        <span>合計</span>
+        <span>{{ dailyTotalHours | number:'1.1-1' }} 時間</span>
+    </div>
+    <div class="form-group">
+        <label for="memo">メモ</label>
+        <textarea type="text" formControlName="memo" id="memo"></textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit">登録</button>
+        <div class="submit-message" *ngIf="submitMessage !== ''">
+            {{ submitMessage }}
         </div>
     </div>
-</ng-template>
-<!-- 編集不可の場合のテンプレート　ここまで -->
+</form>
