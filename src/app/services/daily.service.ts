@@ -10,7 +10,7 @@ import { UrdayinService } from './urdayin.service';
 })
 export class DailyService {
 
-  //#region 変数
+  //#region 内部クラス
 
   public FIELD_NAME = class {
     public static readonly DATE: string = "date";

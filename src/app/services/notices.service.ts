@@ -10,6 +10,10 @@ export class NoticesService {
 
   private readonly COLLECTION_NAME: string = "notices";
 
+  //#endregion
+
+  //#region 内部クラス
+
   public FIELD_NAME = class {
     public static readonly VERSION: string = "version";
   }
