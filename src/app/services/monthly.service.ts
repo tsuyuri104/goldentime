@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { collection, doc, getDocs, getFirestore, query, where, documentId, setDoc, getDoc, DocumentData } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, query, where, documentId, setDoc, getDoc, DocumentData, collectionGroup } from 'firebase/firestore';
 import { Daily } from '../interfaces/daily';
 import { Jobs } from '../interfaces/jobs';
 import { Monthly } from '../interfaces/monthly';
 import { DailyService } from './daily.service';
+import { JobsService } from './jobs.service';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({
@@ -20,7 +21,7 @@ export class MonthlyService {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService, private sDaily: DailyService) {
+  constructor(private sUrdayin: UrdayinService, private sDaily: DailyService, private sJobs: JobsService) {
 
   }
   //#endregion
@@ -81,29 +82,21 @@ export class MonthlyService {
     //サマリーデータ格納用変数
     let summaryData: Jobs[] = [];
 
-    //1ヶ月分の日次データを取得する
+    //1ヶ月分の仕事データを取得する
     const db = getFirestore();
-    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY), where(documentId(), ">=", yearmonth + "01"), where(documentId(), "<=", yearmonth + "31"));
-    let docs = await getDocs(q);
-
-    docs.forEach(async doc => {
-      //日にち単位で仕事データを取得する
-      const q2 = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, doc.id, this.sDaily.SUB_COLLECTION_NAME.JOBS));
-      const docs2 = await getDocs(q2);
-
-      //仕事データからサマリーデータを作成する
-      docs2.forEach(doc2 => {
-        const job = <Jobs>doc2.data();
-        const indexData = summaryData.findIndex(datum => datum.job === job.job);
-        const hasData = indexData > -1;
-        if (hasData) {
-          //加算
-          summaryData[indexData].hours += job.hours;
-        } else {
-          //追加
-          summaryData.push(job);
-        }
-      });
+    const q = query(collectionGroup(db, this.sDaily.SUB_COLLECTION_NAME.JOBS), where(this.sJobs.FIELD_NAME.USER, "==", email), where(this.sJobs.FIELD_NAME.DATE, ">=", yearmonth + "01"), where(this.sJobs.FIELD_NAME.DATE, "<=", yearmonth + "31"));
+    const docs = await getDocs(q);
+    docs.forEach(doc => {
+      const job = <Jobs>doc.data();
+      const indexData = summaryData.findIndex(datum => datum.job === job.job);
+      const hasData = indexData > -1;
+      if (hasData) {
+        //加算
+        summaryData[indexData].hours += job.hours;
+      } else {
+        //追加
+        summaryData.push(job);
+      }
     });
 
     return summaryData;

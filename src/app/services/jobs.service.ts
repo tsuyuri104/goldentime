@@ -8,6 +8,15 @@ import { UrdayinService } from './urdayin.service';
 })
 export class JobsService {
 
+  //#region 内部クラス
+
+  public FIELD_NAME = class {
+    public static readonly DATE: string = "date";
+    public static readonly USER: string = "user";
+  }
+
+  //#endregion
+
   //#region コンストラクタ
   constructor(private sUrdayin: UrdayinService, private sDaily: DailyService) {
 
