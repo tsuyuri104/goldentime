@@ -86,7 +86,6 @@ export class UrdayinService {
    * @param date 
    */
   public onSharedSelectedDateChanged(date: Date): void {
-    console.log("引数", date);
     this.selectedDate = date;
     this.sharedSelectedDateDataSource.next(date);
   }
