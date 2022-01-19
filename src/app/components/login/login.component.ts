@@ -6,6 +6,7 @@ import { InputsOfLogin } from 'src/app/interfaces/input-of-frm-login';
 import { Notice } from 'src/app/interfaces/notice';
 import { AuthService } from 'src/app/services/auth.service';
 import { NoticesService } from 'src/app/services/notices.service';
+import { VersionService } from 'src/app/services/version.service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private router: Router, private sAuth: AuthService, private sNotices: NoticesService) {
+  constructor(private router: Router, private sAuth: AuthService, private sNotices: NoticesService, private sVersion: VersionService) {
 
   }
   //#endregion
@@ -39,9 +40,12 @@ export class LoginComponent implements OnInit {
   /**
    * 初期設定
    */
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
-    this.getNotices();
+    await this.getNotices();
+    if (this.notices[0].version !== this.sVersion.version) {
+      location.reload();
+    }
 
   }
   //#endregion
