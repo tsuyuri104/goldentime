@@ -124,7 +124,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @param day カレンダーの日付
    * @returns 真偽値
    */
-  public isSelectedDate(day: string) {
+  public isSelectedDate(day: string): boolean {
     return day === Common.dateToString(this.sUrdayin.getSelectedDate());
   }
   //#endregion
