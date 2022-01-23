@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { signInWithEmailAndPassword, getAuth, UserCredential, signOut } from 'firebase/auth';
+import { UrdayinService } from './urdayin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   //#endregion
 
   //#region コンストラクタ
-  constructor() {
+  constructor(private sUrdayin: UrdayinService) {
 
   }
   //#endregion
@@ -30,6 +31,7 @@ export class AuthService {
     return signInWithEmailAndPassword(auth, email, password)
       .then((u) => {
         this.user = u;
+        this.sUrdayin.setSelectedUser(u);
       });
   }
   //#endregion

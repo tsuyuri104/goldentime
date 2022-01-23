@@ -6,7 +6,6 @@ import { Dailys } from '../interfaces/dailys';
 import { Jobs } from '../interfaces/jobs';
 import { Monthly } from '../interfaces/monthly';
 import { Urdayin } from '../interfaces/urdayin';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +42,7 @@ export class UrdayinService {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sAuth: AuthService) {
-    this.setSelectedUser(this.sAuth.user);
+  constructor() {
   }
   //#endregion
 
