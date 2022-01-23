@@ -109,7 +109,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @param range 現在選択している月からの移動月数
    */
   public setSelectedMonth(range: number): void {
-    const nowDate: Date = this.getFirstDate();
+    const nowDate: Date = this.getFirstDate(this.sUrdayin.getSelectedDate());
     const y: number = nowDate.getFullYear();
     const m: number = nowDate.getMonth();
     const d: number = nowDate.getDate();
@@ -150,10 +150,10 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     let calender: Calendar = { rows: [] }
 
     //月の一日を取得する
-    const firstDate: Date = this.getFirstDate();
+    const firstDate: Date = this.getFirstDate(this.sUrdayin.getSelectedDate());
 
     //月の最終日を取得する
-    const lastDate: Date = this.getLastDate();
+    const lastDate: Date = this.getLastDate(this.sUrdayin.getSelectedDate());
 
     //カレンダーの１行分の情報を格納する
     let row: CalendarRow = { days: [] };
@@ -260,8 +260,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * 月の初日を取得する
    * @returns 月の初日
    */
-  private getFirstDate(): Date {
-    const selectedDate: Date = this.sUrdayin.getSelectedDate();
+  private getFirstDate(selectedDate: Date): Date {
     let year: number = selectedDate.getFullYear();
     let month: number = selectedDate.getMonth();
 
@@ -274,8 +273,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * 月の最終日を取得する
    * @returns 月の最終日
    */
-  private getLastDate(): Date {
-    const selectedDate: Date = this.sUrdayin.getSelectedDate();
+  private getLastDate(selectedDate: Date): Date {
     let year: number = selectedDate.getFullYear();
     let month: number = selectedDate.getMonth() + 1;
 
