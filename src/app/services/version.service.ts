@@ -7,7 +7,7 @@ export class VersionService {
 
   //#region 変数
 
-  public readonly version: string = "2.0.1";
+  public readonly version: string = "2.1.0";
 
   //#endregion
 
