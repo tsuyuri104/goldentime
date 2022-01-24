@@ -38,6 +38,46 @@ export class Common {
     }
     //#endregion
 
+    //#region addDate
+    /**
+     * 日付を加算する
+     * @param date 元になる日付
+     * @param addDays 加算日数
+     * @returns 加算した日付
+     */
+    public static addDate(date: Date, addDays: number): Date {
+        var date = new Date(date.valueOf());
+        date.setDate(date.getDate() + addDays);
+        return date;
+    }
+    //#endregion
+
+    //#region getFirstDate
+    /**
+     * 月の初日を取得する
+     * @returns 月の初日
+     */
+    public static getFirstDate(selectedDate: Date): Date {
+        let year: number = selectedDate.getFullYear();
+        let month: number = selectedDate.getMonth();
+
+        return new Date(year, month, 1);
+    }
+    //#endregion
+
+    //#region getLastDate
+    /**
+     * 月の最終日を取得する
+     * @returns 月の最終日
+     */
+    public static getLastDate(selectedDate: Date): Date {
+        let year: number = selectedDate.getFullYear();
+        let month: number = selectedDate.getMonth() + 1;
+
+        return new Date(year, month, 0);
+    }
+    //#endregion
+
     //#region dateToStringFormat
     /**
      * 日付を指定のフォーマットで文字列に変換する

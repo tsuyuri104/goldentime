@@ -109,7 +109,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @param range 現在選択している月からの移動月数
    */
   public setSelectedMonth(range: number): void {
-    const nowDate: Date = this.getFirstDate(this.sUrdayin.getSelectedDate());
+    const nowDate: Date = Common.getFirstDate(this.sUrdayin.getSelectedDate());
     const y: number = nowDate.getFullYear();
     const m: number = nowDate.getMonth();
     const d: number = nowDate.getDate();
@@ -150,10 +150,10 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     let calender: Calendar = { rows: [] }
 
     //月の一日を取得する
-    const firstDate: Date = this.getFirstDate(this.sUrdayin.getSelectedDate());
+    const firstDate: Date = Common.getFirstDate(this.sUrdayin.getSelectedDate());
 
     //月の最終日を取得する
-    const lastDate: Date = this.getLastDate(this.sUrdayin.getSelectedDate());
+    const lastDate: Date = Common.getLastDate(this.sUrdayin.getSelectedDate());
 
     //カレンダーの１行分の情報を格納する
     let row: CalendarRow = { days: [] };
@@ -175,7 +175,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     for (let i = 0; i < daysInMonth; i++) {
 
       //曜日を取得する
-      const tmpDate: Date = this.addDate(firstDate, i);
+      const tmpDate: Date = Common.addDate(firstDate, i);
       const dayOfWeek: number = tmpDate.getDay();
 
       //日曜日の場合
@@ -238,46 +238,6 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    */
   private async getDailysData(): Promise<void> {
     this.dailys = await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
-  }
-  //#endregion
-
-  //#region addDate
-  /**
-   * 日付を加算する
-   * @param date 元になる日付
-   * @param addDays 加算日数
-   * @returns 加算した日付
-   */
-  private addDate(date: Date, addDays: number): Date {
-    var date = new Date(date.valueOf());
-    date.setDate(date.getDate() + addDays);
-    return date;
-  }
-  //#endregion
-
-  //#region getFirstDate
-  /**
-   * 月の初日を取得する
-   * @returns 月の初日
-   */
-  private getFirstDate(selectedDate: Date): Date {
-    let year: number = selectedDate.getFullYear();
-    let month: number = selectedDate.getMonth();
-
-    return new Date(year, month, 1);
-  }
-  //#endregion
-
-  //#region getLastDate
-  /**
-   * 月の最終日を取得する
-   * @returns 月の最終日
-   */
-  private getLastDate(selectedDate: Date): Date {
-    let year: number = selectedDate.getFullYear();
-    let month: number = selectedDate.getMonth() + 1;
-
-    return new Date(year, month, 0);
   }
   //#endregion
 
