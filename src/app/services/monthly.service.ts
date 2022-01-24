@@ -34,7 +34,7 @@ export class MonthlyService {
    * @param email 対象ユーザーのメールアドレス
    * @param yearmonth 対象の年月
    */
-  public async updateMonthlyTotal(email: string, yearmonth: string) {
+  public async updateMonthlyTotal(email: string, yearmonth: string): Promise<void> {
     const db = getFirestore();
     const docRef = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.MONTHLY, yearmonth);
 
