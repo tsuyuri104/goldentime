@@ -56,3 +56,13 @@
         word-break: break-all;
     }
 }
+.export {
+    &-button {
+        background-color: color.$white;
+        border: 2px solid color.$main;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        width: 100%;
+        text-align: center;
+    }
+}
