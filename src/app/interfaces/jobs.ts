@@ -3,4 +3,5 @@ export interface Jobs {
     hours: number,
     user: string,
     date: string,
+    index?: number,
 }
