@@ -49,6 +49,8 @@ export class MonthlyService {
 
     const monthly: Monthly = {
       total: monthTotal,
+      user: email,
+      yearmonth: yearmonth,
     }
 
     await setDoc(docRef, monthly);
