@@ -43,9 +43,6 @@ export class LoginComponent implements OnInit {
   async ngOnInit(): Promise<void> {
 
     await this.getNotices();
-    if (this.notices[0].version !== this.sVersion.version) {
-      location.reload();
-    }
 
   }
   //#endregion
