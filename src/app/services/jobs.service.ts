@@ -13,6 +13,8 @@ export class JobsService {
   //#region 内部クラス
 
   public FIELD_NAME = class {
+    public static readonly JOB: string = "job";
+    public static readonly HOURS: string = "hours";
     public static readonly DATE: string = "date";
     public static readonly USER: string = "user";
     public static readonly INDEX: string = "index";

@@ -69,13 +69,13 @@
     </div>
 
     <div class="summary">
-        <table>
+        <table class="summary-table">
             <tr>
-                <th>
-                    作業内容
+                <th (click)="sortSummary('job')" class="summary-table-sortable">
+                    作業内容{{ jobSortMark }}
                 </th>
-                <th>
-                    工数
+                <th (click)="sortSummary('hours')" class="summary-table-sortable">
+                    {{ hoursSortMark }}工数
                 </th>
             </tr>
             <tr *ngFor="let job of summaryData">

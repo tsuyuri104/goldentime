@@ -4,6 +4,7 @@ import { Calendar } from 'src/app/interfaces/component/calendar';
 import { CalendarDay } from 'src/app/interfaces/component/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/component/calendar-row';
 import { Dailys } from 'src/app/interfaces/component/dailys';
+import { SortRule } from 'src/app/interfaces/component/sort-rule';
 import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Monthly } from 'src/app/interfaces/document/monthly';
 import { CSVService } from 'src/app/services/csv.service';
@@ -11,6 +12,7 @@ import { DailyService } from 'src/app/services/daily.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { SortType } from 'src/app/types/sort-type';
 import { Common } from 'src/app/utilities/common';
 
 @Component({
@@ -27,11 +29,14 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   public monthly: Monthly = { total: 0 };
   public dailys: Dailys = {};
   public summaryData: Jobs[] = [];
+  public jobSortMark: string = "";
+  public hoursSortMark: string = "";
 
   private subscriptionMonthly!: Subscription;
   private subscriptionSummary!: Subscription;
   private subscriptionDailys!: Subscription;
   private subscriptionSelectedDate!: Subscription;
+  private summarySortRule!: SortRule;
 
   //#endregion
 
@@ -66,6 +71,11 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
       data => {
         //サマリーデータの表示を更新する
         this.summaryData = data;
+        this.summarySortRule = {
+          colName: this.sJobs.FIELD_NAME.JOB,
+          sortType: "asc",
+        }
+        this.setSortMark();
       }
     )
     this.subscriptionDailys = this.sUrdayin.sharedDailysDataSource$.subscribe(
@@ -158,6 +168,22 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
 
     //出力する
     this.sCsv.download(strCsvValue, "工数一覧_" + Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
+  }
+  //#endregion
+
+  //#region sortSummary
+  /**
+   * サマリーデータをソートする
+   * @param sortCol 作業内容か工数
+   */
+  public sortSummary(sortCol: string): void {
+    const beforeSortType: SortType = this.summarySortRule.sortType;
+    this.summaryData = this.sMonthly.sortSummary(this.summaryData, sortCol, Common.invertSortType(beforeSortType));
+    this.summarySortRule = {
+      colName: sortCol,
+      sortType: Common.invertSortType(beforeSortType),
+    }
+    this.setSortMark();
   }
   //#endregion
 
@@ -261,6 +287,11 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    */
   private async getSummaryData(): Promise<void> {
     this.summaryData = await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
+    this.summarySortRule = {
+      colName: this.sJobs.FIELD_NAME.JOB,
+      sortType: "asc",
+    }
+    this.setSortMark();
   }
   //#endregion
 
@@ -270,6 +301,29 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    */
   private async getDailysData(): Promise<void> {
     this.dailys = this.sDaily.convertDailysInterface(await this.sDaily.getDataOneMonth(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate())));
+  }
+  //#endregion
+
+  //#region setSortMark
+  /**
+   * 列名の横のソートマークを設定する
+   */
+  private setSortMark(): void {
+
+    const mark = {
+      asc: "▲",
+      desc: "▼",
+    }
+
+    if (this.summarySortRule.colName === this.sJobs.FIELD_NAME.JOB) {
+      this.hoursSortMark = "";
+      this.jobSortMark = mark[this.summarySortRule.sortType];
+    }
+
+    if (this.summarySortRule.colName === this.sJobs.FIELD_NAME.HOURS) {
+      this.jobSortMark = "";
+      this.hoursSortMark = mark[this.summarySortRule.sortType];
+    }
   }
   //#endregion
 

@@ -3,6 +3,7 @@ import { collection, doc, getDocs, getFirestore, query, QuerySnapshot, where, do
 import { Daily } from '../interfaces/document/daily';
 import { Jobs } from '../interfaces/document/jobs';
 import { Monthly } from '../interfaces/document/monthly';
+import { SortType } from '../types/sort-type';
 import { DailyService } from './daily.service';
 import { JobsService } from './jobs.service';
 import { UrdayinService } from './urdayin.service';
@@ -98,6 +99,59 @@ export class MonthlyService {
         summaryData.push(job);
       }
     });
+
+    //作業名昇順でソート
+    summaryData = this.sortSummary(summaryData, this.sJobs.FIELD_NAME.JOB, "asc");
+
+    return summaryData;
+  }
+  //#endregion
+
+  //#region sortSummary
+  /**
+   * サマリーデータをソートする
+   * @param summaryData 
+   * @param sortCol 作業内容か工数
+   * @param sortType 昇順か降順
+   * @returns 
+   */
+  public sortSummary(summaryData: Jobs[], sortCol: string, sortType: SortType): Jobs[] {
+
+    //作業内容
+    if (sortCol === this.sJobs.FIELD_NAME.JOB) {
+
+      //昇順
+      if (sortType === "asc") {
+        summaryData.sort((a, b) => {
+          return a.job > b.job ? 1 : -1;
+        });
+      }
+
+      //降順
+      if (sortType === "desc") {
+        summaryData.sort((a, b) => {
+          return a.job < b.job ? 1 : -1;
+        });
+      }
+    }
+
+    //工数
+    if (sortCol === this.sJobs.FIELD_NAME.HOURS) {
+
+      //昇順
+      if (sortType === "asc") {
+        summaryData.sort((a, b) => {
+          return a.hours - b.hours;
+        });
+      }
+
+      //降順
+      if (sortType === "desc") {
+        summaryData.sort((a, b) => {
+          return b.hours - a.hours;
+        });
+      }
+    }
 
     return summaryData;
   }

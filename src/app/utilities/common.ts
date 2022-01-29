@@ -1,4 +1,5 @@
 import { DatePipe } from "@angular/common"
+import { SortType } from "../types/sort-type";
 
 export class Common {
 
@@ -75,6 +76,21 @@ export class Common {
         let month: number = selectedDate.getMonth() + 1;
 
         return new Date(year, month, 0);
+    }
+    //#endregion
+
+    //#region invertSortType
+    /**
+     * ソート種類を反転させる
+     * @param origin 
+     * @returns 
+     */
+    public static invertSortType(origin: SortType): SortType {
+        if (origin === "asc") {
+            return "desc";
+        } else {
+            return "asc";
+        }
     }
     //#endregion
 

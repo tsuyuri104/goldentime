@@ -43,10 +43,6 @@
     }
 }
 .summary {
-    table {
-        width: 100%;
-        // max-width: ;
-    }
     th {
         background-color: color.$main;
         padding: 0.5em;
@@ -63,6 +59,12 @@
         &:last-child {
             width: 7em;
             text-align: right;
+        }
+    }
+    &-table {
+        width: 100%;
+        &-sortable {
+            cursor: pointer;
         }
     }
 }
