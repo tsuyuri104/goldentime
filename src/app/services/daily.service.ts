@@ -89,6 +89,7 @@ export class DailyService {
     //仕事データ整形
     const jobs: Jobs[] = <Jobs[]>inputData.jobs;
 
+    let index: number = 0;
     jobs.forEach(job => {
 
       //空の仕事データは処理スキップ
@@ -99,6 +100,8 @@ export class DailyService {
       //仕事データ整形
       job.user = email;
       job.date = date;
+      job.index = index;
+      index++;
 
       //仕事データを更新する
       const ref2 = collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.SUB_COLLECTION_NAME.JOBS);
