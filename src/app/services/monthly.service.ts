@@ -85,11 +85,9 @@ export class MonthlyService {
     let summaryData: Jobs[] = [];
 
     //1ヶ月分の仕事データを取得する
-    const db = getFirestore();
-    const q = query(collectionGroup(db, this.sDaily.SUB_COLLECTION_NAME.JOBS), where(this.sJobs.FIELD_NAME.USER, "==", email), where(this.sJobs.FIELD_NAME.DATE, ">=", yearmonth + "01"), where(this.sJobs.FIELD_NAME.DATE, "<=", yearmonth + "31"));
-    const docs = await getDocs(q);
-    docs.forEach(doc => {
-      const job = <Jobs>doc.data();
+    const jobs: Jobs[] = await this.sJobs.getDataOneMonth(email, yearmonth);
+    jobs.forEach(job => {
+
       const indexData = summaryData.findIndex(datum => datum.job === job.job);
       const hasData = indexData > -1;
       if (hasData) {

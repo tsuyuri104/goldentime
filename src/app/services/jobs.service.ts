@@ -15,6 +15,7 @@ export class JobsService {
   public FIELD_NAME = class {
     public static readonly DATE: string = "date";
     public static readonly USER: string = "user";
+    public static readonly INDEX: string = "index";
   }
 
   //#endregion
@@ -34,10 +35,11 @@ export class JobsService {
    * @param date 対象の年月日
    * @returns 仕事データ
    */
-  public async getData(email: string, date: string): Promise<QuerySnapshot<DocumentData>> {
+  public async getData(email: string, date: string): Promise<Jobs[]> {
     const db = getFirestore();
     const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.sDaily.SUB_COLLECTION_NAME.JOBS));
-    return await getDocs(q);
+    const docs = await getDocs(q);
+    return this.convertJobsArray(docs);
   }
   //#endregion
 
@@ -50,11 +52,7 @@ export class JobsService {
    */
   public async getDataForCsv(email: string, yearmonth: string): Promise<string[][]> {
     //１ヶ月分のデータを取得する
-    const snaps = await this.getDataOneMonth(email, yearmonth);
-    let jobDocs: Jobs[] = [];
-    snaps.forEach(snap => {
-      jobDocs.push(<Jobs>snap.data());
-    });
+    const jobDocs: Jobs[] = await this.getDataOneMonth(email, yearmonth);
 
     //月の一日を取得する
     const firstDate: Date = Common.getFirstDate(this.sUrdayin.getSelectedDate());
@@ -137,10 +135,32 @@ export class JobsService {
    * @param yearmonth 対象の年月
    * @returns 対象のデータ
    */
-  private async getDataOneMonth(email: string, yearmonth: string): Promise<QuerySnapshot<DocumentData>> {
+  public async getDataOneMonth(email: string, yearmonth: string): Promise<Jobs[]> {
     const db = getFirestore();
     const q = query(collectionGroup(db, this.sDaily.SUB_COLLECTION_NAME.JOBS), where(this.FIELD_NAME.USER, "==", email), where(this.FIELD_NAME.DATE, ">=", yearmonth + "01"), where(this.FIELD_NAME.DATE, "<=", yearmonth + "31"));
-    return await getDocs(q);
+    const docs = await getDocs(q);
+    return this.convertJobsArray(docs);
+  }
+  //#endregion
+
+  //#region convertJobsArray
+  /**
+   * スナップショットから仕事データ配列に変換する（ソート込み）
+   * @param docs 
+   * @returns 
+   */
+  private convertJobsArray(docs: QuerySnapshot<DocumentData>): Jobs[] {
+
+    //配列に変換
+    let jobs: Jobs[] = [];
+    docs.forEach(snap => {
+      jobs.push(<Jobs>snap.data());
+    });
+
+    //ソート
+    jobs.sort((a, b) => (a.index === undefined ? 0 : a.index) - (b.index === undefined ? 0 : b.index));
+
+    return jobs;
   }
   //#endregion
 

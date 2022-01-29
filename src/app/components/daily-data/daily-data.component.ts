@@ -172,11 +172,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     const dailyData = this.setInitValueDaily(<Daily>await this.sDaily.getData(email, date));
 
     //仕事データを取得する
-    const snaps = await this.sJobs.getData(email, date);
-    let jobs: Jobs[] = [];
-    snaps.forEach(snap => {
-      jobs.push(<Jobs>snap.data());
-    });
+    let jobs: Jobs[] = await this.sJobs.getData(email, date);
     jobs = this.setInitValueJobs(jobs);
 
     this.frmDaily = this.convertFormGroup(dailyData, jobs);
