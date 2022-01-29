@@ -14,18 +14,20 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
 
-import { OverviewComponent } from './components/overview/overview.component';
+import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { DailyDataComponent } from './components/daily-data/daily-data.component';
 import { MonthlyDataComponent } from './components/monthly-data/monthly-data.component';
+import { OverviewComponent } from './components/overview/overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    OverviewComponent,
+    RegisterComponent,
     LoginComponent,
     DailyDataComponent,
-    MonthlyDataComponent
+    MonthlyDataComponent,
+    OverviewComponent,
   ],
   imports: [
     BrowserModule,

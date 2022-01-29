@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    > * {
+        max-width: 25vw;
+    }
+    > *:last-child {
+        margin-left: 2em;
+    }
+}
