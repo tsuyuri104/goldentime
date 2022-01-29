@@ -5,12 +5,7 @@ button[type="submit"] {
     @include mixins.common-submit-button();
 }
 button[type="button"] {
-    background-color: color.$white;
-    border: 2px solid color.$main;
-    padding: 0.5em;
-    border-radius: 0.5em;
-    width: 100%;
-    text-align: center;
+    @include mixins.common-sub-action-button();
 }
 .selected {
     margin: 1em 0;
