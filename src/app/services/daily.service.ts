@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, documentId, getDocs, QuerySnapshot, addDoc } from 'firebase/firestore';
-import { Daily } from '../interfaces/daily';
-import { Dailys } from '../interfaces/dailys';
-import { Jobs } from '../interfaces/jobs';
+import { Daily } from '../interfaces/document/daily';
+import { Dailys } from '../interfaces/component/dailys';
+import { Jobs } from '../interfaces/document/jobs';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({

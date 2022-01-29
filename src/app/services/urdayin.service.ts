@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { UserCredential } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { Subject } from 'rxjs';
-import { Dailys } from '../interfaces/dailys';
-import { Jobs } from '../interfaces/jobs';
-import { Monthly } from '../interfaces/monthly';
-import { Urdayin } from '../interfaces/urdayin';
+import { Dailys } from '../interfaces/component/dailys';
+import { Jobs } from '../interfaces/document/jobs';
+import { Monthly } from '../interfaces/document/monthly';
+import { Urdayin } from '../interfaces/document/urdayin';
 
 @Injectable({
   providedIn: 'root'

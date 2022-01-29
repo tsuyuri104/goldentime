@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Calendar } from 'src/app/interfaces/calendar';
-import { CalendarDay } from 'src/app/interfaces/calendar-day';
-import { CalendarRow } from 'src/app/interfaces/calendar-row';
-import { Dailys } from 'src/app/interfaces/dailys';
-import { Jobs } from 'src/app/interfaces/jobs';
-import { Monthly } from 'src/app/interfaces/monthly';
+import { Calendar } from 'src/app/interfaces/component/calendar';
+import { CalendarDay } from 'src/app/interfaces/component/calendar-day';
+import { CalendarRow } from 'src/app/interfaces/component/calendar-row';
+import { Dailys } from 'src/app/interfaces/component/dailys';
+import { Jobs } from 'src/app/interfaces/document/jobs';
+import { Monthly } from 'src/app/interfaces/document/monthly';
 import { CSVService } from 'src/app/services/csv.service';
 import { DailyService } from 'src/app/services/daily.service';
 import { JobsService } from 'src/app/services/jobs.service';

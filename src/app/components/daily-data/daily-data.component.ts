@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Daily } from 'src/app/interfaces/daily';
-import { Dailys } from 'src/app/interfaces/dailys';
-import { Jobs } from 'src/app/interfaces/jobs';
-import { Monthly } from 'src/app/interfaces/monthly';
+import { Daily } from 'src/app/interfaces/document/daily';
+import { Dailys } from 'src/app/interfaces/component/dailys';
+import { Jobs } from 'src/app/interfaces/document/jobs';
+import { Monthly } from 'src/app/interfaces/document/monthly';
 import { DailyService } from 'src/app/services/daily.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';

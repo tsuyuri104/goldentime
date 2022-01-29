@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { getAuth } from 'firebase/auth';
 import { RouteName } from 'src/app/classes/route-name';
-import { InputsOfLogin } from 'src/app/interfaces/input-of-frm-login';
-import { Notice } from 'src/app/interfaces/notice';
+import { InputsOfLogin } from 'src/app/interfaces/component/input-of-frm-login';
+import { Notice } from 'src/app/interfaces/document/notice';
 import { AuthService } from 'src/app/services/auth.service';
 import { NoticesService } from 'src/app/services/notices.service';
 import { VersionService } from 'src/app/services/version.service';
