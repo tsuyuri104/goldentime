@@ -90,6 +90,12 @@ export class DailyService {
     const jobs: Jobs[] = <Jobs[]>inputData.jobs;
 
     jobs.forEach(job => {
+
+      //空の仕事データは処理スキップ
+      if (this.isEmptyJobData(job)) {
+        return;
+      }
+
       //仕事データ整形
       job.user = email;
       job.date = date;
@@ -115,6 +121,21 @@ export class DailyService {
       newDailys[snap.id] = <Daily>snap.data();
     });
     return newDailys;
+  }
+  //#endregion
+
+  //#region isEmptyJobData
+  /**
+   * 空の仕事データか判定する
+   * @param job 
+   * @returns 
+   */
+  private isEmptyJobData(job: Jobs): boolean {
+    //稼働０と仕事内容空白は空データと判定する
+    if (job.hours === 0 && job.job === "") {
+      return true;
+    }
+    return false;
   }
   //#endregion
 
