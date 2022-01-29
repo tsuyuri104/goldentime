@@ -87,6 +87,7 @@ export class JobsService {
         let targetIndex: number = contents.findIndex(line => line[0] === job.job);
         let targetLine: string[] = [];
         let targetLineLength: number = 0;
+        let maxEmptyColIndex: number = i;
 
         ///すでに格納されている場合は取り出す
         if (targetIndex > 0) {
@@ -94,15 +95,18 @@ export class JobsService {
           targetLineLength = targetLine.length;
         }
 
-        //ない場合は作業内容を追加する
         if (targetLineLength === 0) {
+          //ない場合は作業内容を追加する
           targetLine.push(job.job);
+        } else {
+          //ある場合は空白セルの列を１つずらす
+          maxEmptyColIndex += 1;
         }
 
         //前日分までデータが存在しているか
         if (targetLineLength < i) {
           //存在してない場合は、前日分まで０を追加する
-          for (let j = targetLineLength; j < (i + 1); j++) {
+          for (let j = targetLineLength; j < maxEmptyColIndex; j++) {
             targetLine.push("0");
           }
         }
