@@ -9,5 +9,6 @@
 </main>
 
 <footer>
+  <button (click)="logoutProcess()" *ngIf="isLogined">ログアウト</button>
   <span>{{ version }}</span>
 </footer>
