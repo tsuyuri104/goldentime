@@ -19,6 +19,7 @@ import { LoginComponent } from './components/login/login.component';
 import { DailyDataComponent } from './components/daily-data/daily-data.component';
 import { MonthlyDataComponent } from './components/monthly-data/monthly-data.component';
 import { OverviewComponent } from './components/overview/overview.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { OverviewComponent } from './components/overview/overview.component';
     DailyDataComponent,
     MonthlyDataComponent,
     OverviewComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
