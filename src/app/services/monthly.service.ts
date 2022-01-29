@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, doc, getDocs, getFirestore, query, where, documentId, setDoc, getDoc, DocumentData, collectionGroup } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, query, QuerySnapshot, where, documentId, setDoc, getDoc, DocumentData, collectionGroup } from 'firebase/firestore';
 import { Daily } from '../interfaces/daily';
 import { Jobs } from '../interfaces/jobs';
 import { Monthly } from '../interfaces/monthly';
@@ -33,15 +33,15 @@ export class MonthlyService {
    * 月次データのトータルを更新する
    * @param email 対象ユーザーのメールアドレス
    * @param yearmonth 対象の年月
+   * @param dailyData 対象の１ヶ月分の日次データ
    */
-  public async updateMonthlyTotal(email: string, yearmonth: string): Promise<void> {
+  public async updateMonthlyTotal(email: string, yearmonth: string, dailyData: QuerySnapshot<DocumentData>): Promise<void> {
     const db = getFirestore();
     const docRef = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.MONTHLY, yearmonth);
 
     let monthTotal: number = 0;
 
     //対象年月の日次データを取得する
-    const dailyData = await this.sDaily.getDataOneMonth(email, yearmonth);
     dailyData.forEach(snap => {
       const doc = <Daily>snap.data();
       monthTotal += doc.total;

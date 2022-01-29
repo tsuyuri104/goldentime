@@ -72,8 +72,8 @@ export class DailyService {
     //対象日の仕事データを削除する
     const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.SUB_COLLECTION_NAME.JOBS));
     let docs = await getDocs(q);
-    docs.forEach(async doc => {
-      await deleteDoc(doc.ref);
+    docs.forEach(doc => {
+      deleteDoc(doc.ref);
     });
 
     //日次データ整形
@@ -84,7 +84,7 @@ export class DailyService {
 
     //対象日の日次データを更新する
     const docRef = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date);
-    await setDoc(docRef, daily);
+    setDoc(docRef, daily);
 
     //仕事データ整形
     const jobs: Jobs[] = <Jobs[]>inputData.jobs;
@@ -110,17 +110,15 @@ export class DailyService {
   }
   //#endregion
 
-  //#region getDailysData
+  //#region convertDailysInterface
   /**
-   * １ヶ月の日次データを取得する
-   * @param email 対象のユーザーのメールアドレス
-   * @param yearmonth 対象の年月
-   * @returns 対象の１ヶ月分の日次データ
+   * スナップショットからDailys型へ変換する
+   * @param docs 
+   * @returns 
    */
-  public async getDailysData(email: string, yearmonth: string): Promise<Dailys> {
-    const newDailysSnap = await this.getDataOneMonth(email, yearmonth);
+  public convertDailysInterface(docs: QuerySnapshot<DocumentData>): Dailys {
     let newDailys: Dailys = {};
-    newDailysSnap.forEach(snap => {
+    docs.forEach(snap => {
       newDailys[snap.id] = <Daily>snap.data();
     });
     return newDailys;

@@ -125,28 +125,41 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   /**
    * 日次データを更新する
    */
-  public updateDailyData(): void {
+  public async updateDailyData(): Promise<void> {
     this.submitMessage = "";
     let inputData: Daily = this.frmDaily.value;
+    const email: string = this.sUrdayin.getSelectedUser();
+    const yearmonth: string = Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate());
     inputData.total = this.calcTotalHours();
-    this.sDaily.deleteInsertDocs(inputData, this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()))
+
+    //日次データを更新する
+    await this.sDaily.deleteInsertDocs(inputData, email, Common.dateToString(this.sUrdayin.getSelectedDate()));
+
+    //１ヶ月分の日次データを取得する
+    let dailyDataOneMonth = await this.sDaily.getDataOneMonth(email, yearmonth);
+
+    //月次データのトータルを更新する
+    this.sMonthly.updateMonthlyTotal(email, yearmonth, dailyDataOneMonth)
       .then(async arg => {
-        //月次データのトータルを更新する
-        await this.sMonthly.updateMonthlyTotal(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
         //月次データを再取得する
-        const newMonthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
+        const newMonthly = <Monthly>await this.sMonthly.getMonthlyData(email, yearmonth);
         //サービスに新しい月次データを渡す
         this.sUrdayin.onSharedMonthlyDataChanged(newMonthly);
-        //サマリーデータを再取得する
-        const newSummary = <Jobs[]>await this.sMonthly.getSummaryData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
-        //サービスに新しいサマリーデータを渡す
-        this.sUrdayin.onSharedSummaryDataChanged(newSummary);
-        //１ヶ月の日次データを再取得する
-        const newDailys = <Dailys>await this.sDaily.getDailysData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
-        //サービスに１ヶ月の日次データを渡す
-        this.sUrdayin.onSharedDailyDataChanged(newDailys);
-        this.submitMessage = "Successed submit";
       });
+
+    //サマリーデータを再取得する
+    const newSummary = <Jobs[]>await this.sMonthly.getSummaryData(email, yearmonth);
+    //サービスに新しいサマリーデータを渡す
+    this.sUrdayin.onSharedSummaryDataChanged(newSummary);
+
+    //１ヶ月の日次データを再取得する
+    const newDailys = this.sDaily.convertDailysInterface(dailyDataOneMonth);
+    //サービスに１ヶ月の日次データを渡す
+    this.sUrdayin.onSharedDailyDataChanged(newDailys);
+
+    ///成功
+    this.submitMessage = "Successed submit";
+
   }
   //#endregion
 
