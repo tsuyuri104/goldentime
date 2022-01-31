@@ -104,7 +104,7 @@ export class JobsService {
         }
 
         //前日分までデータが存在しているか
-        if (targetLineLength < i) {
+        if (targetLineLength - 1 < i) {
           //存在してない場合は、前日分まで０を追加する
           for (let j = targetLineLength; j < maxEmptyColIndex; j++) {
             targetLine.push("0");
