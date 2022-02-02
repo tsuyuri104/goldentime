@@ -61,15 +61,16 @@ export class GroupNameService {
     const ref = collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME);
 
     //仕事データ整形（集約グループ名のみ抽出して、重複なしの配列にする）
-    let jobs: string[] = (<Jobs[]>inputData.jobs).map(x => x.group_name);
-    jobs = jobs.filter((x, i, self) => {
+    let groupNames: string[] = (<Jobs[]>inputData.jobs).map(x => x.group_name);
+    groupNames = groupNames.filter((x, i, self) => {
       return self.indexOf(x) === i;
     });
 
-    jobs.forEach(async job => {
+    groupNames.forEach(async name => {
+
 
       //データを取得する
-      const q = query(ref, where(this.FIELD_NAME.GROUP_NAME, "==", job));
+      const q = query(ref, where(this.FIELD_NAME.GROUP_NAME, "==", name));
       let docs = await getDocs(q);
 
       //データが存在する場合、処理はここまで
@@ -79,7 +80,7 @@ export class GroupNameService {
 
       const groupName: GroupName = {
         user: email,
-        group_name: job,
+        group_name: name,
       }
 
       //登録する
