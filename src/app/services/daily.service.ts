@@ -66,7 +66,7 @@ export class DailyService {
    * @param email 処理対象のユーザーのメールアドレス
    * @param date 処理対象の年月日
    */
-  public async deleteInsertDocs(inputData: Daily, email: string, date: string) {
+  public async deleteInsertDocs(inputData: Daily, email: string, date: string): Promise<void> {
     const db = getFirestore();
 
     //対象日の仕事データを削除する
