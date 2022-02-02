@@ -66,6 +66,7 @@ export class JobsService {
     //CSVに書き込む内容
     let contents: string[][] = [];
     let lineHeader: string[] = [];
+    lineHeader.push("集約グループ");
     lineHeader.push("作業内容");
 
     //日単位で処理する
@@ -85,7 +86,7 @@ export class JobsService {
       //仕事データ単位で処理する
       jobs.forEach(job => {
 
-        let targetIndex: number = contents.findIndex(line => line[0] === job.job);
+        let targetIndex: number = contents.findIndex(line => line[0] === job.group_name && line[1] === job.job);
         let targetLine: string[] = [];
         let targetLineLength: number = 0;
         let maxEmptyColIndex: number = i;
@@ -98,14 +99,15 @@ export class JobsService {
 
         if (targetLineLength === 0) {
           //ない場合は作業内容を追加する
+          targetLine.push(job.group_name);
           targetLine.push(job.job);
         } else {
           //ある場合は空白セルの列を１つずらす
-          maxEmptyColIndex += 1;
+          maxEmptyColIndex += 2;
         }
 
         //前日分までデータが存在しているか
-        if (targetLineLength - 1 < i) {
+        if (targetLineLength - 1 < (i + 2)) {
           //存在してない場合は、前日分まで０を追加する
           for (let j = targetLineLength; j < maxEmptyColIndex; j++) {
             targetLine.push("0");

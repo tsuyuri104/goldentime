@@ -160,7 +160,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     const daysInMonth: number = lastDate.getDate();
 
     //CSVフォーマットとして文字連結する
-    const colsLength: number = daysInMonth + 1;
+    const colsLength: number = daysInMonth + 2;
     let strCsvValue: string = "";
     contents.forEach(content => {
       strCsvValue += this.sCsv.convertStringCsvLine(content, colsLength, "0");
