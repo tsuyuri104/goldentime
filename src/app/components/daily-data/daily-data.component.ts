@@ -133,7 +133,10 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     inputData.total = this.calcTotalHours();
 
     //日次データを更新する
-    await this.sDaily.deleteInsertDocs(inputData, email, Common.dateToString(this.sUrdayin.getSelectedDate()));
+    await this.sDaily.deleteInsertDocs(inputData, email, date);
+
+    //仕事データを更新する
+    this.sJobs.insertJobData(inputData, email, date);
 
     //１ヶ月分の日次データを取得する
     let dailyDataOneMonth = await this.sDaily.getDataOneMonth(email, yearmonth);

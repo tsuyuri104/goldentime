@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionGroup, DocumentData, getDocs, getFirestore, query, QuerySnapshot, where } from 'firebase/firestore';
+import { addDoc, collection, collectionGroup, DocumentData, getDocs, getFirestore, query, QuerySnapshot, where } from 'firebase/firestore';
+import { Daily } from '../interfaces/document/daily';
 import { Jobs } from '../interfaces/document/jobs';
 import { Common } from '../utilities/common';
 import { DailyService } from './daily.service';
@@ -142,6 +143,55 @@ export class JobsService {
     const q = query(collectionGroup(db, this.sDaily.SUB_COLLECTION_NAME.JOBS), where(this.FIELD_NAME.USER, "==", email), where(this.FIELD_NAME.DATE, ">=", yearmonth + "01"), where(this.FIELD_NAME.DATE, "<=", yearmonth + "31"));
     const docs = await getDocs(q);
     return this.convertJobsArray(docs);
+  }
+  //#endregion
+
+  //#region insertJobData
+  /**
+   * 仕事データを登録する
+   * @param inputData 
+   * @param email 
+   * @param date 
+   */
+  public insertJobData(inputData: Daily, email: string, date: string) {
+    const db = getFirestore();
+
+    //仕事データ整形
+    const jobs: Jobs[] = <Jobs[]>inputData.jobs;
+
+    let index: number = 0;
+    jobs.forEach(job => {
+
+      //空の仕事データは処理スキップ
+      if (this.isEmptyJobData(job)) {
+        return;
+      }
+
+      //仕事データ整形
+      job.user = email;
+      job.date = date;
+      job.index = index;
+      index++;
+
+      //仕事データを更新する
+      const ref2 = collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.sDaily.SUB_COLLECTION_NAME.JOBS);
+      addDoc(ref2, job);
+    });
+  }
+  //#endregion
+
+  //#region isEmptyJobData
+  /**
+   * 空の仕事データか判定する
+   * @param job 
+   * @returns 
+   */
+  private isEmptyJobData(job: Jobs): boolean {
+    //稼働０と仕事内容空白は空データと判定する
+    if (job.hours === 0 && job.job === "") {
+      return true;
+    }
+    return false;
   }
   //#endregion
 
