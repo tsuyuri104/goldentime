@@ -226,7 +226,8 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   private createJob(): FormGroup {
     return this.fb.group(<Jobs>{
       job: '',
-      hours: 0
+      hours: 0,
+      group_name: '',
     });
   }
   //#endregion
@@ -241,7 +242,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     let group = this.fb.group({
       memo: datum.memo,
       total: datum.total,
-      jobs: this.fb.array(this.convertFormArray(jobs))
+      jobs: this.fb.array(this.convertFormArray(jobs)),
     });
 
     return group;
@@ -278,6 +279,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
         hours: 0,
         user: "",
         date: "",
+        group_name: "",
       });
     }
     return data;
@@ -297,6 +299,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
       arr.push(this.fb.group(<Jobs>{
         job: datum.job,
         hours: datum.hours,
+        group_name: datum.group_name,
       }));
     });
 
