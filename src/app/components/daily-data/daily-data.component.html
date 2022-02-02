@@ -14,14 +14,24 @@
                     <input type="text" formControlName="job">
                 </div>
                 <div class="card-body">
-                    <label for="hours">工数（0.5単位）</label>
-                    <input type="number" step="0.5" min="0" max="24" formControlName="hours" (change)="setTotalHours()">
+                    <div class="card-body-row">
+                        <label for="hours">工数（0.5単位）</label>
+                        <input type="number" step="0.5" min="0" max="24" formControlName="hours"
+                            (change)="setTotalHours()">
+                    </div>
+                    <div class="card-body-row">
+                        <label for="group_name">集約グループ</label>
+                        <input type="text" formControlName="group_name" list="datalistGroup">
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="button" (click)="deleteJobCard(i)">削除</button>
                 </div>
             </div>
         </div>
+        <datalist id="datalistGroup">
+            <option *ngFor="let group of listGroup" value="{{ group.group_name }}">
+        </datalist>
     </div>
 
     <div class="form-group">

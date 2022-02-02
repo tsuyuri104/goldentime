@@ -10,6 +10,8 @@ import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Common } from 'src/app/utilities/common';
+import { GroupName } from 'src/app/interfaces/document/group-name';
+import { GroupNameService } from 'src/app/services/group-name.service';
 
 @Component({
   selector: 'app-daily-data',
@@ -24,6 +26,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   public selectedUserName: string = "";
   public dailyTotalHours: number = 0;
   public submitMessage: string = "";
+  public listGroup: GroupName[] = [];
 
   private subscriptionSelectedDate!: Subscription;
 
@@ -44,6 +47,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     , private sMonthly: MonthlyService
     , private sUrdayin: UrdayinService
     , private sJobs: JobsService
+    , private sGroupName: GroupNameService
     , private fb: FormBuilder
   ) {
 
@@ -130,6 +134,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     let inputData: Daily = this.frmDaily.value;
     const email: string = this.sUrdayin.getSelectedUser();
     const yearmonth: string = Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate());
+    const date: string = Common.dateToString(this.sUrdayin.getSelectedDate());
     inputData.total = this.calcTotalHours();
 
     //日次データを更新する
@@ -137,6 +142,9 @@ export class DailyDataComponent implements OnInit, OnDestroy {
 
     //仕事データを更新する
     this.sJobs.insertJobData(inputData, email, date);
+
+    //集約グループを更新する
+    this.sGroupName.insertData(inputData, email);
 
     //１ヶ月分の日次データを取得する
     let dailyDataOneMonth = await this.sDaily.getDataOneMonth(email, yearmonth);
@@ -174,6 +182,16 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
     this.getDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()));
     this.getUserName(this.sUrdayin.getSelectedUser());
+    this.getGroupNameData();
+  }
+  //#endregion
+
+  //#region getGroupNameData
+  /**
+   * グループ名を取得する
+   */
+  private async getGroupNameData(): Promise<void> {
+    this.listGroup = await this.sGroupName.getData(this.sUrdayin.getSelectedUser());
   }
   //#endregion
 

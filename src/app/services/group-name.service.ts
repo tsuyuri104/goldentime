@@ -1,0 +1,92 @@
+import { Injectable } from '@angular/core';
+import { doc, setDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionGroup, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { Daily } from '../interfaces/document/daily';
+import { GroupName } from '../interfaces/document/group-name';
+import { Jobs } from '../interfaces/document/jobs';
+import { UrdayinService } from './urdayin.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GroupNameService {
+
+  //#region 内部クラス
+
+  public FIELD_NAME = class {
+    public static readonly USER: string = "user";
+    public static readonly GROUP_NAME: string = "group_name";
+  }
+
+  //#endregion
+
+  //#region コンストラクタ
+  constructor(private sUrdayin: UrdayinService) {
+
+  }
+  //#endregion
+
+  //#region メソッド
+
+  //#region getData
+  /**
+   * データを取得する
+   * @param email 
+   * @returns 
+   */
+  public async getData(email: string): Promise<GroupName[]> {
+    let data: GroupName[] = [];
+
+    const db = getFirestore();
+    const q = query(collectionGroup(db, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME), where(this.FIELD_NAME.USER, "==", email));
+    const docs = await getDocs(q);
+
+    docs.forEach(doc => {
+      data.push(<GroupName>doc.data());
+    });
+
+    return data;
+  }
+  //#endregion
+
+  //#region insertData
+  /**
+   * データを登録する
+   * @param inputData 
+   * @param email 
+   */
+  public insertData(inputData: Daily, email: string) {
+    const db = getFirestore();
+
+    const ref = collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME);
+
+    //仕事データ整形（集約グループ名のみ抽出して、重複なしの配列にする）
+    let jobs: string[] = (<Jobs[]>inputData.jobs).map(x => x.group_name === undefined ? "" : x.group_name);
+    jobs = jobs.filter((x, i, self) => {
+      return self.indexOf(x) === i;
+    });
+
+    jobs.forEach(async job => {
+
+      //データを取得する
+      const q = query(ref, where(this.FIELD_NAME.GROUP_NAME, "==", job));
+      let docs = await getDocs(q);
+
+      //データが存在する場合、処理はここまで
+      if (docs.size > 0) {
+        return;
+      }
+
+      const groupName: GroupName = {
+        user: email,
+        group_name: job,
+      }
+
+      //登録する
+      addDoc(ref, groupName);
+    });
+  }
+  //#endregion
+
+  //#endregion
+}
