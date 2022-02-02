@@ -37,6 +37,7 @@ export class UrdayinService {
   public SUB_COLLECTION_NAME = class {
     public static readonly DAILY: string = 'daily';
     public static readonly MONTHLY: string = 'monthly';
+    public static readonly GROUP_NAME: string = 'group_name'
   }
 
   //#endregion
