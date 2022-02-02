@@ -23,7 +23,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   //#region 変数
 
   public selectedDateForDisply: Date = new Date();
-  public selectedUserName: string = "";
   public dailyTotalHours: number = 0;
   public submitMessage: string = "";
   public listGroup: GroupName[] = [];
@@ -181,7 +180,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   private procInit(): void {
     this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
     this.getDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()));
-    this.getUserName(this.sUrdayin.getSelectedUser());
     this.getGroupNameData();
   }
   //#endregion
@@ -211,16 +209,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
 
     this.frmDaily = this.convertFormGroup(dailyData, jobs);
     this.dailyTotalHours = dailyData.total;
-  }
-  //#endregion
-
-  //#region getUserName
-  /**
-   * 対象のユーザーの名前を取得する
-   * @param email 対象のユーザーのメールアドレス
-   */
-  private async getUserName(email: string) {
-    this.selectedUserName = await this.sUrdayin.getUserName(email);
   }
   //#endregion
 
