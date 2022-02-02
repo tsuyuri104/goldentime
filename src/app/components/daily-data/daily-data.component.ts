@@ -169,18 +169,18 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    */
   private procInit(): void {
     this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
-    this.setDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()));
+    this.getDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()));
     this.getUserName(this.sUrdayin.getSelectedUser());
   }
   //#endregion
 
-  //#region setDailyData
+  //#region getDailyData
   /**
-   * 日次データを画面項目に設定する
+   * 日次データを取得する
    * @param email 対象のユーザーのメールアドバイス
    * @param date 対象の年月日
    */
-  private async setDailyData(email: string, date: string): Promise<void> {
+  private async getDailyData(email: string, date: string): Promise<void> {
     //日次データを取得する
     const dailyData = this.setInitValueDaily(<Daily>await this.sDaily.getData(email, date));
 
