@@ -68,6 +68,10 @@ export class GroupNameService {
 
     groupNames.forEach(async name => {
 
+      //グループ名がない場合は登録しない
+      if (name === "") {
+        return;
+      }
 
       //データを取得する
       const q = query(ref, where(this.FIELD_NAME.GROUP_NAME, "==", name));
