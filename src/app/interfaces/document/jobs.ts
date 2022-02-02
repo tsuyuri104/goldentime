@@ -4,5 +4,5 @@ export interface Jobs {
     user: string,
     date: string,
     index?: number,
-    group_name?: string,
+    group_name: string,
 }

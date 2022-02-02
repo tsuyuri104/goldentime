@@ -61,7 +61,7 @@ export class GroupNameService {
     const ref = collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME);
 
     //仕事データ整形（集約グループ名のみ抽出して、重複なしの配列にする）
-    let jobs: string[] = (<Jobs[]>inputData.jobs).map(x => x.group_name === undefined ? "" : x.group_name);
+    let jobs: string[] = (<Jobs[]>inputData.jobs).map(x => x.group_name);
     jobs = jobs.filter((x, i, self) => {
       return self.indexOf(x) === i;
     });
