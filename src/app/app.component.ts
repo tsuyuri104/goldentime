@@ -7,8 +7,8 @@ import { VersionService } from './services/version.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public title = 'urdayin';
-  public version = '';
+  public title: string = 'urdayin';
+  public version: string = '';
 
   constructor(private sVersion: VersionService) {
     this.version = this.sVersion.version;
