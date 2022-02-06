@@ -11,6 +11,9 @@ export class AppComponent {
   public version: string = '';
 
   constructor(private sVersion: VersionService) {
+  }
+
+  ngOnInit(): void {
     this.version = this.sVersion.version;
   }
 }
