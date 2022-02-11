@@ -20,6 +20,11 @@ import { DailyDataComponent } from './components/daily-data/daily-data.component
 import { MonthlyDataComponent } from './components/monthly-data/monthly-data.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { LOCALE_ID } from '@angular/core';
+import localeJa from '@angular/common/locales/ja';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeJa);
 
 @NgModule({
   declarations: [
@@ -48,7 +53,9 @@ import { NavigationComponent } from './components/navigation/navigation.componen
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'ja-JP' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
