@@ -66,25 +66,4 @@
         <span>{{ selectedDateForDisply | date:'yyyy年M月' }}の合計</span>
         <span>{{ monthly? monthly.total : 0 | number:'1.1-1' }} 時間</span>
     </div>
-
-    <div class="summary">
-        <table class="summary-table">
-            <tr>
-                <th (click)="sortSummary('job')" class="summary-table-sortable">
-                    作業内容{{ jobSortMark }}
-                </th>
-                <th (click)="sortSummary('hours')" class="summary-table-sortable">
-                    {{ hoursSortMark }}工数
-                </th>
-            </tr>
-            <tr *ngFor="let job of summaryData">
-                <td>{{ job.job }}</td>
-                <td>{{ job.hours | number:'1.1-1'}} 時間</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="export">
-        <button type="button" class="export-button" (click)="exportCsv()">CSV出力</button>
-    </div>
 </div>
