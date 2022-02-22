@@ -1,0 +1,84 @@
+@use "./../../sass-utiles/mixins";
+@use "./../../sass-utiles/color";
+
+button[type="submit"] {
+    @include mixins.common-submit-button();
+}
+button[type="button"] {
+    @include mixins.common-sub-action-button();
+}
+.wrapper {
+    > * {
+        margin: 1em;
+    }
+}
+.search {
+    &-form {
+        & > * {
+            margin-bottom: 0.5em;
+        }
+        &-row {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+}
+.radio {
+    &-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        & > label {
+            margin-left: 0.25em;
+            margin-bottom: 0;
+        }
+
+        & + & {
+            margin-left: 1em;
+        }
+    }
+}
+.text {
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+}
+.summary {
+    display: flex;
+    justify-content: space-between;
+    &-card {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid color.$text-light;
+        background-color: color.$white;
+        padding: 0.5em;
+        max-width: 10em;
+    }
+}
+.list {
+    &-table {
+        width: 100%;
+        &-sortable {
+            cursor: pointer;
+        }
+        &-title {
+            background-color: color.$main;
+            padding: 0.5em;
+            &:last-child {
+                text-align: right;
+            }
+        }
+    }
+    td {
+        padding: 0.5em;
+        border-bottom: 1px solid color.$main;
+        &:first-child {
+            word-break: break-all;
+        }
+        &:last-child {
+            width: 7em;
+            text-align: right;
+        }
+    }
+}
