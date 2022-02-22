@@ -42,32 +42,6 @@
         background-color: color.$accent-light;
     }
 }
-.summary {
-    th {
-        background-color: color.$main;
-        padding: 0.5em;
-        &:last-child {
-            text-align: right;
-        }
-    }
-    td {
-        padding: 0.5em;
-        border-bottom: 1px solid color.$main;
-        &:first-child {
-            word-break: break-all;
-        }
-        &:last-child {
-            width: 7em;
-            text-align: right;
-        }
-    }
-    &-table {
-        width: 100%;
-        &-sortable {
-            cursor: pointer;
-        }
-    }
-}
 .export {
     &-button {
         @include mixins.common-sub-action-button();

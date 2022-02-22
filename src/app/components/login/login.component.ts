@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
   public loginProcess(): void {
     this.sAuth.login(this.login.email, this.login.password)
       .then(() => {
-        this.router.navigateByUrl(RouteName.OVERVIEW)
+        this.router.navigateByUrl(RouteName.REGISTER)
       })
       .catch((error) => {
         alert(error);

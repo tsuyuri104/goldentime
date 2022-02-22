@@ -3,6 +3,7 @@
 $header-height: 4em;
 $main-margin: 1em;
 $footer-heigh: $header-height / 2;
+$nav-height: 1.5em;
 
 header {
     display: flex;
@@ -12,20 +13,24 @@ header {
     min-height: $header-height;
     background-color: color.$main;
 }
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    min-height: $nav-height;
+    margin: $main-margin 0;
+}
 main {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    min-height: calc(100vh - $header-height - $footer-heigh - ($main-margin * 2));
+    min-height: calc(100vh - $header-height - $footer-heigh - $nav-height - ($main-margin * 2));
     margin: $main-margin 0;
 }
 footer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: $footer-heigh;
-}
-.wrapper {
-    width: 50vw;
 }

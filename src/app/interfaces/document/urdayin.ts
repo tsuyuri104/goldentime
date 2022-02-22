@@ -5,4 +5,5 @@ export interface Urdayin {
     daily: Daily[],
     monthly: Monthly[],
     user_name: string,
+    email: string,
 }

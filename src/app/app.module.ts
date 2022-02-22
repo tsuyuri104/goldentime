@@ -14,18 +14,27 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
 
-import { OverviewComponent } from './components/overview/overview.component';
+import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { DailyDataComponent } from './components/daily-data/daily-data.component';
 import { MonthlyDataComponent } from './components/monthly-data/monthly-data.component';
+import { OverviewComponent } from './components/overview/overview.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { LOCALE_ID } from '@angular/core';
+import localeJa from '@angular/common/locales/ja';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeJa);
 
 @NgModule({
   declarations: [
     AppComponent,
-    OverviewComponent,
+    RegisterComponent,
     LoginComponent,
     DailyDataComponent,
-    MonthlyDataComponent
+    MonthlyDataComponent,
+    OverviewComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +53,9 @@ import { MonthlyDataComponent } from './components/monthly-data/monthly-data.com
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'ja-JP' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

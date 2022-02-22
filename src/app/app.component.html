@@ -2,12 +2,15 @@
   <h1>{{ title }}</h1>
 </header>
 
+<nav *ngIf="isLogined">
+  <app-navigation></app-navigation>
+</nav>
+
 <main>
-  <div class="wrapper">
-    <router-outlet></router-outlet>
-  </div>
+  <router-outlet></router-outlet>
 </main>
 
 <footer>
+  <button (click)="logoutProcess()" *ngIf="isLogined">ログアウト</button>
   <span>{{ version }}</span>
 </footer>
