@@ -11,11 +11,12 @@
         display: flex;
         justify-content: space-between;
     }
-    &-sunday {
-        color: red;
-    }
     &-saturday {
         color: blue;
+    }
+    &-sunday,
+    &-holiday {
+        color: red;
     }
     &-row {
         display: flex;
