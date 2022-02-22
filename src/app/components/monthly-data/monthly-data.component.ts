@@ -7,6 +7,7 @@ import { Dailys } from 'src/app/interfaces/component/dailys';
 import { Monthly } from 'src/app/interfaces/document/monthly';
 import { CSVService } from 'src/app/services/csv.service';
 import { DailyService } from 'src/app/services/daily.service';
+import { HolidayService } from 'src/app/services/holiday.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
@@ -39,7 +40,8 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     , private sDaily: DailyService
     , private sJobs: JobsService
     , private sCsv: CSVService
-    , private sUrdayin: UrdayinService) {
+    , private sUrdayin: UrdayinService
+    , private sHoliday: HolidayService) {
 
   }
   //#endregion
@@ -168,7 +170,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   /**
    * カレンダーを作成する
    */
-  private createCalender() {
+  private async createCalender() {
     let calender: Calendar = { rows: [] }
 
     //月の一日を取得する
@@ -176,6 +178,10 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
 
     //月の最終日を取得する
     const lastDate: Date = Common.getLastDate(this.sUrdayin.getSelectedDate());
+
+    //祝日を取得する
+    const date: Date = this.sUrdayin.getSelectedDate();
+    const holiday: string[] = await this.sHoliday.getHolidayData(Common.dateToStringYearMonth(date));
 
     //カレンダーの１行分の情報を格納する
     let row: CalendarRow = { days: [] };
@@ -189,6 +195,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         isSaturday: false,
         isBlank: true,
         fullDate: "",
+        isHoliday: false,
       });
     }
 
@@ -208,6 +215,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
 
       const isSunday: boolean = dayOfWeek === 0;
       const isSaturday: boolean = dayOfWeek === 6;
+      const isHoliday: boolean = holiday.findIndex(h => h === Common.dateToString(tmpDate)) > -1;
 
       row.days.push(<CalendarDay>{
         date: tmpDate.getDate(),
@@ -215,6 +223,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         isSaturday: isSaturday,
         isBlank: false,
         fullDate: Common.dateToString(tmpDate),
+        isHoliday: isHoliday,
       });
     }
 
@@ -227,6 +236,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
         isSaturday: false,
         isBlank: true,
         fullDate: "",
+        isHoliday: false,
       });
     }
 
