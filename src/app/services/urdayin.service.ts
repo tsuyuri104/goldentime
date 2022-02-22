@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserCredential } from 'firebase/auth';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, query } from 'firebase/firestore';
 import { Subject } from 'rxjs';
 import { Dailys } from '../interfaces/component/dailys';
 import { Jobs } from '../interfaces/document/jobs';
@@ -140,6 +140,26 @@ export class UrdayinService {
     const snapUser = await getDoc(docUser);
 
     return (<Urdayin>snapUser.data()).user_name;
+  }
+  //#endregion
+
+  //#region getMemberData
+  /**
+   * メンバー一覧を取得する
+   * @returns 
+   */
+  public async getMemberData(): Promise<Urdayin[]> {
+    let data: Urdayin[] = [];
+
+    const db = getFirestore();
+    const ref = query(collection(db, this.COLLECTION_NAME));
+    const snaps = await getDocs(ref);
+
+    snaps.forEach(snap => {
+      data.push(<Urdayin>snap.data());
+    });
+
+    return data;
   }
   //#endregion
 
