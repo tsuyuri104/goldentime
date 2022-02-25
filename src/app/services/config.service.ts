@@ -7,6 +7,7 @@ export class ConfigService {
 
   //#region 変数
 
+  public readonly appName: string = "urdayin";
   public readonly version: string = "2.2.2";
 
   //#endregion
