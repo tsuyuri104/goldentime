@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteName } from 'src/app/classes/route-name';
 import { AuthService } from 'src/app/services/auth.service';
-import { VersionService } from 'src/app/services/version.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'app-footer',
@@ -18,7 +18,7 @@ export class FooterComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sAuth: AuthService, private sVersion: VersionService, private router: Router) {
+  constructor(private sAuth: AuthService, private sConfig: ConfigService, private router: Router) {
 
   }
   //#endregion
@@ -30,7 +30,7 @@ export class FooterComponent implements OnInit {
    * 初期設定
    */
   ngOnInit(): void {
-    this.version = this.sVersion.version;
+    this.version = this.sConfig.version;
   }
   //#endregion
 
