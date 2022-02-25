@@ -23,6 +23,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { LOCALE_ID } from '@angular/core';
 import localeJa from '@angular/common/locales/ja';
 import { registerLocaleData } from '@angular/common';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 registerLocaleData(localeJa);
 
@@ -34,7 +36,9 @@ registerLocaleData(localeJa);
     DailyDataComponent,
     MonthlyDataComponent,
     OverviewComponent,
-    NavigationComponent
+    NavigationComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
