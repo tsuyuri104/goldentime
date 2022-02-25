@@ -11,7 +11,6 @@ import { HolidayService } from 'src/app/services/holiday.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
-import { SortType } from 'src/app/types/sort-type';
 import { Common } from 'src/app/utilities/common';
 
 @Component({

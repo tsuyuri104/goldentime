@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-import { getAuth } from 'firebase/auth';
 import { RouteName } from 'src/app/classes/route-name';
 import { InputsOfLogin } from 'src/app/interfaces/component/input-of-frm-login';
 import { Notice } from 'src/app/interfaces/document/notice';
 import { AuthService } from 'src/app/services/auth.service';
 import { NoticesService } from 'src/app/services/notices.service';
-import { VersionService } from 'src/app/services/version.service';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +27,7 @@ export class LoginComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private router: Router, private sAuth: AuthService, private sNotices: NoticesService, private sVersion: VersionService) {
+  constructor(private router: Router, private sAuth: AuthService, private sNotices: NoticesService) {
 
   }
   //#endregion

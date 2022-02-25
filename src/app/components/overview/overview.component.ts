@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { InputOfFrmSearch } from 'src/app/interfaces/component/input-of-frm-search';
 import { OverviewListRow } from 'src/app/interfaces/component/overview-list-row';
 import { Summary } from 'src/app/interfaces/component/summary';
@@ -8,7 +8,6 @@ import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { CSVService } from 'src/app/services/csv.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
-import { Common } from 'src/app/utilities/common';
 
 @Component({
   selector: 'app-overview',
@@ -29,7 +28,7 @@ export class OverviewComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService, private sJobs: JobsService, private sCsv: CSVService, private fb: FormBuilder) {
+  constructor(private sUrdayin: UrdayinService, private sJobs: JobsService, private fb: FormBuilder) {
     //検索条件の初期化
     this.frmSearch = this.frmSearch = this.fb.group({
       user: this.sUrdayin.getSelectedUser(),
