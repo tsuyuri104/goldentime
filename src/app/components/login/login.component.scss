@@ -1,4 +1,5 @@
 @use "../../sass-utiles/mixins";
+@use "../../sass-utiles/color";
 
 form {
     > * {
@@ -9,20 +10,35 @@ button {
     @include mixins.common-submit-button();
 }
 
-.row {
+main {
+    height: 100vh;
     display: flex;
-    flex-direction: column;
-    &-center {
-        justify-content: center;
-        align-items: center;
-    }
+    justify-content: center;
+    align-items: center;
+    background: color.$gradation-main;
 }
 .wrapper {
+    width: 45vw;
+    z-index: 1;
+    background-color: color.$white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     > div + div {
-        margin: 5em 0;
+        margin-top: 2.5em;
+    }
+}
+.login {
+    &-row {
+        input {
+            width: 100%;
+        }
     }
 }
 .notice {
+    min-height: 25vh;
     &-row {
         margin: 1em 0;
     }

@@ -1,28 +1,30 @@
-<div class="wrapper">
-    <div class="login">
-        <h2>ログイン</h2>
-        <form (ngSubmit)="loginProcess()" #frmLogin="ngForm">
-            <div class="row">
-                <label for="txtEmail">メールアドレス</label>
-                <input ngModel type="email" [(ngModel)]="login.email" name="txtEmail" required>
-            </div>
-            <div class="row"> <label for="txtPassword">パスワード</label>
-                <input ngModel type="password" [(ngModel)]="login.password" name="txtPassword" required>
-            </div>
-            <div class="row row-center">
-                <button type="submit">ログイン</button>
-            </div>
-        </form>
+<main>
+    <div class="wrapper">
+        <div class="login">
+            <h2>ログイン</h2>
+            <form (ngSubmit)="loginProcess()" #frmLogin="ngForm">
+                <div class="login-row">
+                    <label for="txtEmail">メールアドレス</label>
+                    <input ngModel type="email" [(ngModel)]="login.email" name="txtEmail" required>
+                </div>
+                <div class="login-row"> <label for="txtPassword">パスワード</label>
+                    <input ngModel type="password" [(ngModel)]="login.password" name="txtPassword" required>
+                </div>
+                <div class="login-row-center">
+                    <button type="submit">ログイン ({{ version }})</button>
+                </div>
+            </form>
+        </div>
+        <div class="notice">
+            <h2>更新履歴</h2>
+            <dl *ngFor="let notice of notices">
+                <div class="notice-row">
+                    <dt>{{ notice.version }}</dt>
+                    <dd *ngFor="let info of notice.detail">
+                        {{ info }}
+                    </dd>
+                </div>
+            </dl>
+        </div>
     </div>
-    <div class="notice">
-        <h2>更新履歴</h2>
-        <dl *ngFor="let notice of notices">
-            <div class="notice-row">
-                <dt>{{ notice.version }}</dt>
-                <dl *ngFor="let info of notice.detail">
-                    {{ info }}
-                </dl>
-            </div>
-        </dl>
-    </div>
-</div>
+</main>
