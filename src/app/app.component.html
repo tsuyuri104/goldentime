@@ -1,16 +1,7 @@
-<header>
-  <h1>{{ title }}</h1>
-</header>
+<app-header *ngIf="isContentPage"></app-header>
 
-<nav *ngIf="isLogined">
-  <app-navigation></app-navigation>
-</nav>
+<app-navigation *ngIf="isContentPage"></app-navigation>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+<router-outlet></router-outlet>
 
-<footer>
-  <button (click)="logoutProcess()" *ngIf="isLogined">ログアウト</button>
-  <span>{{ version }}</span>
-</footer>
+<app-footer *ngIf="isContentPage"></app-footer>
