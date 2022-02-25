@@ -1,0 +1,11 @@
+@use "../../sass-utiles/color";
+@use "../../sass-utiles/const";
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: const.$header-height;
+    background-color: color.$main;
+}
