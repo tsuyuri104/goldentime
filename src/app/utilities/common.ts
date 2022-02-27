@@ -92,6 +92,19 @@ export class Common {
     }
     //#endregion
 
+    //#region getLastDateFromYearMonth
+    /**
+     * 年月から月の最終日を取得する
+     * @param strYearmonth 
+     * @returns 
+     */
+    public static getLastDateFromYearMonth(strYearmonth: string): Date {
+        const objYearmonth = this.splitYearMonth(strYearmonth);
+
+        return this.getLastDate(new Date(objYearmonth.year, objYearmonth.month, 1));
+    }
+    //#endregion
+
     //#region invertSortType
     /**
      * ソート種類を反転させる
