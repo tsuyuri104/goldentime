@@ -5,9 +5,11 @@ import { OverviewListRow } from 'src/app/interfaces/component/overview-list-row'
 import { Summary } from 'src/app/interfaces/component/summary';
 import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
+import { ConfigService } from 'src/app/services/config.service';
 import { CSVService } from 'src/app/services/csv.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { Common } from 'src/app/utilities/common';
 
 @Component({
   selector: 'app-overview',
@@ -30,7 +32,12 @@ export class OverviewComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService, private sJobs: JobsService, private fb: FormBuilder) {
+  constructor(
+    private sUrdayin: UrdayinService
+    , private sJobs: JobsService
+    , private sConfig: ConfigService
+    , private sCsv: CSVService
+    , private fb: FormBuilder) {
     //検索条件の初期化
     this.frmSearch = this.frmSearch = this.fb.group({
       user: this.sUrdayin.getSelectedUser(),
@@ -127,7 +134,38 @@ export class OverviewComponent implements OnInit {
   }
   //#endregion
 
+  //#region exportCsv
+  /**
+   * CSVを出力する
+   */
+  public async exportCsv(elm: HTMLButtonElement): Promise<void> {
 
+    //ボタンのデータ属性を取得する
+    const year: string | unknown = elm.getAttribute("data-year");
+    const month: string | unknown = elm.getAttribute("data-month");
+    const user: string | unknown = elm.getAttribute("data-user");
+
+    //出力対象の年月を取得する
+    const yearmonth: string = this.convertNumberToYearMonthString(<number>year, <number>month);
+
+    //出力対象のデータを取得する
+    const contents: string[][] = await this.sJobs.getDataForCsv(<string>user, yearmonth);
+
+    //月の最終日を取得する
+    const lastDate: Date = Common.getLastDateFromYearMonth(yearmonth);
+    const daysInMonth: number = lastDate.getDate();
+
+    //CSVフォーマットとして文字連結する
+    const colsLength: number = daysInMonth + 2;
+    let strCsvValue: string = "";
+    contents.forEach(content => {
+      strCsvValue += this.sCsv.convertStringCsvLine(content, colsLength, "0");
+    });
+
+    //出力する
+    this.sCsv.download(strCsvValue, "工数一覧_" + Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
+  }
+  //#endregion
 
   //#region createOptions
   /**

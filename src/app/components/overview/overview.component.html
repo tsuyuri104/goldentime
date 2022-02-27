@@ -57,5 +57,10 @@
                 </tr>
             </table>
         </div>
+        <div class="export" *ngIf="list.length > 0">
+            <button #btnCsv type="button" class="export-button" (click)="exportCsv(btnCsv)"
+                [attr.data-year]="slcYear.value" [attr.data-month]="slcMonth.value"
+                [attr.data-user]="slcUser.value">CSV出力</button>
+        </div>
     </div>
 </main>
