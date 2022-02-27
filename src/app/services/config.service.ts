@@ -10,6 +10,8 @@ export class ConfigService {
   public readonly appName: string = "urdayin";
   public readonly version: string = "2.2.2";
 
+  public readonly registerStartYear: number = 2022;
+
   //#endregion
 
   //#region コンストラクタ
