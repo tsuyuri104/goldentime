@@ -58,10 +58,10 @@ export class JobsService {
     const jobDocs: Jobs[] = await this.getDataOneMonth(email, yearmonth);
 
     //月の一日を取得する
-    const firstDate: Date = Common.getFirstDate(this.sUrdayin.getSelectedDate());
+    const firstDate: Date = Common.getFirstDateFromYearMonth(yearmonth);
 
     //月の最終日を取得する
-    const lastDate: Date = Common.getLastDate(this.sUrdayin.getSelectedDate());
+    const lastDate: Date = Common.getLastDateFromYearMonth(yearmonth);
 
     //CSVに書き込む内容
     let contents: string[][] = [];
