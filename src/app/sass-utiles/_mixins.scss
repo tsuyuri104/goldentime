@@ -30,5 +30,10 @@
     flex-direction: row;
     justify-content: center;
     min-height: calc(100vh - const.$header-height - const.$footer-heigh - const.$nav-height - (const.$main-margin * 2));
-    margin: const.$main-margin 0;
+}
+
+@mixin ForNarrowMode() {
+    @media (max-width: 500px) {
+        @content;
+    }
 }
