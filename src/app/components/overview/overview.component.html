@@ -3,25 +3,29 @@
         <div class="search">
             <form class="search-form" (ngSubmit)="search()" [formGroup]="frmSearch">
                 <div class="search-form-row">
-                    <ng-container *ngFor="let datum of memberData; let i = index;">
-                        <div class="radio-wrapper">
-                            <input type="radio" name="user" id="rdo{{ i }}" value="{{ datum.email }}"
-                                formControlName="user" required>
-                            <label for="rdo{{ i }}">{{ datum.user_name }}</label>
-                        </div>
-                    </ng-container>
-
-                </div>
-                <div class="search-form-row">
-                    <div class="text-wrapper">
-                        <label for="txtYear">年</label>
-                        <input type="number" name="" id="txtYear" formControlName="year" min="2022" max="2025" step="1"
-                            required>
+                    <div class="select-wrapper">
+                        <label for="slcUser">メンバー</label>
+                        <select #slcUser formControlName="user" id="slcUser">
+                            <option *ngFor="let datum of memberData" value="{{ datum.email }}">
+                                {{datum.user_name }}
+                            </option>
+                        </select>
                     </div>
-                    <div class="text-wrapper">
-                        <label for="txtMonth">月</label>
-                        <input type="number" name="" id="txtMonth" formControlName="month" min="1" max="12" step="1"
-                            required>
+                    <div class="select-wrapper">
+                        <label for="slcYear">年</label>
+                        <select #slcYear formControlName="year" id="slcYear">
+                            <option *ngFor="let year of optionYear;" value="{{ year }}">
+                                {{ year }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="select-wrapper">
+                        <label for="slcMonth">月</label>
+                        <select #slcMonth formControlName="month" id="slcMonth">
+                            <option *ngFor="let month of optionMonth" value="{{ month }}">
+                                {{ month }}
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="search-form-row">

@@ -24,6 +24,8 @@ export class OverviewComponent implements OnInit {
 
   public frmSearch!: FormGroup;
 
+  public optionYear: number[] = [];
+  public optionMonth: number[] = [];
 
   //#endregion
 
@@ -45,6 +47,7 @@ export class OverviewComponent implements OnInit {
    * 初期設定
    */
   public async ngOnInit(): Promise<void> {
+    this.createOptions();
     this.memberData = await this.sUrdayin.getMemberData();
   }
   //#endregion
@@ -125,6 +128,24 @@ export class OverviewComponent implements OnInit {
   //#endregion
 
 
+
+  //#region createOptions
+  /**
+   * オプションの選択肢を作成する
+   */
+  private createOptions(): void {
+    //年
+    const nowYear: number = new Date().getFullYear();
+    for (let i = this.sConfig.registerStartYear; i < nowYear + 1; i++) {
+      this.optionYear.push(i);
+    }
+
+    //月
+    for (let i = 0; i < 12; i++) {
+      this.optionMonth.push(i + 1);
+    }
+  }
+  //#endregion
 
   //#region convertNumberToYearMonthString
   /**
