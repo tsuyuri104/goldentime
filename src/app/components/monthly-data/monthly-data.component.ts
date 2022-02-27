@@ -5,10 +5,8 @@ import { CalendarDay } from 'src/app/interfaces/component/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/component/calendar-row';
 import { Dailys } from 'src/app/interfaces/component/dailys';
 import { Monthly } from 'src/app/interfaces/document/monthly';
-import { CSVService } from 'src/app/services/csv.service';
 import { DailyService } from 'src/app/services/daily.service';
 import { HolidayService } from 'src/app/services/holiday.service';
-import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Common } from 'src/app/utilities/common';
@@ -37,8 +35,6 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   constructor(
     private sMonthly: MonthlyService
     , private sDaily: DailyService
-    , private sJobs: JobsService
-    , private sCsv: CSVService
     , private sUrdayin: UrdayinService
     , private sHoliday: HolidayService) {
 
@@ -125,31 +121,6 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    */
   public isSelectedDate(day: string): boolean {
     return day === Common.dateToString(this.sUrdayin.getSelectedDate());
-  }
-  //#endregion
-
-  //#region exportCsv
-  /**
-   * CSVを出力する
-   */
-  public async exportCsv(): Promise<void> {
-
-    //出力対象のデータを取得する
-    const contents: string[][] = await this.sJobs.getDataForCsv(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
-
-    //月の最終日を取得する
-    const lastDate: Date = Common.getLastDate(this.sUrdayin.getSelectedDate());
-    const daysInMonth: number = lastDate.getDate();
-
-    //CSVフォーマットとして文字連結する
-    const colsLength: number = daysInMonth + 2;
-    let strCsvValue: string = "";
-    contents.forEach(content => {
-      strCsvValue += this.sCsv.convertStringCsvLine(content, colsLength, "0");
-    });
-
-    //出力する
-    this.sCsv.download(strCsvValue, "工数一覧_" + Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
   }
   //#endregion
 
