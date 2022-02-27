@@ -23,7 +23,7 @@ export class OverviewComponent implements OnInit {
   public summary: Summary[] = [];
 
   public frmSearch!: FormGroup;
-  public frmSearchErrors: string[] = [];
+
 
   //#endregion
 
@@ -60,11 +60,7 @@ export class OverviewComponent implements OnInit {
    */
   public async search(): Promise<void> {
 
-    let condition: InputOfFrmSearch = this.frmSearch.value;
-
-    if (this.isValide(condition) === false) {
-      return;
-    }
+    const condition: InputOfFrmSearch = this.frmSearch.value;
 
     let rows: OverviewListRow[] = [];
     let summary: Summary[] = [];
@@ -128,31 +124,7 @@ export class OverviewComponent implements OnInit {
   }
   //#endregion
 
-  //#region isValide
-  /**
-   * 入力チェック
-   * @param inputData 
-   * @returns 
-   */
-  private isValide(inputData: InputOfFrmSearch): boolean {
 
-    this.frmSearchErrors = [];
-
-    if (inputData.year < 2022) {
-      this.frmSearchErrors.push("年を入力してください");
-    }
-
-    if (inputData.month < 1) {
-      this.frmSearchErrors.push("月を入力してください");
-    }
-
-    if (inputData.month > 12) {
-      this.frmSearchErrors.push("月を正しく入力してください");
-    }
-
-    return this.frmSearchErrors.length === 0;
-  }
-  //#endregion
 
   //#region convertNumberToYearMonthString
   /**
