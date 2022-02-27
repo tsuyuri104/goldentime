@@ -107,4 +107,21 @@ export class Common {
         return formatted == null ? "" : formatted;
     }
     //#endregion
+
+    //#region splitYearMonth
+    /**
+     * 文字列の年月から、数値の年と月に分割する
+     * @param yearmonth 
+     * @returns 
+     */
+    private static splitYearMonth(yearmonth: string) {
+        const year: number = <number><unknown>yearmonth.substring(0, 4);
+        const month: number = <number><unknown>yearmonth.substring(4, 6) - 1;
+
+        return {
+            year: year,
+            month: month,
+        }
+    }
+    //#endregion
 }
