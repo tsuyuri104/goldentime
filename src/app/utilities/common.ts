@@ -79,6 +79,19 @@ export class Common {
     }
     //#endregion
 
+    //#region getFirstDateFromYearMonth
+    /**
+     * 年月から月の初日を取得する
+     * @param strYearmonth 
+     * @returns 
+     */
+    public static getFirstDateFromYearMonth(strYearmonth: string): Date {
+        const objYearmonth = this.splitYearMonth(strYearmonth);
+
+        return this.getFirstDate(new Date(objYearmonth.year, objYearmonth.month, 1));
+    }
+    //#endregion
+
     //#region invertSortType
     /**
      * ソート種類を反転させる
