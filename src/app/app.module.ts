@@ -27,6 +27,8 @@ import { HeaderComponent } from './components/parts/header/header.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { SplitDefaultComponent } from './components/splitpage/split-default/split-default.component';
 import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscreen-default/fullscreen-default.component';
+import { WriteComponent } from './components/svg/write/write.component';
+import { TableReportComponent } from './components/svg/table-report/table-report.component';
 
 registerLocaleData(localeJa);
 
@@ -43,6 +45,8 @@ registerLocaleData(localeJa);
     FooterComponent,
     SplitDefaultComponent,
     FullscreenDefaultComponent,
+    WriteComponent,
+    TableReportComponent,
   ],
   imports: [
     BrowserModule,
