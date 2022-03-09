@@ -14,17 +14,17 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
 
-import { RegisterComponent } from './components/register/register.component';
-import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/splitpage/register/register.component';
+import { LoginComponent } from './components/fullscreenpage/login/login.component';
 import { DailyDataComponent } from './components/daily-data/daily-data.component';
 import { MonthlyDataComponent } from './components/monthly-data/monthly-data.component';
-import { OverviewComponent } from './components/overview/overview.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
+import { OverviewComponent } from './components/splitpage/overview/overview.component';
+import { NavigationComponent } from './components/parts/navigation/navigation.component';
 import { LOCALE_ID } from '@angular/core';
 import localeJa from '@angular/common/locales/ja';
 import { registerLocaleData } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/parts/header/header.component';
+import { FooterComponent } from './components/parts/footer/footer.component';
 import { SplitDefaultComponent } from './components/splitpage/split-default/split-default.component';
 import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscreen-default/fullscreen-default.component';
 
@@ -40,7 +40,7 @@ registerLocaleData(localeJa);
     OverviewComponent,
     NavigationComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
     SplitDefaultComponent,
     FullscreenDefaultComponent,
   ],
