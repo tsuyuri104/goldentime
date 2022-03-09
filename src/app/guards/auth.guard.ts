@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { getAuth } from 'firebase/auth';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RouteName } from '../classes/route-name';
