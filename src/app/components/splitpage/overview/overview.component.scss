@@ -1,5 +1,5 @@
-@use "./../../sass-utiles/mixins";
-@use "./../../sass-utiles/color";
+@use "./../../../sass-utiles/mixins";
+@use "./../../../sass-utiles/color";
 
 main {
     @include mixins.common-main();
