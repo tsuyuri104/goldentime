@@ -44,7 +44,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="day.isBlank === false">
-                        <div class="calendar-box calendar-day" [class.calendar-selected]="isSelectedDate(day.fullDate)"
+                        <div class="calendar-box calendar-day" [class.calendar_selected]="isSelectedDate(day.fullDate)"
                             (click)="setSelectedDate(day.fullDate)">
                             <span *ngIf="day.isBlank === false" [class.calendar-holiday]="day.isHoliday"
                                 [class.calendar-sunday]="day.isSunday" [class.calendar-saturday]="day.isSaturday">
