@@ -25,6 +25,7 @@ import localeJa from '@angular/common/locales/ja';
 import { registerLocaleData } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SplitDefaultComponent } from './components/splitpage/split-default/split-default.component';
 import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscreen-default/fullscreen-default.component';
 
 registerLocaleData(localeJa);
@@ -40,6 +41,7 @@ registerLocaleData(localeJa);
     NavigationComponent,
     HeaderComponent,
     FooterComponent
+    SplitDefaultComponent,
     FullscreenDefaultComponent,
   ],
   imports: [
