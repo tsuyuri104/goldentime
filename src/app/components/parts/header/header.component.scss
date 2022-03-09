@@ -1,5 +1,5 @@
-@use "../../sass-utiles/color";
-@use "../../sass-utiles/const";
+@use "../../../sass-utiles/color";
+@use "../../../sass-utiles/const";
 
 header {
     display: flex;
@@ -8,4 +8,6 @@ header {
     align-items: center;
     min-height: const.$header-height;
     background-color: color.$main;
+    position: sticky;
+    top: 0;
 }
