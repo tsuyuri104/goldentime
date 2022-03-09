@@ -1,7 +1,14 @@
-<app-header *ngIf="isContentPage"></app-header>
+<div class="contents-wrapper">
+    <div class="left-wrapper">
+        <app-header></app-header>
+        <app-navigation></app-navigation>
+    </div>
 
-<app-navigation *ngIf="isContentPage"></app-navigation>
+    <div class="right-wrapper">
+        <router-outlet></router-outlet>
+    </div>
+</div>
 
-<router-outlet></router-outlet>
-
-<app-footer *ngIf="isContentPage"></app-footer>
+<div class="footer-wrapper">
+    <app-footer></app-footer>
+</div>

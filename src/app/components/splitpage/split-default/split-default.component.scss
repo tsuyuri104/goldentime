@@ -1,0 +1,17 @@
+@use "../../../sass-utiles/const";
+
+.contents-wrapper {
+    display: flex;
+    flex-direction: row;
+    top: const.$header-height;
+}
+.left-wrapper {
+    width: 20vw;
+    max-width: 250px;
+    min-height: calc(100vh - const.$header-height);
+    position: sticky;
+    top: 0;
+}
+.right-wrapper {
+    padding: 1em;
+}

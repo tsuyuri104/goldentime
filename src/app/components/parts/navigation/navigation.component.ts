@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { pipe } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { RouteName } from 'src/app/classes/route-name';
 
 @Component({
   selector: 'app-navigation',
@@ -7,14 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  public userName: string = "";
 
-  constructor() {
-
+  constructor(private router: Router) {
+    this.setSelectedPage(RouteName.REGISTER);
   }
 
-  async ngOnInit(): Promise<void> {
-
+  ngOnInit(): void {
+    this.setSelectedPage(RouteName.REGISTER);
   }
 
+  public setSelectedPage(itemName: string): boolean {
+    // this.router.events.pipe(filter(value => {
+    //   return value instanceof NavigationEnd;
+    // })).subscribe(value => {
+
+    // });
+    return itemName === RouteName.REGISTER;
+  }
 }

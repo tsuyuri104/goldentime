@@ -1,14 +1,20 @@
 @use "../../../sass-utiles/const";
+@use "../../../sass-utiles/color";
 
-nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    min-height: const.$nav-height;
-    margin: const.$main-margin 0;
-}
-.wrapper {
-    & > a {
-        margin: 1em;
+.nav {
+    background-color: color.$main-dark;
+    height: 100%;
+    &-item {
+        &_selected {
+            font-weight: 700;
+        }
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            & > a {
+                margin: 1em;
+                color: color.$white;
+            }
+        }
     }
 }
