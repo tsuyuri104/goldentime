@@ -5,15 +5,22 @@
     background-color: color.$main-dark;
     height: 100%;
     &-item {
+        color: color.$white;
+        :host path {
+            stroke: color.$white;
+        }
         &_selected {
             font-weight: 700;
+            color: color.$main;
+            :host path {
+                stroke: color.$main;
+            }
         }
         &-wrapper {
             display: flex;
             flex-direction: column;
             & > a {
                 margin: 1em;
-                color: color.$white;
             }
         }
     }
