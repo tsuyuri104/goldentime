@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { pipe } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { RouteName } from 'src/app/classes/route-name';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -11,21 +8,38 @@ import { RouteName } from 'src/app/classes/route-name';
 })
 export class NavigationComponent implements OnInit {
 
-
+  //#region コンストラクタ
   constructor(private router: Router) {
-    this.setSelectedPage(RouteName.REGISTER);
-  }
 
+  }
+  //#endregion
+
+  //#region イベント
+
+  //#region ngOnInit
+  /**
+   * 初期設定
+   */
   ngOnInit(): void {
-    this.setSelectedPage(RouteName.REGISTER);
-  }
 
-  public setSelectedPage(itemName: string): boolean {
-    // this.router.events.pipe(filter(value => {
-    //   return value instanceof NavigationEnd;
-    // })).subscribe(value => {
-
-    // });
-    return itemName === RouteName.REGISTER;
   }
+  //#endregion
+
+  //#endregion
+
+  //#region メソッド
+
+  //#region isSelected
+  /**
+   * 表示している画面が該当のメニューか判定する
+   * @param itemName 
+   * @returns 
+   */
+  public isSelected(itemName: string): boolean {
+    return itemName === this.router.url.replace("/", "");
+  }
+  //#endregion
+
+  //#endregion
+
 }
