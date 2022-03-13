@@ -29,6 +29,13 @@ main {
     > div + div {
         margin-top: 2.5em;
     }
+    @include mixins.ForNarrowMode() {
+        width: 95vw;
+        padding: 1em;
+        > div + div {
+            margin-top: 1.5em;
+        }
+    }
 }
 .login {
     &-row {
