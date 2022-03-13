@@ -1,5 +1,6 @@
 @use "../../../sass-utiles/color";
 @use "../../../sass-utiles/const";
+@use "../../../sass-utiles/mixins";
 
 header {
     display: flex;
@@ -8,4 +9,7 @@ header {
     align-items: center;
     min-height: const.$header-height;
     background-color: color.$main;
+    @include mixins.ForNarrowMode() {
+        display: none;
+    }
 }
