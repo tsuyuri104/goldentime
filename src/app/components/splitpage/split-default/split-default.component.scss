@@ -1,17 +1,47 @@
 @use "../../../sass-utiles/const";
+@use "../../../sass-utiles/mixins";
 
 .contents-wrapper {
     display: flex;
     flex-direction: row;
     top: const.$header-height;
+    @include mixins.ForNarrowMode() {
+        display: block;
+        top: unset;
+    }
 }
 .left-wrapper {
     width: 20vw;
     max-width: 250px;
-    min-height: calc(100vh - const.$header-height);
+    min-height: 100vh;
     position: sticky;
     top: 0;
+    @include mixins.ForNarrowMode() {
+        min-height: unset;
+        max-width: unset;
+        width: 100vw;
+        position: fixed;
+        top: unset;
+        bottom: 0;
+    }
 }
 .right-wrapper {
     padding: 1em;
+    min-height: 100vh;
+    @include mixins.ForNarrowMode() {
+        padding: 0;
+    }
+}
+.nav {
+    &_wide {
+        @include mixins.ForNarrowMode() {
+            display: none;
+        }
+    }
+    &_narrow {
+        display: none;
+        @include mixins.ForNarrowMode() {
+            display: unset;
+        }
+    }
 }
