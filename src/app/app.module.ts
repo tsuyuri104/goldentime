@@ -29,6 +29,7 @@ import { SplitDefaultComponent } from './components/splitpage/split-default/spli
 import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscreen-default/fullscreen-default.component';
 import { WriteComponent } from './components/svg/write/write.component';
 import { TableReportComponent } from './components/svg/table-report/table-report.component';
+import { ConfoundedFaceComponent } from "./components/svg/confounded-face/confounded-face.component";
 
 registerLocaleData(localeJa);
 
@@ -47,6 +48,7 @@ registerLocaleData(localeJa);
     FullscreenDefaultComponent,
     WriteComponent,
     TableReportComponent,
+    ConfoundedFaceComponent,
   ],
   imports: [
     BrowserModule,
