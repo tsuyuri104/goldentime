@@ -33,6 +33,7 @@
             }
         }
         &-text {
+            margin-left: 0.5em;
             @include mixins.ForNarrowMode() {
                 display: none;
             }
