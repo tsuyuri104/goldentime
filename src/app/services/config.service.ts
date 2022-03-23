@@ -12,6 +12,8 @@ export class ConfigService {
 
   public readonly registerStartYear: number = 2022;
 
+  public readonly contactFormUrl: string = "";
+
   //#endregion
 
   //#region コンストラクタ
