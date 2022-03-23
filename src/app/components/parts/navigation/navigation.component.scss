@@ -1,9 +1,14 @@
 @use "../../../sass-utiles/const";
 @use "../../../sass-utiles/color";
+@use "../../../sass-utiles/mixins";
 
 .nav {
     background-color: color.$main-dark;
     height: 100%;
+    @include mixins.ForNarrowMode() {
+        height: auto;
+        width: 100%;
+    }
     &-item {
         color: color.$white;
         :host path {
@@ -21,6 +26,15 @@
             flex-direction: column;
             & > a {
                 margin: 1em;
+            }
+            @include mixins.ForNarrowMode() {
+                flex-direction: row;
+                z-index: 1;
+            }
+        }
+        &-text {
+            @include mixins.ForNarrowMode() {
+                display: none;
             }
         }
     }
