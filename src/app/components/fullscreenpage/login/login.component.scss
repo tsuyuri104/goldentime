@@ -49,4 +49,15 @@ main {
     &-row {
         margin: 1em 0;
     }
+    &-skeleton {
+        > * {
+            margin: 0.25em 0;
+        }
+        dt {
+            @include mixins.common-skeleton(6em);
+        }
+        dd {
+            @include mixins.common-skeleton();
+        }
+    }
 }

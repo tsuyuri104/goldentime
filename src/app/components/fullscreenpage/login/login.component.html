@@ -17,13 +17,11 @@
         </div>
         <div class="notice">
             <h2>更新履歴</h2>
-            <dl *ngFor="let notice of notices">
-                <div class="notice-row">
-                    <dt>{{ notice.version }}</dt>
-                    <dd *ngFor="let info of notice.detail">
-                        {{ info }}
-                    </dd>
-                </div>
+            <dl *ngFor="let notice of notices" class="notice-row" [class.notice-skeleton]="!isLoadFinished">
+                <dt>{{ notice.version }}</dt>
+                <dd *ngFor="let info of notice.detail">
+                    {{ info }}
+                </dd>
             </dl>
         </div>
     </div>

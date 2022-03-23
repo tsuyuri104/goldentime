@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ComponentControlService } from 'src/app/services/component-control.service';
 import { NoticesService } from 'src/app/services/notices.service';
 import { ConfigService } from 'src/app/services/config.service';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
   }
   public notices: Notice[] = [];
   public version: string = "";
+  public isLoadFinished: boolean = false;
 
   //#endregion
 
@@ -83,13 +85,28 @@ export class LoginComponent implements OnInit {
    */
   private async getNotices(): Promise<void> {
 
-    this.notices = [];
+    this.isLoadFinished = false;
+
+    // スケルトン表示のため、空の要素を設定する
+    const empty: Notice = {
+      version: '',
+      detail: ['', ''],
+      date: new Timestamp(0, 0),
+    };
+    this.notices.push(empty);
+    this.notices.push(empty);
+    this.notices.push(empty);
 
     const snaps = await this.sNotices.getNotices();
+
+    this.notices = [];
 
     snaps.forEach((snap) => {
       this.notices.push(<Notice>snap.data());
     });
+
+    // 読み込み終了
+    this.isLoadFinished = true;
   }
   //#endregion
 
