@@ -4,7 +4,7 @@
 
 .nav {
     background-color: color.$main-dark;
-    height: 100%;
+    height: calc(100vh - const.$header-height);
     @include mixins.ForNarrowMode() {
         height: auto;
         width: 100%;

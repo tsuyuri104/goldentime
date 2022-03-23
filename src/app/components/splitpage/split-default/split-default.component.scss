@@ -10,19 +10,24 @@
         top: unset;
     }
 }
-.left-wrapper {
-    width: 20vw;
-    max-width: 250px;
-    min-height: 100vh;
-    position: sticky;
-    top: 0;
-    @include mixins.ForNarrowMode() {
-        min-height: unset;
-        max-width: unset;
-        width: 100vw;
-        position: fixed;
-        top: unset;
-        bottom: 0;
+.left {
+    &-wrapper {
+        width: 20vw;
+        max-width: 250px;
+        min-height: 100vh;
+
+        @include mixins.ForNarrowMode() {
+            min-height: unset;
+            max-width: unset;
+            width: 100vw;
+            position: fixed;
+            top: unset;
+            bottom: 0;
+        }
+    }
+    &-inner-wrapper {
+        position: sticky;
+        top: 0;
     }
 }
 .right-wrapper {
