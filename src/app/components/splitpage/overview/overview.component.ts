@@ -56,6 +56,9 @@ export class OverviewComponent implements OnInit {
   public async ngOnInit(): Promise<void> {
     this.createOptions();
     this.memberData = await this.sUrdayin.getMemberData();
+
+    //初期の検索
+    this.search();
   }
   //#endregion
 
