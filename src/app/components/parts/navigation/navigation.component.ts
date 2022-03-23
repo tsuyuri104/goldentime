@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,8 +9,10 @@ import { Router } from '@angular/router';
 })
 export class NavigationComponent implements OnInit {
 
+  public contactFormUrl: string = "";
+
   //#region コンストラクタ
-  constructor(private router: Router) {
+  constructor(private router: Router, private sConfig: ConfigService) {
 
   }
   //#endregion
@@ -21,7 +24,7 @@ export class NavigationComponent implements OnInit {
    * 初期設定
    */
   ngOnInit(): void {
-
+    this.contactFormUrl = this.sConfig.contactFormUrl;
   }
   //#endregion
 
