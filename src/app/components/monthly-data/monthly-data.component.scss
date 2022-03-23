@@ -18,23 +18,27 @@
     &-holiday {
         color: red;
     }
-    &-row {
-        display: flex;
-        justify-content: space-between;
+    &-th {
+        text-align: center;
     }
-    &-day {
+    &-cell {
         cursor: pointer;
+        padding: 0.5em 0.25em;
+        min-height: 1em;
+        min-width: 3em;
         &:hover {
             background-color: lighten(color.$accent-light, 15);
         }
-    }
-    &-blank {
-    }
-    &-box {
-        padding: 0.6em;
-        display: flex;
-        flex-direction: column;
-        min-width: 2.5em;
+        &_blank {
+            cursor: default;
+            &:hover {
+                background-color: transparent;
+            }
+        }
+        > span {
+            text-align: center;
+            display: block;
+        }
     }
     &-hours {
         color: color.$accent-dark;
