@@ -5,7 +5,7 @@
                 <div class="search-form-row">
                     <div class="select-wrapper">
                         <label for="slcUser">メンバー</label>
-                        <select #slcUser formControlName="user" id="slcUser">
+                        <select #slcUser formControlName="user" id="slcUser" (change)="search()">
                             <option *ngFor="let datum of memberData" value="{{ datum.email }}">
                                 {{datum.user_name }}
                             </option>
@@ -13,7 +13,7 @@
                     </div>
                     <div class="select-wrapper">
                         <label for="slcYear">年</label>
-                        <select #slcYear formControlName="year" id="slcYear">
+                        <select #slcYear formControlName="year" id="slcYear" (change)="search()">
                             <option *ngFor="let year of optionYear;" value="{{ year }}">
                                 {{ year }}
                             </option>
@@ -21,7 +21,7 @@
                     </div>
                     <div class="select-wrapper">
                         <label for="slcMonth">月</label>
-                        <select #slcMonth formControlName="month" id="slcMonth">
+                        <select #slcMonth formControlName="month" id="slcMonth" (change)="search()">
                             <option *ngFor="let month of optionMonth" value="{{ month }}">
                                 {{ month }}
                             </option>
