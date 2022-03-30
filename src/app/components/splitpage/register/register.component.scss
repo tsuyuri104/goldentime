@@ -2,14 +2,16 @@
 
 main {
     @include mixins.common-main();
-    > * {
-        max-width: 25vw;
-    }
+
     > *:last-child {
         margin-left: 2em;
+        @include mixins.ForNarrowMode() {
+            margin-left: 0;
+        }
     }
 
     @include mixins.ForNarrowMode() {
         flex-direction: column;
+        padding: 2em;
     }
 }

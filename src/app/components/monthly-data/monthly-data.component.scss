@@ -5,6 +5,9 @@
     > div {
         margin: 1em;
     }
+    @include mixins.ForNarrowMode() {
+        display: none;
+    }
 }
 .calendar {
     &-nav {
