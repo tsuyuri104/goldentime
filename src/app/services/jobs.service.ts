@@ -128,10 +128,20 @@ export class JobsService {
 
     //集約グループ単位でソートする
     contents.sort(function (a, b) {
+      //集約グループ名
       if (a[0] < b[0]) {
         return -1;
       }
       if (a[0] > b[0]) {
+        return 1;
+      }
+
+      //作業内容
+      if (a[1] < b[1]) {
+        return -1;
+      }
+
+      if (a[1] > b[1]) {
         return 1;
       }
 
