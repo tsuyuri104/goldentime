@@ -148,6 +148,50 @@ export class JobsService {
       return 0;
     });
 
+    //小計行を作成する
+    let beforeGroupName: string = contents[0][0];
+    let syokeiCount: number[] = this.initializeSyokei(daysInMonth);
+    let isNextSkip: boolean = false;
+    let index: number = 0;
+
+    // 配列の要素数が増えるためWhile文を使用する
+    while (index < contents.length) {
+      let row: string[] = contents[index];
+      const rowLength: number = row.length;
+
+      //集約グループが変わった
+      if (beforeGroupName !== row[0]) {
+        // 要素追加
+        let syoukeiRow: string[] = this.stuffSyokeiRow(beforeGroupName, syokeiCount);
+        contents.splice(index, 0, syoukeiRow);
+
+        // 初期化
+        syokeiCount = this.initializeSyokei(daysInMonth);
+        // 次の行は小計行のためスキップする
+        isNextSkip = true;
+      }
+
+      let syoukeiCountIndex: number = 0;
+      if (isNextSkip) {
+        // 小計行なのでスキップする
+        isNextSkip = false;
+      } else {
+        //加算
+        for (let rowIndex = 2; rowIndex < rowLength; rowIndex++) {
+          let value: number = syokeiCount[syoukeiCountIndex] + Number(row[rowIndex]);
+          syokeiCount[syoukeiCountIndex] = value;
+          syoukeiCountIndex++;
+        }
+      }
+
+      // 次へ
+      beforeGroupName = row[0];
+      index++;
+    }
+
+    // 最後の集約グループ分を要素追加
+    contents.push(this.stuffSyokeiRow(beforeGroupName, syokeiCount));
+
     //日付のヘッダー行を追加する
     contents.unshift(lineHeader);
 
@@ -237,6 +281,44 @@ export class JobsService {
     jobs.sort((a, b) => (a.index === undefined ? 0 : a.index) - (b.index === undefined ? 0 : b.index));
 
     return jobs;
+  }
+  //#endregion
+
+  //#region initializeSyokei
+  /**
+   * 小計カウント用配列を初期化する
+   * （日付の数だけ要素を用意し、値には０を設定する）
+   * @param daysInMonth 
+   * @returns 
+   */
+  private initializeSyokei(daysInMonth: number): number[] {
+    let syokei: number[] = [];
+
+    for (let i = 0; i < daysInMonth; i++) {
+      syokei.push(0);
+    }
+
+    return syokei;
+  }
+  //#endregion
+
+  //#region stuffSyokeiRow
+  /**
+   * 小計行用配列に要素を入れる
+   * @param groupName 
+   * @param syokeiCount 
+   * @returns 
+   */
+  private stuffSyokeiRow(groupName: string, syokeiCount: number[]): string[] {
+
+    let syoukeiRow: string[] = [];
+    syoukeiRow.push(groupName);
+    syoukeiRow.push("小計");
+    syokeiCount.forEach(dayHours => {
+      syoukeiRow.push(dayHours.toString());
+    });
+
+    return syoukeiRow;
   }
   //#endregion
 
