@@ -30,6 +30,7 @@ import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscre
 import { WriteComponent } from './components/svg/write/write.component';
 import { TableReportComponent } from './components/svg/table-report/table-report.component';
 import { ConfoundedFaceComponent } from "./components/svg/confounded-face/confounded-face.component";
+import { SettingComponent } from './components/svg/setting/setting.component';
 
 registerLocaleData(localeJa);
 
@@ -49,6 +50,7 @@ registerLocaleData(localeJa);
     WriteComponent,
     TableReportComponent,
     ConfoundedFaceComponent,
+    SettingComponent,
   ],
   imports: [
     BrowserModule,
