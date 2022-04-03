@@ -15,12 +15,9 @@ h1 {
     @include mixins.common-header(2.2);
 }
 h2 {
-    @include mixins.common-header(1.8);
-}
-h3 {
     @include mixins.common-header(1.6);
 }
-h4 {
+h3 {
     @include mixins.common-header(1.4);
 }
 input,
