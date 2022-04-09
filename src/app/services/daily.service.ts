@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, documentId, getDocs, QuerySnapshot, addDoc } from 'firebase/firestore';
 import { Daily } from '../interfaces/document/daily';
-import { Dailys } from '../interfaces/component/dailys';
+import { DailyKeyValue } from '../interfaces/document/daily-key-value';
 import { Jobs } from '../interfaces/document/jobs';
 import { UrdayinService } from './urdayin.service';
 
@@ -94,8 +94,8 @@ export class DailyService {
    * @param docs 
    * @returns 
    */
-  public convertDailysInterface(docs: QuerySnapshot<DocumentData>): Dailys {
-    let newDailys: Dailys = {};
+  public convertDailysInterface(docs: QuerySnapshot<DocumentData>): DailyKeyValue {
+    let newDailys: DailyKeyValue = {};
     docs.forEach(snap => {
       newDailys[snap.id] = <Daily>snap.data();
     });

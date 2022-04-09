@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Calendar } from 'src/app/interfaces/component/calendar';
 import { CalendarDay } from 'src/app/interfaces/component/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/component/calendar-row';
-import { Dailys } from 'src/app/interfaces/component/dailys';
+import { DailyKeyValue } from 'src/app/interfaces/document/daily-key-value';
 import { Monthly } from 'src/app/interfaces/document/monthly';
 import { DailyService } from 'src/app/services/daily.service';
 import { HolidayService } from 'src/app/services/holiday.service';
@@ -23,7 +23,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   public selectedDateForDisply: Date = new Date();
   public calendar: Calendar = { rows: [] };
   public monthly: Monthly = { total: 0 };
-  public dailys: Dailys = {};
+  public dailys: DailyKeyValue = {};
 
   private subscriptionMonthly!: Subscription;
   private subscriptionDailys!: Subscription;

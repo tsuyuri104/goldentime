@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserCredential } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, getFirestore, query } from 'firebase/firestore';
 import { Subject } from 'rxjs';
-import { Dailys } from '../interfaces/component/dailys';
+import { DailyKeyValue } from '../interfaces/document/daily-key-value';
 import { Jobs } from '../interfaces/document/jobs';
 import { Monthly } from '../interfaces/document/monthly';
 import { Urdayin } from '../interfaces/document/urdayin';
@@ -18,7 +18,7 @@ export class UrdayinService {
   private selectedDate: Date = new Date;
   private sharedMonthlyDataSource = new Subject<Monthly>();
   private sharedSummaryDataSource = new Subject<Jobs[]>();
-  private sharedDailysDataSource = new Subject<Dailys>();
+  private sharedDailysDataSource = new Subject<DailyKeyValue>();
   private sharedSelectedDateDataSource = new Subject<Date>();
 
   public readonly COLLECTION_NAME: string = "urdayin";
@@ -74,7 +74,7 @@ export class UrdayinService {
    * １ヶ月の日次データ変更監視
    * @param data 
    */
-  public onSharedDailyDataChanged(data: Dailys): void {
+  public onSharedDailyDataChanged(data: DailyKeyValue): void {
     this.sharedDailysDataSource.next(data);
   }
   //#endregion
