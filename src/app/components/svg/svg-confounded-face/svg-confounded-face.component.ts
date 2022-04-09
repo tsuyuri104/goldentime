@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'svg-write',
-  templateUrl: './write.svg',
+  selector: 'svg-confounded-face',
+  templateUrl: './confounded-face.svg',
   styleUrls: ['../../parts/navigation/navigation.component.scss']
 })
-export class WriteComponent implements OnInit {
+export class SvgConfoundedFaceComponent implements OnInit {
 
   constructor() { }
 

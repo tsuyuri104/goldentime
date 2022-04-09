@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'svg-table-report',
-  templateUrl: './table-report.svg',
+  selector: 'svg-write',
+  templateUrl: './write.svg',
   styleUrls: ['../../parts/navigation/navigation.component.scss']
 })
-export class TableReportComponent implements OnInit {
+export class SvgWriteComponent implements OnInit {
 
   constructor() { }
 

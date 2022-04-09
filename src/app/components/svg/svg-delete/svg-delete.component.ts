@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'svg-delete',
   templateUrl: './delete.svg',
-  styleUrls: ['./delete.component.scss']
+  styleUrls: ['./svg-delete.component.scss']
 })
-export class DeleteComponent implements OnInit {
+export class SvgDeleteComponent implements OnInit {
 
   constructor() { }
 

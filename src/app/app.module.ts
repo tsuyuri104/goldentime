@@ -27,11 +27,11 @@ import { HeaderComponent } from './components/parts/header/header.component';
 import { FooterComponent } from './components/parts/footer/footer.component';
 import { SplitDefaultComponent } from './components/splitpage/split-default/split-default.component';
 import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscreen-default/fullscreen-default.component';
-import { WriteComponent } from './components/svg/write/write.component';
-import { TableReportComponent } from './components/svg/table-report/table-report.component';
-import { ConfoundedFaceComponent } from "./components/svg/confounded-face/confounded-face.component";
-import { SettingComponent } from './components/svg/setting/setting.component';
-import { DeleteComponent } from './components/svg/delete/delete.component';
+import { SvgWriteComponent } from './components/svg/svg-write/svg-write.component';
+import { SvgTableReportComponent } from './components/svg/svg-table-report/svg-table-report.component';
+import { SvgConfoundedFaceComponent } from "./components/svg/svg-confounded-face/svg-confounded-face.component";
+import { SvgSettingComponent } from './components/svg/svg-setting/svg-setting.component';
+import { SvgDeleteComponent } from './components/svg/svg-delete/svg-delete.component';
 import { SettingsComponent } from './components/splitpage/settings/settings.component';
 
 registerLocaleData(localeJa);
@@ -49,11 +49,11 @@ registerLocaleData(localeJa);
     FooterComponent,
     SplitDefaultComponent,
     FullscreenDefaultComponent,
-    WriteComponent,
-    TableReportComponent,
-    ConfoundedFaceComponent,
-    SettingComponent,
-    DeleteComponent,
+    SvgWriteComponent,
+    SvgTableReportComponent,
+    SvgConfoundedFaceComponent,
+    SvgSettingComponent,
+    SvgDeleteComponent,
     SettingsComponent,
   ],
   imports: [

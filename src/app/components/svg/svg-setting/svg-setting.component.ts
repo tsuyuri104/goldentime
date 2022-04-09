@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './setting.svg',
   styleUrls: ['../../parts/navigation/navigation.component.scss']
 })
-export class SettingComponent implements OnInit {
+export class SvgSettingComponent implements OnInit {
 
   constructor() { }
 
