@@ -162,7 +162,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     this.sUrdayin.onSharedSummaryDataChanged(newSummary);
 
     //１ヶ月の日次データを再取得する
-    const newDailys = this.sDaily.convertDailysInterface(dailyDataOneMonth);
+    const newDailys = this.sDaily.convertDailyKeyValueInterface(dailyDataOneMonth);
     //サービスに１ヶ月の日次データを渡す
     this.sUrdayin.onSharedDailyDataChanged(newDailys);
 

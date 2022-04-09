@@ -230,7 +230,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * １ヶ月分の日次データを取得する
    */
   private async getDailysData(): Promise<void> {
-    this.dailys = this.sDaily.convertDailysInterface(await this.sDaily.getDataOneMonth(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate())));
+    this.dailys = this.sDaily.convertDailyKeyValueInterface(await this.sDaily.getDataOneMonth(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate())));
   }
   //#endregion
 

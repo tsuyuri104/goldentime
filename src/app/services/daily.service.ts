@@ -94,7 +94,7 @@ export class DailyService {
    * @param docs 
    * @returns 
    */
-  public convertDailysInterface(docs: QuerySnapshot<DocumentData>): DailyKeyValue {
+  public convertDailyKeyValueInterface(docs: QuerySnapshot<DocumentData>): DailyKeyValue {
     let newDailys: DailyKeyValue = {};
     docs.forEach(snap => {
       newDailys[snap.id] = <Daily>snap.data();
