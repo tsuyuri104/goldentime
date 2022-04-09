@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { doc, setDoc } from '@angular/fire/firestore';
-import { addDoc, collection, collectionGroup, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { addDoc, collection, collectionGroup, deleteDoc, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import { Daily } from '../interfaces/document/daily';
 import { GroupName } from '../interfaces/document/group-name';
+import { GroupNameKeyValue } from '../interfaces/document/group-name-key-value';
 import { Jobs } from '../interfaces/document/jobs';
 import { UrdayinService } from './urdayin.service';
 
@@ -43,6 +43,27 @@ export class GroupNameService {
 
     docs.forEach(doc => {
       data.push(<GroupName>doc.data());
+    });
+
+    return data;
+  }
+  //#endregion
+
+  //#region getDataKeyValue
+  /**
+   * データを取得する（KeyValueスタイルで）
+   * @param email 
+   * @returns 
+   */
+  public async getDataKeyValue(email: string): Promise<GroupNameKeyValue> {
+    let data: GroupNameKeyValue = {};
+
+    const db = getFirestore();
+    const q = query(collectionGroup(db, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME), where(this.FIELD_NAME.USER, "==", email));
+    const docs = await getDocs(q);
+
+    docs.forEach(doc => {
+      data[doc.id] = <GroupName>doc.data();
     });
 
     return data;
@@ -90,6 +111,19 @@ export class GroupNameService {
       //登録する
       addDoc(ref, groupName);
     });
+  }
+  //#endregion
+
+  //#region deleteDoc
+  /**
+   * データを削除する
+   * @param email 
+   * @param docKey 
+   */
+  public async deleteDoc(email: string, docKey: string): Promise<void> {
+    const db = getFirestore();
+    const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME, docKey);
+    deleteDoc(ref);
   }
   //#endregion
 

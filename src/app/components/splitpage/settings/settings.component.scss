@@ -4,3 +4,19 @@
 main {
     @include mixins.common-main();
 }
+.tag {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    > * {
+        margin: 0.2em;
+    }
+    &-wrapper {
+        > * {
+            margin: 1em;
+        }
+    }
+    &-delete {
+        cursor: pointer;
+    }
+}
