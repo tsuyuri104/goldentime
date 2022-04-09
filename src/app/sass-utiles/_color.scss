@@ -6,6 +6,7 @@ $accent-light: #f7dbf0;
 $text: #323232;
 $text-light: #c4c4c4;
 $white: #ffffff;
+$svg: lighten($text, 20%);
 $gradation-main: linear-gradient(to right, $accent-dark, $accent-light);
 $gradation-neon: linear-gradient(to right, #30cfd0, #c43ad6);
 $gradation-skeleton: linear-gradient(to right, $text-light, $white);
