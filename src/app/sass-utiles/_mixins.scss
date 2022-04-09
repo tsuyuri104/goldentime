@@ -30,6 +30,12 @@
     flex-direction: row;
     justify-content: center;
     min-height: calc(100vh - const.$header-height - const.$footer-heigh - (const.$main-margin * 2));
+    .wrapper {
+        min-width: 60vw;
+        > * {
+            margin: 1em;
+        }
+    }
 }
 
 @mixin common-skeleton($width: 100%, $height: 1em) {

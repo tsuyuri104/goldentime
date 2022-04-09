@@ -10,12 +10,6 @@ button[type="submit"] {
 button[type="button"] {
     @include mixins.common-sub-action-button();
 }
-.wrapper {
-    min-width: 60vw;
-    > * {
-        margin: 1em;
-    }
-}
 .search {
     &-form {
         & > * {
