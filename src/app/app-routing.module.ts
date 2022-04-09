@@ -5,6 +5,7 @@ import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscre
 import { LoginComponent } from './components/fullscreenpage/login/login.component';
 import { OverviewComponent } from './components/splitpage/overview/overview.component';
 import { RegisterComponent } from './components/splitpage/register/register.component';
+import { SettingComponent } from './components/splitpage/setting/setting.component';
 import { SplitDefaultComponent } from './components/splitpage/split-default/split-default.component';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -14,7 +15,8 @@ const routes: Routes = [
   {
     path: '', component: SplitDefaultComponent, children: [
       { path: RouteName.REGISTER, component: RegisterComponent },
-      { path: RouteName.OVERVIEW, component: OverviewComponent }]
+      { path: RouteName.OVERVIEW, component: OverviewComponent },
+      { path: RouteName.SETTING, component: SettingComponent }]
     , canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: RouteName.LOGIN }
