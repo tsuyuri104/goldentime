@@ -32,6 +32,7 @@ import { TableReportComponent } from './components/svg/table-report/table-report
 import { ConfoundedFaceComponent } from "./components/svg/confounded-face/confounded-face.component";
 import { SettingComponent } from './components/svg/setting/setting.component';
 import { DeleteComponent } from './components/svg/delete/delete.component';
+import { SettingsComponent } from './components/splitpage/settings/settings.component';
 
 registerLocaleData(localeJa);
 
@@ -53,6 +54,7 @@ registerLocaleData(localeJa);
     ConfoundedFaceComponent,
     SettingComponent,
     DeleteComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
