@@ -11,8 +11,15 @@
     }
     &-item {
         color: color.$white;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         :host path {
             stroke: color.$white;
+        }
+        :host svg {
+            width: 22px;
+            height: 22px;
         }
         &_selected {
             font-weight: 700;
@@ -24,6 +31,7 @@
         &-wrapper {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             & > a {
                 margin: 1em;
             }
