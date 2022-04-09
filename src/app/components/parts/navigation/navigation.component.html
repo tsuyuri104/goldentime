@@ -8,6 +8,10 @@
             <svg-table-report></svg-table-report>
             <span class="nav-item-text">閲覧</span>
         </a>
+        <a routerLink="setting" class="nav-item" [class.nav-item_selected]="isSelected('setting')">
+            <svg-setting></svg-setting>
+            <span class="nav-item-text">設定</span>
+        </a>
         <a href="{{contactFormUrl}}" class="nav-item">
             <svg-confounded-face></svg-confounded-face>
             <span class="nav-item-text">問い合わせ</span>
