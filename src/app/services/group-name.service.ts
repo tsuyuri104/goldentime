@@ -55,7 +55,7 @@ export class GroupNameService {
    * @param inputData 
    * @param email 
    */
-  public insertData(inputData: Daily, email: string) {
+  public insertData(inputData: Daily, email: string): void {
     const db = getFirestore();
 
     const ref = collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME);

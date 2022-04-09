@@ -57,7 +57,7 @@ export class AuthService {
    * ログアウトする
    * @returns 
    */
-  public logout() {
+  public logout(): Promise<void> {
     const auth = getAuth();
     return signOut(auth)
       .then(() => {

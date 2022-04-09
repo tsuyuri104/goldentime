@@ -221,7 +221,7 @@ export class JobsService {
    * @param email 
    * @param date 
    */
-  public insertJobData(inputData: Daily, email: string, date: string) {
+  public insertJobData(inputData: Daily, email: string, date: string): void {
     const db = getFirestore();
 
     //仕事データ整形
