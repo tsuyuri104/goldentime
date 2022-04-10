@@ -1,5 +1,6 @@
 @use "./color";
 @use "./const";
+@use "./animation";
 
 //見出しのフォントサイズの共通設定
 @mixin common-header($font-rate) {
@@ -51,7 +52,7 @@
         width: $width;
         background: color.$gradation-skeleton;
         background-size: 200% 200%;
-        animation: skeleton-animation 1.2s linear infinite;
+        animation: skeleton 1.2s linear infinite;
     }
 }
 
@@ -59,17 +60,5 @@
 @mixin ForNarrowMode() {
     @media (max-width: 900px) {
         @content;
-    }
-}
-
-@keyframes skeleton-animation {
-    0% {
-        background-position: 100% 50%;
-    }
-    50% {
-        background-position: 50% 100%;
-    }
-    100% {
-        background-position: 0% 50%;
     }
 }
