@@ -51,8 +51,3 @@
         background-color: color.$accent-light;
     }
 }
-.export {
-    &-button {
-        @include mixins.common-sub-action-button();
-    }
-}
