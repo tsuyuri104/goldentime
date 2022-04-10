@@ -1,6 +1,7 @@
 @use "./color";
 @use "./const";
 
+//見出しのフォントサイズの共通設定
 @mixin common-header($font-rate) {
     color: color.$text;
     font-size: $font-rate * 1em;
@@ -8,6 +9,7 @@
     display: inline;
 }
 
+//送信ボタンの共通設定
 @mixin common-submit-button() {
     background: color.$gradation-main;
     padding: 0.5em;
@@ -16,6 +18,7 @@
     text-align: center;
 }
 
+//サブ機能ボタンの共通設定
 @mixin common-sub-action-button() {
     background-color: color.$white;
     border: 2px solid color.$main;
@@ -25,6 +28,7 @@
     text-align: center;
 }
 
+//<main>の共通設定
 @mixin common-main() {
     display: flex;
     flex-direction: row;
@@ -38,6 +42,7 @@
     }
 }
 
+//スケルトンの共通設定
 @mixin common-skeleton($width: 100%, $height: 1em) {
     &:before {
         content: "";
@@ -50,6 +55,7 @@
     }
 }
 
+//画面の幅が狭いモードの設定
 @mixin ForNarrowMode() {
     @media (max-width: 900px) {
         @content;
