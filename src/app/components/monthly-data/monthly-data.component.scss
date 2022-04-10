@@ -2,6 +2,7 @@
 @use "./../../sass-utiles/mixins";
 
 .wrapper {
+    max-width: 380px;
     > div {
         margin: 1em;
     }
