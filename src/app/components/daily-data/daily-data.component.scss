@@ -46,6 +46,11 @@ button[type="submit"] {
             margin: 1em 0;
         }
     }
+    &-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+    }
 }
 .form-group {
     margin: 1em 0;
