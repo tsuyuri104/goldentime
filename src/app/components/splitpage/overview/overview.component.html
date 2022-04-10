@@ -30,6 +30,10 @@
                 </div>
             </form>
         </div>
+        <div class="total">
+            <span>{{ slcYear.value }}年{{ slcMonth.value }}月の合計</span>
+            <span>{{ totalHours | number:'1.1-1' }} 時間</span>
+        </div>
         <div class="summary" *ngIf="summary.length > 0">
             <div class="summary-card" *ngFor="let sum of summary">
                 <div class="summary-card-head">

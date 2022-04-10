@@ -23,6 +23,7 @@ export class OverviewComponent implements OnInit {
   public memberData: Urdayin[] = [];
   public list: OverviewListRow[] = [];
   public summary: Summary[] = [];
+  public totalHours: number = 0;
 
   public frmSearch!: FormGroup;
 
@@ -77,6 +78,7 @@ export class OverviewComponent implements OnInit {
 
     let rows: OverviewListRow[] = [];
     let summary: Summary[] = [];
+    let totalHours: number = 0;
 
     //１ヶ月分のデータを取得する
     const jobDocs: Jobs[] = await this.sJobs.getDataOneMonth(condition.user, this.convertNumberToYearMonthString(condition.year, condition.month));
@@ -106,6 +108,7 @@ export class OverviewComponent implements OnInit {
 
       targetRow.hours += job.hours;
       targetSummary.hours += job.hours;
+      totalHours += job.hours;
 
       if (targetRowIndex > -1) {
         rows[targetRowIndex] = targetRow;
@@ -134,6 +137,7 @@ export class OverviewComponent implements OnInit {
 
     this.list = rows;
     this.summary = summary;
+    this.totalHours = totalHours;
   }
   //#endregion
 
