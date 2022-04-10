@@ -8,6 +8,7 @@ import { ComponentControlService } from 'src/app/services/component-control.serv
 import { NoticesService } from 'src/app/services/notices.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { Timestamp } from 'firebase/firestore';
+import { Common } from 'src/app/utilities/common';
 
 @Component({
   selector: 'app-login',
@@ -76,6 +77,20 @@ export class LoginComponent implements OnInit {
       .catch((error) => {
         alert(error);
       });
+  }
+  //#endregion
+
+  //#region isWithinFewDays
+  /**
+   * 最近の更新情報か判定する
+   * @param ts リリース日（タイムスタンプ型）
+   * @returns 
+   */
+  public isWithinFewDays(ts: Timestamp): boolean {
+    const noticeDate: Date = ts.toDate();
+    const today: Date = new Date();
+    const fewDaysAgo: Date = Common.addDate(today, -3);
+    return noticeDate > fewDaysAgo;
   }
   //#endregion
 

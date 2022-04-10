@@ -56,6 +56,13 @@
     }
 }
 
+//グラデーションアニメーションの共通設定
+@mixin common-gradation-wave-animation($gradation-color, $speed) {
+    background: $gradation-color;
+    background-size: 200% 200%;
+    animation: gradation-wave $speed ease infinite;
+}
+
 //画面の幅が狭いモードの設定
 @mixin ForNarrowMode() {
     @media (max-width: 900px) {
