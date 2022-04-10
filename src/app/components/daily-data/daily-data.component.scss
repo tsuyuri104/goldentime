@@ -4,11 +4,25 @@
 button[type="submit"] {
     @include mixins.common-submit-button();
 }
-button[type="button"] {
-    @include mixins.common-sub-action-button();
-}
-.selected {
+
+.header {
     margin: 1em 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    &-title {
+        min-width: 270px;
+        text-align: center;
+    }
+    &-button {
+        display: none;
+        min-width: 5em;
+        text-align: center;
+        @include mixins.ForNarrowMode() {
+            display: unset;
+        }
+    }
 }
 .card {
     background-color: color.$white;
@@ -37,6 +51,9 @@ button[type="button"] {
     margin: 1em 0;
     span {
         display: block;
+    }
+    button[type="button"] {
+        @include mixins.common-sub-action-button();
     }
 }
 .submit-message {

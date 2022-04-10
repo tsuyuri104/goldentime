@@ -1,5 +1,7 @@
-<div class="selected">
-    <h2>{{ selectedDateForDisply | date:'yyyy年M月d日（EEE）' }}</h2>
+<div class="header">
+    <button type="button" (click)="setSelectedDate(-1)" class="header-button">&#x3C;&#x3C;</button>
+    <h2 class="header-title">{{ selectedDateForDisply | date:'yyyy年M月d日(EEE)' }}</h2>
+    <button type="button" (click)="setSelectedDate(1)" class="header-button">&#x3E;&#x3E;</button>
 </div>
 
 

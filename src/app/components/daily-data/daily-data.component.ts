@@ -172,6 +172,17 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
+  //#region setSelectedDate
+  /**
+   * 対象日を設定する
+   * @param range 変更日数
+   */
+  public setSelectedDate(range: number): void {
+    const date: Date = Common.addDate(this.sUrdayin.getSelectedDate(), range);
+    this.sUrdayin.onSharedSelectedDateChanged(date);
+  }
+  //#endregion
+
   //#region procInit
   /**
    * 初期表示処理
