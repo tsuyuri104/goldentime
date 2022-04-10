@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   /**
    * 初期設定
    */
-  async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {
     this.version = this.sConfig.version;
     this.sComponentControl.onSharedIsContentPageChanged(false);
     await this.getNotices();
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
   }
   //#endregion
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.sComponentControl.onSharedIsContentPageChanged(true);
   }
 
