@@ -14,6 +14,9 @@ button[type="submit"] {
     &-title {
         min-width: 270px;
         text-align: center;
+        @include mixins.ForNarrowMode() {
+            min-width: unset;
+        }
     }
     &-button {
         display: none;
@@ -21,6 +24,7 @@ button[type="submit"] {
         text-align: center;
         @include mixins.ForNarrowMode() {
             display: unset;
+            min-width: unset;
         }
     }
 }
