@@ -32,14 +32,32 @@ button[type="button"] {
 }
 .summary {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
+    flex-wrap: wrap;
+    > * {
+        margin: 0.25em;
+    }
     &-card {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
         border: 1px solid color.$text-light;
         background-color: color.$white;
-        padding: 0.5em;
         max-width: 10em;
+
+        &-header {
+            width: 100%;
+            height: 100%;
+            padding: 0.25em;
+            border-bottom: 2px solid;
+            border-image: color.$gradation-main;
+            border-image-slice: 1;
+            min-height: 1.5em;
+        }
+        &-body {
+            padding: 0.25em;
+        }
     }
 }
 .list {
@@ -59,9 +77,8 @@ button[type="button"] {
     td {
         padding: 0.5em;
         border-bottom: 1px solid color.$main;
-        &:first-child {
-            word-break: break-all;
-        }
+        word-break: break-all;
+
         &:last-child {
             width: 7em;
             text-align: right;
