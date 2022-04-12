@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
   public notices: Notice[] = [];
   public version: string = "";
-  public isLoadFinished: boolean = false;
+  public isLoaded: boolean = false;
 
   //#endregion
 
@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
    */
   private async getNotices(): Promise<void> {
 
-    this.isLoadFinished = false;
+    this.isLoaded = false;
 
     // スケルトン表示のため、空の要素を設定する
     const empty: Notice = {
@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit {
     });
 
     // 読み込み終了
-    this.isLoadFinished = true;
+    this.isLoaded = true;
   }
   //#endregion
 
