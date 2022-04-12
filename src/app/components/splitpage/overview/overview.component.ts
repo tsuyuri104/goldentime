@@ -40,7 +40,7 @@ export class OverviewComponent implements OnInit {
     , private sCsv: CSVService
     , private fb: FormBuilder) {
     //検索条件の初期化
-    this.frmSearch = this.frmSearch = this.fb.group({
+    this.frmSearch = this.fb.group({
       user: this.sUrdayin.getSelectedUser(),
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
