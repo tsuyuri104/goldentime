@@ -124,16 +124,8 @@ export class OverviewComponent implements OnInit {
     });
 
     //ソート
-    rows.sort((a, b) => {
-      if (a.groupName > b.groupName) {
-        return 1;
-      }
-
-      if (a.groupName < b.groupName) {
-        return -1;
-      }
-      return 0;
-    });
+    rows = <OverviewListRow[]>this.sortByGroupName(rows);
+    summary = <Summary[]>this.sortByGroupName(summary);
 
     this.list = rows;
     this.summary = summary;
@@ -201,6 +193,26 @@ export class OverviewComponent implements OnInit {
    */
   private convertNumberToYearMonthString(year: number, month: number): string {
     return (year).toString() + ("0" + month).slice(-2).toString();
+  }
+  //#endregion
+
+  //#region sortByGroupName
+  /**
+   * 集約グループ名でソートする
+   * @param arg 
+   * @returns 
+   */
+  private sortByGroupName(arg: Summary[] | OverviewListRow[]): Summary[] | OverviewListRow[] {
+    return arg.sort((a, b) => {
+      if (a.groupName > b.groupName) {
+        return 1;
+      }
+
+      if (a.groupName < b.groupName) {
+        return -1;
+      }
+      return 0;
+    });
   }
   //#endregion
 
