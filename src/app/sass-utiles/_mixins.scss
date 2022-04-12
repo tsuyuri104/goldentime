@@ -36,7 +36,11 @@
     justify-content: center;
     min-height: calc(100vh - const.$header-height - const.$footer-heigh - (const.$main-margin * 2));
     .wrapper {
-        min-width: 60vw;
+        width: calc(100vw - const.$nav-width - (const.$main-margin * 2));
+        @include ForNarrowMode() {
+            width: 100vw;
+        }
+
         > * {
             margin: 1em;
         }

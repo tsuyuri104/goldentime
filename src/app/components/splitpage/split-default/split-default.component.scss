@@ -13,7 +13,7 @@
 .left {
     &-wrapper {
         width: 20vw;
-        max-width: 250px;
+        width: const.$nav-width;
         min-height: 100vh;
 
         @include mixins.ForNarrowMode() {
@@ -23,6 +23,7 @@
             position: fixed;
             top: unset;
             bottom: 0;
+            width: 100%;
         }
     }
     &-inner-wrapper {
