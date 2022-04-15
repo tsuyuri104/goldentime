@@ -1,19 +1,21 @@
 <nav class="nav">
     <div class="nav-item-wrapper">
         <a routerLink="register" class="nav-item" [class.nav-item_selected]="isSelected('register')">
-            <svg-write></svg-write>
+            <svg-write class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('register')"></svg-write>
             <span class="nav-item-text">入力</span>
         </a>
         <a routerLink="overview" class="nav-item" [class.nav-item_selected]="isSelected('overview')">
-            <svg-table-report></svg-table-report>
+            <svg-table-report class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('overview')">
+            </svg-table-report>
             <span class="nav-item-text">閲覧</span>
         </a>
         <a routerLink="setting" class="nav-item" [class.nav-item_selected]="isSelected('setting')">
-            <svg-setting></svg-setting>
+            <svg-setting class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('setting')">
+            </svg-setting>
             <span class="nav-item-text">設定</span>
         </a>
         <a href="{{contactFormUrl}}" class="nav-item">
-            <svg-confounded-face></svg-confounded-face>
+            <svg-confounded-face class="nav-item-svg svg-size_20"></svg-confounded-face>
             <span class="nav-item-text">問い合わせ</span>
         </a>
     </div>

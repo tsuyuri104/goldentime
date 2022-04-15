@@ -14,19 +14,9 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        :host path {
-            stroke: color.$white;
-        }
-        :host svg {
-            width: 22px;
-            height: 22px;
-        }
         &_selected {
             font-weight: 700;
             color: color.$main;
-            :host path {
-                stroke: color.$main;
-            }
         }
         &-wrapper {
             display: flex;

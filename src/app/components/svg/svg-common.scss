@@ -1,0 +1,28 @@
+@use "../../sass-utiles/color";
+@use "../../sass-utiles/mixins";
+
+path {
+    stroke: color.$svg;
+}
+:host {
+    &.svg-size {
+        &_20 {
+            @include mixins.svg-size(20px);
+        }
+        &_24 {
+            @include mixins.svg-size(24px);
+        }
+    }
+    &.nav-item {
+        &-svg {
+            path {
+                stroke: color.$white;
+            }
+        }
+        &_selected {
+            path {
+                stroke: color.$main;
+            }
+        }
+    }
+}

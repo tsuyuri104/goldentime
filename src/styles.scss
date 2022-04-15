@@ -20,6 +20,9 @@ h2 {
 h3 {
     @include mixins.common-header(1.4);
 }
+h4 {
+    @include mixins.common-header(1.2);
+}
 input,
 textarea {
     height: 2em;

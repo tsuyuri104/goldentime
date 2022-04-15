@@ -67,6 +67,14 @@
     animation: gradation-wave $speed ease infinite;
 }
 
+//SVGのサイズの設定
+@mixin svg-size($size) {
+    svg {
+        width: $size;
+        height: $size;
+    }
+}
+
 //画面の幅が狭いモードの設定
 @mixin ForNarrowMode() {
     @media (max-width: 900px) {
