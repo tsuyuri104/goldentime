@@ -141,7 +141,20 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * カレンダーを作成する
    */
   private async createCalender() {
-    let calender: Calendar = { rows: [] }
+
+    //カレンダーの横幅をキープするために１週間分の空白データを設定する
+    let dummy: Calendar = { rows: [] };
+    let dummyRow: CalendarRow = { days: [] };
+    if (this.calendar.rows.length === 0) {
+      // カレンダーデータがない場合にダミーデータを設定する
+      for (let i = 0; i < 7; i++) {
+        dummyRow.days.push(this.getEmptyCalendarDay());
+      }
+      dummy.rows.push(dummyRow);
+      this.calendar = dummy;
+    }
+
+    let calender: Calendar = { rows: [] };
 
     //月の一日を取得する
     const firstDate: Date = Common.getFirstDate(this.sUrdayin.getSelectedDate());
@@ -159,14 +172,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     //カレンダーの１行目の先月分の箇所に空白を設定する
     const firstDayOfWeek: number = firstDate.getDay();
     for (let i = 0; i < firstDayOfWeek; i++) {
-      row.days.push(<CalendarDay>{
-        date: 0,
-        isSunday: false,
-        isSaturday: false,
-        isBlank: true,
-        fullDate: "",
-        isHoliday: false,
-      });
+      row.days.push(this.getEmptyCalendarDay());
     }
 
     //カレンダーの日付分を設定する
@@ -200,14 +206,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     //カレンダーの最終行の来月分の箇所に空白を設定する
     const lastDayOfWeek: number = lastDate.getDay();
     for (let i = lastDayOfWeek; i < 7; i++) {
-      row.days.push(<CalendarDay>{
-        date: 0,
-        isSunday: false,
-        isSaturday: false,
-        isBlank: true,
-        fullDate: "",
-        isHoliday: false,
-      });
+      row.days.push(this.getEmptyCalendarDay());
     }
 
     calender.rows.push(row);
@@ -215,6 +214,17 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     this.calendar = calender;
   }
   //#endregion
+
+  private getEmptyCalendarDay(): CalendarDay {
+    return {
+      date: 0,
+      isSunday: false,
+      isSaturday: false,
+      isBlank: true,
+      fullDate: "",
+      isHoliday: false,
+    };
+  }
 
   //#region getMonthlyData
   /**
