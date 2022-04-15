@@ -13,6 +13,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
+import { QuillModule } from 'ngx-quill';
 
 import { RegisterComponent } from './components/splitpage/register/register.component';
 import { LoginComponent } from './components/fullscreenpage/login/login.component';
@@ -79,7 +80,8 @@ registerLocaleData(localeJa);
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    QuillModule.forRoot(),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ja-JP' },
