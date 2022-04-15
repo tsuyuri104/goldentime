@@ -13,10 +13,16 @@ main {
     }
     &-wrapper {
         > * {
-            margin: 1em;
+            margin: 0.25em;
         }
     }
     &-delete {
         cursor: pointer;
+    }
+}
+.section {
+    & {
+        margin-left: 1em;
+        margin-top: 0.25em;
     }
 }

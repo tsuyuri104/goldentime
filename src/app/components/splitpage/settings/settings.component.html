@@ -1,19 +1,22 @@
 <main>
     <div class="wrapper">
-        <div class="row">
+        <div class="section">
             <h2>設定</h2>
         </div>
-        <div class="row">
-            <h3>集約グループ</h3>
-            <p>入力補助として表示する集約グループです。</p>
-            <p>登録済みの実績には影響しません。</p>
-            <div class="tag-wrapper">
-                <div class="tag" *ngFor="let datum of groupData | keyvalue">
-                    <div class="tag-name">
-                        {{ datum.value.group_name }}
-                    </div>
-                    <div class="tag-delete">
-                        <svg-delete (click)="deleteGroupName(datum.key)"></svg-delete>
+        <div class="section">
+            <h3>工数関係</h3>
+            <div class="section">
+                <h4>集約グループ</h4>
+                <p>入力補助として表示する集約グループです。</p>
+                <p>登録済みの実績には影響しません。</p>
+                <div class="tag-wrapper">
+                    <div class="tag" *ngFor="let datum of groupData | keyvalue">
+                        <div class="tag-name">
+                            {{ datum.value.group_name }}
+                        </div>
+                        <div class="tag-delete" (click)="deleteGroupName(datum.key)">
+                            <svg-delete class="svg-size_20"></svg-delete>
+                        </div>
                     </div>
                 </div>
             </div>
