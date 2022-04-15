@@ -5,9 +5,30 @@
 .nav {
     background-color: color.$main-dark;
     height: calc(100vh - const.$header-height);
+    padding: 1em;
     @include mixins.ForNarrowMode() {
         height: auto;
         width: 100%;
+    }
+    &-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        > * {
+            margin: 1em;
+            @include mixins.ForNarrowMode() {
+                margin: 0 1em;
+            }
+        }
+        @include mixins.ForNarrowMode() {
+            flex-direction: row;
+            z-index: 1;
+            align-items: flex-end;
+        }
+    }
+    &-topic {
+        color: color.$white;
     }
     &-item {
         color: color.$white;
@@ -17,18 +38,6 @@
         &_selected {
             font-weight: 700;
             color: color.$main;
-        }
-        &-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            & > a {
-                margin: 1em;
-            }
-            @include mixins.ForNarrowMode() {
-                flex-direction: row;
-                z-index: 1;
-            }
         }
         &-text {
             margin-left: 0.5em;
