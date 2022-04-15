@@ -50,6 +50,16 @@ export class SettingsComponent implements OnInit {
   }
   //#endregion
 
+  //#region isEmptyGroupData
+  /**
+   * 集約グループが空か判定する
+   * @returns 
+   */
+  public isEmptyGroupData(): boolean {
+    return !Object.keys(this.groupData).length;
+  }
+  //#endregion
+
   //#region getGroupData
   /**
    * 集約グループを取得する
