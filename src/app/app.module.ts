@@ -33,6 +33,7 @@ import { SvgConfoundedFaceComponent } from "./components/svg/svg-confounded-face
 import { SvgSettingComponent } from './components/svg/svg-setting/svg-setting.component';
 import { SvgDeleteComponent } from './components/svg/svg-delete/svg-delete.component';
 import { SettingsComponent } from './components/splitpage/settings/settings.component';
+import { SvgNoSearchResultComponent } from './components/svg/svg-no-search-result/svg-no-search-result';
 
 registerLocaleData(localeJa);
 
@@ -55,6 +56,7 @@ registerLocaleData(localeJa);
     SvgSettingComponent,
     SvgDeleteComponent,
     SettingsComponent,
+    SvgNoSearchResultComponent,
   ],
   imports: [
     BrowserModule,
