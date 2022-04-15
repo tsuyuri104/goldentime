@@ -8,7 +8,7 @@ export class ConfigService {
   //#region 変数
 
   public readonly appName: string = "urdayin";
-  public readonly version: string = "2.3.1";
+  public readonly version: string = "2.3.2";
 
   public readonly registerStartYear: number = 2022;
 
