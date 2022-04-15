@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { InputOfFrmSearch } from 'src/app/interfaces/component/input-of-frm-search';
 import { OverviewListRow } from 'src/app/interfaces/component/overview-list-row';
 import { Summary } from 'src/app/interfaces/component/summary';
@@ -41,9 +41,9 @@ export class OverviewComponent implements OnInit {
     , private fb: FormBuilder) {
     //検索条件の初期化
     this.frmSearch = this.fb.group({
-      user: this.sUrdayin.getSelectedUser(),
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
+      user: [this.sUrdayin.getSelectedUser(), [Validators.required]],
+      year: [new Date().getFullYear(), [Validators.required]],
+      month: [new Date().getMonth() + 1, [Validators.required]],
     });
   }
   //#endregion
