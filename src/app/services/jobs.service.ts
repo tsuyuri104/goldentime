@@ -92,7 +92,7 @@ export class JobsService {
         let maxEmptyColIndex: number = i;
 
         ///すでに格納されている場合は取り出す
-        if (targetIndex > 0) {
+        if (targetIndex >= 0) {
           targetLine = contents[targetIndex];
           targetLineLength = targetLine.length;
         }
