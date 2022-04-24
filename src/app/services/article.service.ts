@@ -17,8 +17,8 @@ export class ArticleService {
   //#region 内部クラス
 
   public FIELD_NAME = class {
-    public static readonly TITLE: string = "title";
     public static readonly WRITER: string = "writer";
+    public static readonly STATUS: string = "status";
     public static readonly CREATE_DATE: string = "create_date";
     public static readonly UPDATE_DATE: string = "update_date";
   }
