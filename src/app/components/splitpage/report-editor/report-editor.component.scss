@@ -1,0 +1,26 @@
+@use "./../../../sass-utiles/mixins";
+@use "./../../../sass-utiles/color";
+
+main {
+    @include mixins.common-main();
+    flex-direction: column;
+    justify-content: flex-start;
+}
+button[type="submit"] {
+    @include mixins.common-submit-button();
+}
+.input {
+    &-wrapper {
+        height: 100%;
+    }
+    &-text {
+        &-long {
+            width: 100%;
+        }
+    }
+}
+.form {
+    > * {
+        margin-bottom: 0.5em;
+    }
+}

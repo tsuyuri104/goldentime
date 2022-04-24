@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Timestamp } from 'firebase/firestore';
+import { addDoc, collection, DocumentReference, getFirestore, Timestamp } from 'firebase/firestore';
+import { Article } from '../interfaces/document/article';
+import { Edition } from '../interfaces/document/edition';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +34,50 @@ export class ArticleService {
   constructor() {
 
   }
+  //#endregion
+
+  //#region メソッド
+
+  //#region addArticle
+  /**
+   * 記事を登録する
+   * @param email 
+   * @param title 
+   * @param article 
+   */
+  public async addArticle(email: string, title: string, article: string): Promise<void> {
+    const db = getFirestore();
+    const tsNow: Timestamp = Timestamp.now();
+    const edition: number = 1;
+    const status: string = "public";
+
+    //Articleに登録するデータ
+    const articleDatum: Article = {
+      writer: email,
+      create: tsNow,
+      update: tsNow,
+      status: status,
+      last_edition: edition,
+      reactions: [],
+    }
+
+    //Articleに登録する
+    const articleRef = collection(db, this.COLLECTION_NAME);
+    const articleDocRef: DocumentReference = await addDoc(articleRef, articleDatum);
+
+    //Editionsに登録するデータ
+    const editionDatum: Edition = {
+      edition: edition,
+      title: title,
+      text: article,
+      create: tsNow,
+    }
+
+    //Editionsに登録する
+    const editionRef = collection(db, this.COLLECTION_NAME, articleDocRef.id, this.SUB_COLLECTION_NAME.EDITIONS);
+    addDoc(editionRef, editionDatum);
+  }
+  //#endregion
+
   //#endregion
 }
