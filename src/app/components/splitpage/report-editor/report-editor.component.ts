@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { QuillModules } from "ngx-quill";
 import { InputOfFrmArticle } from 'src/app/interfaces/component/input-of-frm-article';
+import { QuillConfiguration } from 'src/app/modules/quill-configuration/quill-configuration.module';
 import { ArticleService } from 'src/app/services/article.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 
@@ -19,6 +21,8 @@ export class ReportEditorComponent implements OnInit {
     title: '',
     article: '',
   });
+
+  public quillConfiguration: QuillModules = QuillConfiguration;
 
   //#endregion
 
