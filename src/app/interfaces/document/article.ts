@@ -2,8 +2,8 @@ import { Timestamp } from "firebase/firestore";
 
 export interface Article {
     writer: string,
-    create: Timestamp,
-    update: Timestamp,
+    create_timestamp: Timestamp,
+    update_timestamp: Timestamp,
     status: string,
     last_edition: number,
     reactions: string[],

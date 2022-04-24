@@ -20,8 +20,8 @@ export class ArticleService {
   public FIELD_NAME = class {
     public static readonly WRITER: string = "writer";
     public static readonly STATUS: string = "status";
-    public static readonly CREATE_DATE: string = "create_date";
-    public static readonly UPDATE_DATE: string = "update_date";
+    public static readonly CREATE_TIMESTAMP: string = "create_timestamp";
+    public static readonly UPDATE_TIMESTAMP: string = "update_timestamp";
   }
 
   public SUB_COLLECTION_NAME = class {
@@ -55,8 +55,8 @@ export class ArticleService {
     //Articleに登録するデータ
     const articleDatum: Article = {
       writer: email,
-      create: tsNow,
-      update: tsNow,
+      create_timestamp: tsNow,
+      update_timestamp: tsNow,
       status: status,
       last_edition: edition,
       reactions: [],
