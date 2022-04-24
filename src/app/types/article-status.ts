@@ -1,0 +1,1 @@
+export declare type ArticleStatus = "public" | "private";
