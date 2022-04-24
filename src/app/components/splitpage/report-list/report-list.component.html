@@ -1,8 +1,26 @@
 <main>
     <div class="wrapper">
-        <a routerLink="/editor/new">
-            <svg-write class="svg-size_20"></svg-write>
-            <span>新規作成</span>
-        </a>
+        <div class="group">
+            <a routerLink="/editor/new">
+                <svg-write class="svg-size_20"></svg-write>
+                <span>新規作成</span>
+            </a>
+        </div>
+        <div class="group">
+            <div class="card-wrapper">
+                <div class="card" *ngFor="let item of articleList">
+                    <div class="card-header">
+                        <h2>{{ item.title }}</h2>
+                        <span>{{ item.user_name }}</span>
+                    </div>
+                    <div class="card-body">
+                        {{ item.text }}
+                    </div>
+                    <div class="card-footer">
+                        {{ item.update_timestamp | timestamp:'yyyy年M月d日' }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
