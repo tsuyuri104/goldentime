@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { addDoc, collection, DocumentReference, getFirestore, Timestamp } from 'firebase/firestore';
 import { Article } from '../interfaces/document/article';
 import { Edition } from '../interfaces/document/edition';
+import { ArticleStatus } from '../types/article-status';
 
 @Injectable({
   providedIn: 'root'
