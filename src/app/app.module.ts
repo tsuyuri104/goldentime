@@ -38,6 +38,7 @@ import { SvgNoSearchResultComponent } from './components/svg/svg-no-search-resul
 import { ReportListComponent } from './components/splitpage/report-list/report-list.component';
 import { ReportViewerComponent } from './components/splitpage/report-viewer/report-viewer.component';
 import { ReportEditorComponent } from './components/splitpage/report-editor/report-editor.component';
+import { TimestampPipe } from './pipes/timestamp.pipe';
 
 registerLocaleData(localeJa);
 
@@ -64,6 +65,7 @@ registerLocaleData(localeJa);
     ReportListComponent,
     ReportViewerComponent,
     ReportEditorComponent,
+    TimestampPipe,
   ],
   imports: [
     BrowserModule,
