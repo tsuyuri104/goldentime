@@ -150,7 +150,7 @@ export class Common {
      * @param format 
      * @returns 
      */
-    private static dateToStringFormat(date: Date, format: string): string {
+    public static dateToStringFormat(date: Date, format: string): string {
         const datepipe: DatePipe = new DatePipe('en-US');
         let formatted: string | null = datepipe.transform(date, format);
         return formatted == null ? "" : formatted;
