@@ -49,7 +49,7 @@ export class ArticleService {
     const db = getFirestore();
     const tsNow: Timestamp = Timestamp.now();
     const edition: number = 1;
-    const status: string = "public";
+    const status: ArticleStatus = "public";
 
     //Articleに登録するデータ
     const articleDatum: Article = {
