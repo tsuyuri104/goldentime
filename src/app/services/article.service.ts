@@ -3,6 +3,7 @@ import { addDoc, collection, DocumentReference, getFirestore, Timestamp } from '
 import { Article } from '../interfaces/document/article';
 import { Edition } from '../interfaces/document/edition';
 import { ArticleStatus } from '../types/article-status';
+import { Common } from '../utilities/common';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,8 @@ export class ArticleService {
   public FIELD_NAME = class {
     public static readonly WRITER: string = "writer";
     public static readonly STATUS: string = "status";
+    public static readonly SUMMARY_TITLE: string = "summary_title";
+    public static readonly SUMMARY_TEXT: string = "summary_text";
     public static readonly CREATE_TIMESTAMP: string = "create_timestamp";
     public static readonly UPDATE_TIMESTAMP: string = "update_timestamp";
   }
@@ -44,9 +47,9 @@ export class ArticleService {
    * 記事を登録する
    * @param email 
    * @param title 
-   * @param article 
+   * @param text 
    */
-  public async addArticle(email: string, title: string, article: string): Promise<void> {
+  public async addArticle(email: string, title: string, text: string): Promise<void> {
     const db = getFirestore();
     const tsNow: Timestamp = Timestamp.now();
     const edition: number = 1;
@@ -60,6 +63,8 @@ export class ArticleService {
       status: status,
       last_edition: edition,
       reactions: [],
+      summary_title: Common.cutLongText(title, 10),
+      summary_text: Common.cutLongText(Common.deleteHtmlTag(text), 30),
     }
 
     //Articleに登録する
@@ -70,7 +75,7 @@ export class ArticleService {
     const editionDatum: Edition = {
       edition: edition,
       title: title,
-      text: article,
+      text: text,
       create: tsNow,
     }
 

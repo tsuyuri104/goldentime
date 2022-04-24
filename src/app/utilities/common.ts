@@ -120,6 +120,29 @@ export class Common {
     }
     //#endregion
 
+    //#region deleteHtmlTag
+    /**
+     * HTMLのタグを除去する
+     * @param text 
+     * @returns 
+     */
+    public static deleteHtmlTag(text: string): string {
+        return text.replace(/<(?:.|\n)*?>/gm, '');
+    }
+    //#endregion
+
+    //#region cutLongText
+    /**
+     * 長い文章を切り取る
+     * @param text 
+     * @param size 
+     * @returns 
+     */
+    public static cutLongText(text: string, size: number): string {
+        return text.substring(0, size);
+    }
+    //#endregion
+
     //#region dateToStringFormat
     /**
      * 日付を指定のフォーマットで文字列に変換する

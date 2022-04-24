@@ -7,4 +7,6 @@ export interface Article {
     status: string,
     last_edition: number,
     reactions: string[],
+    summary_title: string,
+    summary_text: string,
 }
