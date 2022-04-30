@@ -67,7 +67,7 @@ export class ArticleService {
       last_edition: edition,
       reactions: [],
       summary_title: Common.cutLongText(title, 10),
-      summary_text: Common.cutLongText(Common.deleteHtmlTag(text), 30),
+      summary_text: Common.cutLongText(Common.deleteHtmlTag(text), 100),
     }
 
     //Articleに登録する
