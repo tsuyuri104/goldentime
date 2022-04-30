@@ -39,6 +39,7 @@ import { ReportListComponent } from './components/splitpage/report-list/report-l
 import { ReportViewerComponent } from './components/splitpage/report-viewer/report-viewer.component';
 import { ReportEditorComponent } from './components/splitpage/report-editor/report-editor.component';
 import { TimestampPipe } from './pipes/timestamp.pipe';
+import { TimesagoPipe } from './pipes/timesago.pipe';
 
 registerLocaleData(localeJa);
 
@@ -66,6 +67,7 @@ registerLocaleData(localeJa);
     ReportViewerComponent,
     ReportEditorComponent,
     TimestampPipe,
+    TimesagoPipe,
   ],
   imports: [
     BrowserModule,
