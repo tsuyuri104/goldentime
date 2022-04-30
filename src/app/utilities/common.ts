@@ -139,7 +139,11 @@ export class Common {
      * @returns 
      */
     public static cutLongText(text: string, size: number): string {
-        return text.substring(0, size);
+        let suffix: string = "";
+        if (text.length > size) {
+            suffix = "...";
+        }
+        return text.substring(0, size) + suffix;
     }
     //#endregion
 
