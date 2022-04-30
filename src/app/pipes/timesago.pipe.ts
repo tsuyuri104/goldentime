@@ -1,4 +1,3 @@
-import { ReturnStatement } from '@angular/compiler';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Timestamp } from 'firebase/firestore';
 
@@ -8,7 +7,6 @@ import { Timestamp } from 'firebase/firestore';
 export class TimesagoPipe implements PipeTransform {
 
   transform(tsValue: Timestamp): string {
-    let ret: string = "";
     const now: Date = new Date();
     const dValue: Date = tsValue.toDate();
 
