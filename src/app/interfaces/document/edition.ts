@@ -4,5 +4,6 @@ export interface Edition {
     edition: number,
     title: string,
     text: string,
-    create: Timestamp,
+    create_timestamp: Timestamp,
+    article_id: string,
 }
