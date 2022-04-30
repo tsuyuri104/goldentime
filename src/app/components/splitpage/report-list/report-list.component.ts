@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { RouteName } from 'src/app/classes/route-name';
 import { ArticleList } from 'src/app/interfaces/component/article-list';
 import { ArticleService } from 'src/app/services/article.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
@@ -17,7 +19,7 @@ export class ReportListComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sArticle: ArticleService, private sUrdayin: UrdayinService) {
+  constructor(private sArticle: ArticleService, private sUrdayin: UrdayinService, private router: Router) {
 
   }
   //#endregion
@@ -36,6 +38,14 @@ export class ReportListComponent implements OnInit {
   //#endregion
 
   //#region メソッド
+
+  /**
+   * 閲覧画面に遷移する
+   * @param id 
+   */
+  public transitionViewr(id: string): void {
+    this.router.navigateByUrl("/" + RouteName.VIEWER + "/" + id);
+  }
 
   //#region getArticleList
   /**

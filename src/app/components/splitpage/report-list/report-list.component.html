@@ -8,16 +8,20 @@
         </div>
         <div class="group">
             <div class="card-wrapper">
-                <div class="card" *ngFor="let item of articleList">
+                <div class="card" *ngFor="let item of articleList" (click)="transitionViewr(item.id)">
                     <div class="card-header">
-                        <h2>{{ item.title }}</h2>
-                        <span>{{ item.user_name }}</span>
+                        <h2 class="article-title">{{ item.title }}</h2>
+                        <span class="article-writer">{{ item.user_name }}</span>
                     </div>
                     <div class="card-body">
-                        {{ item.text }}
+                        <div class="article-text">{{ item.text }}</div>
                     </div>
                     <div class="card-footer">
-                        {{ item.update_timestamp | timestamp:'yyyy年M月d日' }}
+                        <div class="article-date">
+                            <span class="article-date_diff">{{ item.update_timestamp | timesago }}</span>
+                            <span class="article-date_const">{{ item.update_timestamp | timestamp:'yyyy年M月d日 HH時m分'
+                                }}</span>
+                        </div>
                     </div>
                 </div>
             </div>

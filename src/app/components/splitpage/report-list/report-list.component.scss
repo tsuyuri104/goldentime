@@ -4,3 +4,38 @@
 main {
     @include mixins.common-main();
 }
+.card {
+    width: 35%;
+    cursor: pointer;
+    > * {
+        margin: 0.5em;
+    }
+    &-header {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    &-body {
+    }
+
+    &-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: left;
+        justify-items: auto;
+    }
+}
+.article {
+    &-text {
+        word-wrap: break-word;
+    }
+    &-date {
+        display: flex;
+        flex-direction: column;
+        &_const {
+            color: color.$text-light;
+        }
+    }
+}
