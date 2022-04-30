@@ -17,6 +17,12 @@ export class TimesagoPipe implements PipeTransform {
     return this.transferAgoText(diff);
   }
 
+  //#region transferAgoText
+  /**
+   * N分前などの文字に変換する
+   * @param diff 
+   * @returns 
+   */
   private transferAgoText(diff: Date): string {
 
     const diffYears: number = diff.getUTCFullYear() - 1970;
@@ -53,5 +59,6 @@ export class TimesagoPipe implements PipeTransform {
     //一秒前以前
     return "さっき";
   }
+  //#endregion
 
 }
