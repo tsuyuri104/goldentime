@@ -33,19 +33,19 @@ export class TimesagoPipe implements PipeTransform {
     const diffSeconds: number = diff.getUTCSeconds();
 
     if (diffYears > 0) {
-      return diffYears + "年前";
+      return diffYears + "年" + diffMonths + "か月前";
     }
 
     if (diffMonths > 0) {
-      return diffMonths + "か月前";
+      return diffMonths + "か月" + diffDays + "前";
     }
 
     if (diffDays > 0) {
-      return diffDays + "日前";
+      return diffDays + "日" + diffHours + "時間前";
     }
 
     if (diffHours > 0) {
-      return diffHours + "時間前";
+      return diffHours + "時間" + diffMinutes + "分前";
     }
 
     if (diffMinutes > 0) {
