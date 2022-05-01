@@ -1,9 +1,9 @@
-import { Article } from "../document/article";
-import { Comment } from "../document/comment";
-import { Edition } from "../document/edition";
+import { ExArticle } from "./ex-article";
+import { ExComment } from "./ex-comment";
+import { ExEdition } from "./ex-edition";
 
 export interface ArticleData {
-    article?: Article,
-    text?: Edition,
-    comments?: Comment[],
+    article?: ExArticle,
+    text?: ExEdition,
+    comments?: ExComment[],
 }
