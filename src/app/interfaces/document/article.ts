@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+import { Reaction } from "./reaction";
 
 export interface Article {
     writer: string,
@@ -6,7 +7,7 @@ export interface Article {
     update_timestamp: Timestamp,
     status: string,
     last_edition: number,
-    reactions: string[],
+    reactions: Reaction,
     summary_title: string,
     summary_text: string,
 }
