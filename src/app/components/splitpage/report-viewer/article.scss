@@ -1,0 +1,35 @@
+@use "../../../sass-utiles/color";
+
+@mixin article {
+    h1 {
+        font-size: 1.4em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+    ul {
+        list-style-type: disc;
+        padding-left: 1.5em;
+    }
+    ol {
+        list-style-type: decimal;
+        padding-left: 1.5em;
+    }
+    blockquote {
+        border-left: 1em solid;
+        border-color: color.$main;
+        background-color: color.$base-light;
+        padding: 0.25em;
+    }
+    pre.ql-syntax {
+        background-color: color.$main-dark;
+        padding: 0.25em;
+        color: color.$white;
+    }
+
+    @for $i from 1 through 5 {
+        .ql-indent-#{$i} {
+            padding-left: 2em * $i;
+        }
+    }
+}
