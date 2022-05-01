@@ -1,0 +1,38 @@
+@use "./../../../sass-utiles/mixins";
+@use "./../../../sass-utiles/color";
+
+main {
+    @include mixins.common-main();
+}
+
+.article {
+    > * {
+        margin-bottom: 0.5em;
+    }
+    &-title {
+        &_skeleton {
+            @include mixins.common-skeleton(10em);
+        }
+    }
+    &-writer {
+        &_skeleton {
+            @include mixins.common-skeleton(5em);
+        }
+    }
+    &-date {
+        &_skeleton {
+            @include mixins.common-skeleton(10em);
+        }
+    }
+    &-text {
+        word-wrap: break-word;
+        &_skeleton {
+            @include mixins.common-skeleton(100%, 5em);
+        }
+    }
+}
+.comment {
+    border-top: 2px solid;
+    border-image: color.$gradation-neon;
+    border-image-slice: 1;
+}

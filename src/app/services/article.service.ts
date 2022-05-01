@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, DocumentReference, getDocs, getFirestore, query, Timestamp, where } from 'firebase/firestore';
+import { addDoc, collection, collectionGroup, doc, DocumentReference, getDoc, getDocs, getFirestore, query, Timestamp, where } from 'firebase/firestore';
+import { ArticleData } from '../interfaces/component/article-data';
 import { ArticleList } from '../interfaces/component/article-list';
+import { ExArticle } from '../interfaces/component/ex-article';
+import { ExComment } from '../interfaces/component/ex-comment';
+import { ExEdition } from '../interfaces/component/ex-edition';
 import { Article } from '../interfaces/document/article';
 import { Edition } from '../interfaces/document/edition';
 import { Urdayin } from '../interfaces/document/urdayin';
 import { ArticleStatus } from '../types/article-status';
 import { Common } from '../utilities/common';
+import { EditionsService } from './editions.service';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({
@@ -38,7 +43,7 @@ export class ArticleService {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService) {
+  constructor(private sUrdayin: UrdayinService, private sEditions: EditionsService) {
 
   }
   //#endregion
@@ -79,7 +84,8 @@ export class ArticleService {
       edition: edition,
       title: title,
       text: text,
-      create: tsNow,
+      create_timestamp: tsNow,
+      article_id: articleDocRef.id,
     }
 
     //Editionsに登録する
@@ -126,6 +132,53 @@ export class ArticleService {
     list = this.sortUpdateTimestampDesc(list);
 
     return list;
+  }
+  //#endregion
+
+  //#region getArticleData
+  /**
+   * 記事データを記事IDから取得する
+   * @param id 
+   * @returns 
+   */
+  public async getArticleData(id: string): Promise<ArticleData> {
+    let data: ArticleData = {};
+    const db = getFirestore();
+
+    //メンバーデータを取得する
+    let member: Urdayin[] = await this.sUrdayin.getMemberData();
+
+    // Articleを取得する
+    const refArticle = doc(db, this.COLLECTION_NAME, id);
+    const snapArticle = await getDoc(refArticle);
+    let article: ExArticle = <ExArticle>snapArticle.data();
+    //名前を取得して設定する
+    article.writer_name = this.pickUpUserName(member, article.writer);
+
+    // Editionsを取得する
+    console.log(3);
+    const qEdition = query(collectionGroup(db, this.SUB_COLLECTION_NAME.EDITIONS), where(this.sEditions.FIELD_NAME.ARTICLE_ID, "==", id), where(this.sEditions.FIELD_NAME.EDITION, "==", article.last_edition));
+    const docsEsition = await getDocs(qEdition);
+    let edition: ExEdition = <ExEdition>docsEsition.docs[0].data();
+
+    // Commentsを取得する
+    const qComments = query(collectionGroup(db, this.SUB_COLLECTION_NAME.COMMENTS), where(this.sEditions.FIELD_NAME.ARTICLE_ID, "==", id));
+    const docsComments = await getDocs(qComments);
+    let comments: ExComment[] = [];
+    docsComments.forEach(doc => {
+      let tmp: ExComment = <ExComment>doc.data();
+
+      //名前を取得して設定する
+      tmp.commenter_name = this.pickUpUserName(member, tmp.commenter);
+
+      comments.push(tmp);
+    });
+
+    data.article = article;
+    data.text = edition;
+    data.comments = comments;
+
+    return data;
   }
   //#endregion
 

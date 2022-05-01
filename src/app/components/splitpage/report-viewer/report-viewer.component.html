@@ -1,1 +1,26 @@
-<p>report-viewer works!</p>
+<main>
+    <div class="wrapper">
+        <div class="article">
+            <div class="article-title">
+                <h2 [class.article-title_skeleton]="!isLoaded">{{ articleData?.text?.title }}</h2>
+            </div>
+            <div class="article-writer">
+                <span [class.article-writer_skeleton]="!isLoaded">{{ articleData?.article?.writer_name }}</span>
+            </div>
+            <div class="article-date">
+                <span [class.article-date_skeleton]="!isLoaded">{{ articleData?.text?.create_timestamp |
+                    timestamp:'yyyy年M月d日 HH時m分'}}</span>
+            </div>
+            <div class="article-text" [innerHTML]="articleData?.text?.text" [class.article-text_skeleton]="!isLoaded">
+            </div>
+        </div>
+        <div class="comment">
+            <div class="comment-card-wrapper">
+
+            </div>
+            <div class="comment-form">
+
+            </div>
+        </div>
+    </div>
+</main>
