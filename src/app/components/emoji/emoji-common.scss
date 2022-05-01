@@ -1,0 +1,9 @@
+@use "../../sass-utiles/mixins";
+
+:host {
+    &.emoji-size {
+        &_20 {
+            @include mixins.svg-size(20px);
+        }
+    }
+}

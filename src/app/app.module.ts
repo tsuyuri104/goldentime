@@ -40,6 +40,9 @@ import { ReportViewerComponent } from './components/splitpage/report-viewer/repo
 import { ReportEditorComponent } from './components/splitpage/report-editor/report-editor.component';
 import { TimestampPipe } from './pipes/timestamp.pipe';
 import { TimesagoPipe } from './pipes/timesago.pipe';
+import { EmojiSparklingHeartComponent } from './components/emoji/emoji-sparkling-heart/emoji-sparkling-heart.component';
+import { EmojiClapComponent } from './components/emoji/emoji-clap/emoji-clap.component';
+import { EmojiThumbsUpComponent } from './components/emoji/emoji-thumbs-up/emoji-thumbs-up.component';
 
 registerLocaleData(localeJa);
 
@@ -68,6 +71,9 @@ registerLocaleData(localeJa);
     ReportEditorComponent,
     TimestampPipe,
     TimesagoPipe,
+    EmojiSparklingHeartComponent,
+    EmojiClapComponent,
+    EmojiThumbsUpComponent,
   ],
   imports: [
     BrowserModule,
