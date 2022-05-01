@@ -143,7 +143,7 @@ export class ArticleService {
    * @returns 
    */
   public async getArticleData(id: string): Promise<ArticleData> {
-    let data: ArticleData = {};
+    let data: ArticleData = this.getEmptyArticleData();
     const db = getFirestore();
 
     //メンバーデータを取得する
@@ -180,6 +180,45 @@ export class ArticleService {
     data.comments = comments;
 
     return data;
+  }
+  //#endregion
+
+  //#region getEmptyArticleData
+  /**
+   * 空の記事データを取得する
+   * @returns 
+   */
+  public getEmptyArticleData(): ArticleData {
+    const now: Timestamp = Timestamp.now();
+    const status: ArticleStatus = "private";
+    return {
+      article: {
+        writer: '',
+        create_timestamp: now,
+        update_timestamp: now,
+        status: status,
+        summary_text: '',
+        summary_title: '',
+        last_edition: 0,
+        reactions: {
+          heart: 0,
+          clap: 0,
+          thumbsup: 0,
+        },
+        writer_name: ''
+      },
+      text: {
+        edition: 0,
+        title: '',
+        text: '',
+        create_timestamp: now,
+        article_id: '',
+      },
+      comments: [],
+      isReactionedHeart: false,
+      isReactionedClap: false,
+      isReactionedThumbsup: false,
+    }
   }
   //#endregion
 

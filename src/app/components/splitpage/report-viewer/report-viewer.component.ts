@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Timestamp } from 'firebase/firestore';
 import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { ArticleService } from 'src/app/services/article.service';
+import { ArticleStatus } from 'src/app/types/article-status';
+import { ReactionType } from 'src/app/types/reaction-type';
 
 @Component({
   selector: 'app-report-viewer',
@@ -13,8 +16,7 @@ export class ReportViewerComponent implements OnInit {
   //#region 変数
 
   public isLoaded: boolean = false;
-  public articleData?: ArticleData;
-
+  public articleData: ArticleData = this.sArticle.getEmptyArticleData();
   //#endregion
 
   //#region コンストラクタ
