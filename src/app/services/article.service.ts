@@ -7,6 +7,7 @@ import { ExComment } from '../interfaces/component/ex-comment';
 import { ExEdition } from '../interfaces/component/ex-edition';
 import { Article } from '../interfaces/document/article';
 import { Edition } from '../interfaces/document/edition';
+import { Reaction } from '../interfaces/document/reaction';
 import { Urdayin } from '../interfaces/document/urdayin';
 import { ArticleStatus } from '../types/article-status';
 import { Common } from '../utilities/common';
@@ -70,7 +71,7 @@ export class ArticleService {
       update_timestamp: tsNow,
       status: status,
       last_edition: edition,
-      reactions: [],
+      reactions: this.getEmptyReactions(),
       summary_title: Common.cutLongText(title, 10),
       summary_text: Common.cutLongText(Common.deleteHtmlTag(text), 100),
     }
@@ -231,6 +232,20 @@ export class ArticleService {
       }
       return 0;
     });
+  }
+  //#endregion
+
+  //#region getEmptyReactions
+  /**
+   * 空のリアクションを取得する（初期値用）
+   * @returns 
+   */
+  private getEmptyReactions(): Reaction {
+    return {
+      heart: 0,
+      thumbsup: 0,
+      clap: 0,
+    }
   }
   //#endregion
 
