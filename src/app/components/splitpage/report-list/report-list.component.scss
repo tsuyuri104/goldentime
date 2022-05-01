@@ -5,8 +5,12 @@ main {
     @include mixins.common-main();
 }
 .card {
-    width: 35%;
+    width: 45%;
     cursor: pointer;
+    &:hover {
+        background-color: color.$base-light;
+    }
+
     > * {
         margin: 0.5em;
     }
