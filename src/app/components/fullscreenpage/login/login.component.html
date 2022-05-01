@@ -17,8 +17,8 @@
         </div>
         <div class="notice">
             <h2>更新履歴</h2>
-            <dl *ngFor="let notice of notices" class="notice-row" [class.notice-skeleton]="!isLoaded">
-                <dt [class.notice-new]="isWithinFewDays(notice.date)">{{ notice.version }}</dt>
+            <dl *ngFor="let notice of notices" class="notice-row" [class.notice_skeleton]="!isLoaded">
+                <dt [class.notice_new]="isWithinFewDays(notice.date)">{{ notice.version }}</dt>
                 <dd *ngFor="let info of notice.detail">
                     {{ info }}
                 </dd>

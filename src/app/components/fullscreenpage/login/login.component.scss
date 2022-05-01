@@ -49,7 +49,7 @@ main {
     &-row {
         margin: 1em 0;
     }
-    &-skeleton {
+    &_skeleton {
         > * {
             margin: 0.25em 0;
         }
@@ -60,7 +60,7 @@ main {
             @include mixins.common-skeleton();
         }
     }
-    &-new {
+    &_new {
         &::after {
             content: "New";
             position: relative;
