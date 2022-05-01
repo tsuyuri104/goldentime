@@ -67,6 +67,11 @@
     animation: gradation-wave $speed ease infinite;
 }
 
+// 影の共通設定
+@mixin common-box-shadow() {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
 //SVGのサイズの設定
 @mixin svg-size($size) {
     svg {
