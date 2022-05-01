@@ -123,7 +123,7 @@ export class ArticleService {
     });
 
     //更新日降順でソートする
-    list = this.sortUpdateTimestamp(list);
+    list = this.sortUpdateTimestampDesc(list);
 
     return list;
   }
@@ -161,19 +161,19 @@ export class ArticleService {
   }
   //#endregion
 
-  //#region sortUpdateTimestamp
+  //#region sortUpdateTimestampDesc
   /**
    * 更新日でソートする
    * @param arg 
    * @returns 
    */
-  private sortUpdateTimestamp(arg: ArticleList[]): ArticleList[] {
+  private sortUpdateTimestampDesc(arg: ArticleList[]): ArticleList[] {
     return arg.sort((a, b) => {
-      if (a.update_timestamp > b.update_timestamp) {
+      if (a.update_timestamp < b.update_timestamp) {
         return 1;
       }
 
-      if (a.update_timestamp < b.update_timestamp) {
+      if (a.update_timestamp > b.update_timestamp) {
         return -1;
       }
       return 0;
