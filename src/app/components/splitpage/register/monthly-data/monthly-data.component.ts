@@ -93,6 +93,12 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @param date カレンダーの日にち
    */
   public setSelectedDate(fullDate: string): void {
+
+    //前後の月の空のセルをクリックした場合は処理しない
+    if (fullDate === "") {
+      return;
+    }
+
     const date: Date = Common.stringToDate(fullDate);
     this.sUrdayin.onSharedSelectedDateChanged(date);
   }
