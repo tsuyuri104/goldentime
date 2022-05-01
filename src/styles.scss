@@ -32,7 +32,7 @@ textarea {
     border: 1px solid color.$text-light;
     border-radius: 0.25em;
     &:focus {
-        border: 2px solid color.$accent-dark;
+        border: 2px solid color.$accent1;
         outline: none;
     }
 }
@@ -48,7 +48,7 @@ select {
     border: 1px solid color.$text-light;
     border-radius: 0.25em;
     &:focus {
-        border: 2px solid color.$accent-dark;
+        border: 2px solid color.$accent1;
         outline: none;
     }
 }

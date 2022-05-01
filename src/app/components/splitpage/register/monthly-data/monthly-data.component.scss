@@ -31,7 +31,7 @@
         min-height: 1em;
         min-width: 3em;
         &:hover {
-            background-color: lighten(color.$accent-light, 15);
+            background-color: color.$base-light;
         }
         &_blank {
             cursor: default;
@@ -45,9 +45,9 @@
         }
     }
     &-hours {
-        color: color.$accent-dark;
+        color: color.$accent1;
     }
     &_selected {
-        background-color: color.$accent-light;
+        background-color: color.$accent2;
     }
 }
