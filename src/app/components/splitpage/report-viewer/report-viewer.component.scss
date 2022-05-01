@@ -6,6 +6,9 @@ main {
 }
 
 .article {
+    border-bottom: 2px solid;
+    border-image: color.$gradation-neon;
+    border-image-slice: 1;
     > * {
         margin-bottom: 0.5em;
     }
@@ -15,24 +18,49 @@ main {
         }
     }
     &-writer {
+        color: color.$text-light;
         &_skeleton {
             @include mixins.common-skeleton(5em);
         }
     }
     &-date {
+        color: color.$text-light;
         &_skeleton {
             @include mixins.common-skeleton(10em);
         }
     }
     &-text {
+        //記事内の要素に対する設定はarticle.scssに記述してstyle.scssから呼び出す
         word-wrap: break-word;
         &_skeleton {
             @include mixins.common-skeleton(100%, 5em);
         }
     }
 }
+.reaction {
+    display: flex;
+    flex-direction: row;
+    > * {
+        margin-right: 1.5em;
+    }
+    &-list {
+        display: flex;
+        flex-direction: row;
+        > *:first-child {
+            margin-right: 0.5em;
+        }
+    }
+    &-volume {
+        min-width: 2em;
+    }
+    &_off {
+        cursor: pointer;
+        filter: grayscale(100%);
+    }
+    &_on {
+        cursor: default;
+        filter: grayscale(0%);
+    }
+}
 .comment {
-    border-top: 2px solid;
-    border-image: color.$gradation-neon;
-    border-image-slice: 1;
 }

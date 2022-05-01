@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, collectionGroup, doc, DocumentReference, getDoc, getDocs, getFirestore, query, Timestamp, where } from 'firebase/firestore';
+import { addDoc, collection, collectionGroup, doc, DocumentReference, getDoc, getDocs, getFirestore, query, setDoc, Timestamp, where } from 'firebase/firestore';
 import { ArticleData } from '../interfaces/component/article-data';
 import { ArticleList } from '../interfaces/component/article-list';
 import { ExArticle } from '../interfaces/component/ex-article';
@@ -10,6 +10,7 @@ import { Edition } from '../interfaces/document/edition';
 import { Reaction } from '../interfaces/document/reaction';
 import { Urdayin } from '../interfaces/document/urdayin';
 import { ArticleStatus } from '../types/article-status';
+import { ReactionType } from '../types/reaction-type';
 import { Common } from '../utilities/common';
 import { EditionsService } from './editions.service';
 import { UrdayinService } from './urdayin.service';
@@ -21,13 +22,13 @@ export class ArticleService {
 
   //#region 変数
 
-  private readonly COLLECTION_NAME: string = "article";
+  public readonly COLLECTION_NAME: string = "article";
 
   //#endregion
 
   //#region 内部クラス
 
-  public FIELD_NAME = class {
+  private FIELD_NAME = class {
     public static readonly WRITER: string = "writer";
     public static readonly STATUS: string = "status";
     public static readonly SUMMARY_TITLE: string = "summary_title";
@@ -39,6 +40,7 @@ export class ArticleService {
   public SUB_COLLECTION_NAME = class {
     public static readonly COMMENTS: string = "comments";
     public static readonly EDITIONS: string = "editions";
+    public static readonly REACTIONER: string = "reactioner";
   }
 
   //#endregion
@@ -218,6 +220,61 @@ export class ArticleService {
       isReactionedClap: false,
       isReactionedThumbsup: false,
     }
+  }
+  //#endregion
+
+  //#region updateReaction
+  /**
+   * リアクション数を更新する
+   * @param articleId 
+   * @param type 
+   * @returns 
+   */
+  public async updateReaction(articleId: string, type: ReactionType): Promise<Reaction> {
+    const db = getFirestore();
+
+    //対象のデータを取得する
+    const refArticle = doc(db, this.COLLECTION_NAME, articleId);
+    const snapArticle = await getDoc(refArticle);
+    let article: Article = <Article>snapArticle.data();
+
+    //値を加算する
+    switch (type) {
+      case "heart":
+        article.reactions.heart += 1;
+        break;
+      case "clap":
+        article.reactions.clap += 1;
+        break;
+      case "thumbsup":
+        article.reactions.thumbsup += 1;
+        break;
+    }
+
+    //登録する
+    const docRef = doc(db, this.COLLECTION_NAME, articleId);
+    await setDoc(docRef, article);
+
+    //再取得したデータを返す
+    return this.getReactionVolume(articleId);
+  }
+  //#endregion
+
+  //#region getReactionVolume
+  /**
+   * リアクション数を取得する
+   * @param articleId 
+   * @returns 
+   */
+  private async getReactionVolume(articleId: string): Promise<Reaction> {
+    const db = getFirestore();
+
+    // Articleを取得する
+    const refArticle = doc(db, this.COLLECTION_NAME, articleId);
+    const snapArticle = await getDoc(refArticle);
+    let article: Article = <Article>snapArticle.data();
+
+    return article.reactions;
   }
   //#endregion
 

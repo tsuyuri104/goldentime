@@ -6,4 +6,7 @@ export interface ArticleData {
     article: ExArticle,
     text: ExEdition,
     comments: ExComment[],
+    isReactionedHeart: boolean,
+    isReactionedClap: boolean,
+    isReactionedThumbsup: boolean,
 }
