@@ -7,6 +7,7 @@ main {
 .card {
     width: 45%;
     cursor: pointer;
+    @include mixins.common-box-shadow();
     &:hover {
         background-color: color.$base-light;
     }
@@ -29,6 +30,9 @@ main {
         flex-wrap: wrap;
         justify-content: left;
         justify-items: auto;
+        > * {
+            margin: 0.5em;
+        }
     }
 }
 .article {
@@ -40,6 +44,23 @@ main {
         flex-direction: column;
         &_const {
             color: color.$text-light;
+        }
+    }
+    &-reactions {
+        display: flex;
+        flex-direction: row;
+        > * {
+            margin-right: 2em;
+        }
+        &-list {
+            display: flex;
+            flex-direction: row;
+            > *:first-child {
+                margin-right: 0.5em;
+            }
+        }
+        &-volume {
+            min-width: 2em;
         }
     }
 }

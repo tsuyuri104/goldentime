@@ -211,6 +211,7 @@ export class ArticleService {
       writer: data.writer,
       update_timestamp: data.update_timestamp,
       user_name: userName,
+      reactions: data.reactions,
     }
   }
   //#endregion

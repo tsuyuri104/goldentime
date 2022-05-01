@@ -17,6 +17,26 @@
                         <div class="article-text">{{ item.text }}</div>
                     </div>
                     <div class="card-footer">
+                        <div class="article-reactions">
+                            <dl class="article-reactions-list">
+                                <dt class="article-reactions-emoji">
+                                    <emoji-sparkling-heart class="emoji-size_20"></emoji-sparkling-heart>
+                                </dt>
+                                <dd class="article-reactions-volume">{{ item.reactions.heart }}</dd>
+                            </dl>
+                            <dl class="article-reactions-list">
+                                <dt class="article-reactions-emoji">
+                                    <emoji-clap class="emoji-size_20"></emoji-clap>
+                                </dt>
+                                <dd class="article-reactions-volume">{{ item.reactions.clap }}</dd>
+                            </dl>
+                            <dl class="article-reactions-list">
+                                <dt class="article-reactions-emoji">
+                                    <emoji-thumbs-up class="emoji-size_20"></emoji-thumbs-up>
+                                </dt>
+                                <dd class="article-reactions-volume">{{ item.reactions.thumbsup }}</dd>
+                            </dl>
+                        </div>
                         <div class="article-date">
                             <span class="article-date_diff">{{ item.update_timestamp | timesago }}</span>
                             <span class="article-date_const">{{ item.update_timestamp | timestamp:'yyyy年M月d日 HH時m分'
