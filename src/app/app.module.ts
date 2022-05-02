@@ -43,6 +43,7 @@ import { TimesagoPipe } from './pipes/timesago.pipe';
 import { EmojiSparklingHeartComponent } from './components/emoji/emoji-sparkling-heart/emoji-sparkling-heart.component';
 import { EmojiClapComponent } from './components/emoji/emoji-clap/emoji-clap.component';
 import { EmojiThumbsUpComponent } from './components/emoji/emoji-thumbs-up/emoji-thumbs-up.component';
+import { EmojiSpeechBalloonComponent } from './components/emoji/emoji-speech-balloon/emoji-speech-balloon.component';
 
 registerLocaleData(localeJa);
 
@@ -74,6 +75,7 @@ registerLocaleData(localeJa);
     EmojiSparklingHeartComponent,
     EmojiClapComponent,
     EmojiThumbsUpComponent,
+    EmojiSpeechBalloonComponent,
   ],
   imports: [
     BrowserModule,
