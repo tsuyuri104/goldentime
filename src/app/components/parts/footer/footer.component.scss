@@ -1,9 +1,13 @@
 @use "../../../sass-utiles/const";
+@use "../../../sass-utiles/color";
 
 footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: const.$footer-heigh;
+    height: const.$footer-heigh;
+    background-color: color.$main-dark;
+    color: color.$white;
+    padding: 2em;
 }
