@@ -13,5 +13,5 @@ $white: #ffffff;
 $svg: lighten($text, 20%);
 $border: #c4c4c4;
 $gradation-main: linear-gradient(to right, $accent1, $accent2);
-$gradation-skeleton: linear-gradient(to right, $text-light, $white);
 $gradation-neon: linear-gradient(to right, $neon-accent1, $neon-accent2);
+$gradation-skeleton: linear-gradient(to right, lighten($text, 60%), $base-light);
