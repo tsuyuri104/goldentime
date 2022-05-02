@@ -2,7 +2,8 @@
 @use "./../../../sass-utiles/color";
 
 main {
-    @include mixins.common-main();
+    @include mixins.common-main(70%);
+    justify-content: left;
 }
 
 button[type="submit"] {
