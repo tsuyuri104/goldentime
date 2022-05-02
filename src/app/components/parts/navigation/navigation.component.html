@@ -1,35 +1,35 @@
 <nav class="nav">
     <ul class="nav-list">
         <li class="nav-item">
-            <a routerLink="/register" [class.nav-item_selected]="isSelected('register')">
+            <a class="nav-item-link" routerLink="/register" [class.nav-item_selected]="isSelected('register')">
                 <svg-write class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('register')">
                 </svg-write>
                 <span class="nav-item-text">工数入力</span>
             </a>
         </li>
         <li class="nav-item">
-            <a routerLink="/overview" [class.nav-item_selected]="isSelected('overview')">
+            <a class="nav-item-link" routerLink="/overview" [class.nav-item_selected]="isSelected('overview')">
                 <svg-table-report class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('overview')">
                 </svg-table-report>
                 <span class="nav-item-text">工数閲覧</span>
             </a>
         </li>
         <li class="nav-item">
-            <a routerLink="/report" [class.nav-item_selected]="isSelected('report')">
-                <svg-table-report class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('report')">
-                </svg-table-report>
+            <a class="nav-item-link" routerLink="/report" [class.nav-item_selected]="isSelected('report')">
+                <svg-log class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('report')">
+                </svg-log>
                 <span class="nav-item-text">日報</span>
             </a>
         </li>
         <li class="nav-item">
-            <a routerLink="/setting" [class.nav-item_selected]="isSelected('setting')">
+            <a class="nav-item-link" routerLink="/setting" [class.nav-item_selected]="isSelected('setting')">
                 <svg-setting class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('setting')">
                 </svg-setting>
                 <span class="nav-item-text">設定</span>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{contactFormUrl}}">
+            <a class="nav-item-link" href="{{contactFormUrl}}">
                 <svg-confounded-face class="nav-item-svg svg-size_20"></svg-confounded-face>
                 <span class="nav-item-text">問い合わせ</span>
             </a>
