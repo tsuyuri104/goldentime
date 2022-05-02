@@ -15,6 +15,7 @@ import { ArticleStatus } from '../types/article-status';
 import { ReactionType } from '../types/reaction-type';
 import { Common } from '../utilities/common';
 import { CommentsService } from './comments.service';
+import { EditionsService } from './editions.service';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({
@@ -23,7 +24,7 @@ import { UrdayinService } from './urdayin.service';
 export class ArticleService {
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService, private sComments: CommentsService) {
+  constructor(private sUrdayin: UrdayinService, private sComments: CommentsService, private sEdition: EditionsService) {
 
   }
   //#endregion
@@ -138,9 +139,7 @@ export class ArticleService {
     article.writer_name = this.sUrdayin.pickUpUserName(member, article.writer);
 
     // Editionsを取得する
-    const qEdition = query(collectionGroup(db, ArticleCollectionName.EDITIONS), where(ArticleFiledName.ARTICLE_ID, "==", id), where(ArticleFiledName.EDITION, "==", article.last_edition));
-    const docsEsition = await getDocs(qEdition);
-    let edition: ExEdition = <ExEdition>docsEsition.docs[0].data();
+    let edition: ExEdition = await this.sEdition.getEdition(id, article.last_edition);
 
     // Commentsを取得する
     let comments: ExComment[] = await this.sComments.getComments(id, email);
