@@ -37,6 +37,9 @@ textarea {
         outline: none;
     }
 }
+input[type="text"] {
+    width: 100%;
+}
 textarea {
     height: calc(1.2em * 5);
     line-height: 1.2em;
