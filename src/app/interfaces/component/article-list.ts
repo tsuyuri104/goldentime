@@ -9,4 +9,5 @@ export interface ArticleList {
     user_name: string,
     update_timestamp: Timestamp,
     reactions: Reaction,
+    comments: number,
 }

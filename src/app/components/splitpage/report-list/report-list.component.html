@@ -17,6 +17,11 @@
                         <div class="article-text">{{ item.text }}</div>
                     </div>
                     <div class="card-footer">
+                        <div class="article-date">
+                            <span class="article-date_diff">{{ item.update_timestamp | timesago }}</span>
+                            <span class="article-date_const">{{ item.update_timestamp | timestamp:'yyyy年M月d日 HH時m分'
+                                }}</span>
+                        </div>
                         <div class="article-reactions">
                             <dl class="article-reactions-list">
                                 <dt class="article-reactions-emoji">
@@ -36,11 +41,12 @@
                                 </dt>
                                 <dd class="article-reactions-volume">{{ item.reactions.thumbsup }}</dd>
                             </dl>
-                        </div>
-                        <div class="article-date">
-                            <span class="article-date_diff">{{ item.update_timestamp | timesago }}</span>
-                            <span class="article-date_const">{{ item.update_timestamp | timestamp:'yyyy年M月d日 HH時m分'
-                                }}</span>
+                            <dl class="article-reactions-list">
+                                <dt class="artilce-reactions-emoji">
+                                    <emoji-speech-balloon class="emoji-size_20"></emoji-speech-balloon>
+                                </dt>
+                                <dd class="article-reactions-volume">{{ item.comments }}</dd>
+                            </dl>
                         </div>
                     </div>
                 </div>

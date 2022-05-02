@@ -309,6 +309,7 @@ export class ArticleService {
       update_timestamp: data.update_timestamp,
       user_name: userName,
       reactions: data.reactions,
+      comments: data.comment_volume,
     }
   }
   //#endregion
