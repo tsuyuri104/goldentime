@@ -4,7 +4,6 @@ import { ArticleCollectionName } from '../classes/article-collection-name';
 import { ArticleFiledName } from '../classes/article-filed-name';
 import { Reactioner } from '../interfaces/document/reactioner';
 import { ReactionType } from '../types/reaction-type';
-import { ArticleService } from './article.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ import { ArticleService } from './article.service';
 export class ReactionerService {
 
   //#region コンストラクタ
-  constructor(private sArticle: ArticleService) {
+  constructor() {
 
   }
   //#endregion
@@ -27,7 +26,6 @@ export class ReactionerService {
   public addReaction(articleId: string, email: string, type: ReactionType): void {
     const db = getFirestore();
     const tsNow: Timestamp = Timestamp.now();
-    const edition: number = 1;
 
     //登録するデータ
     const data: Reactioner = {
