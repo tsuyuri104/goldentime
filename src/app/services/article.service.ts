@@ -100,13 +100,13 @@ export class ArticleService {
     //自分の記事を格納する
     myDocs.forEach(doc => {
       let data: Article = <Article>doc.data();
-      list.push(this.setArticleListItem(doc.id, data, this.pickUpUserName(member, data.writer)));
+      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer)));
     });
 
     //他人の記事を格納する
     theirDocs.forEach(doc => {
       let data: Article = <Article>doc.data();
-      list.push(this.setArticleListItem(doc.id, data, this.pickUpUserName(member, data.writer)));
+      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer)));
     });
 
     //更新日降順でソートする
@@ -134,7 +134,7 @@ export class ArticleService {
     const snapArticle = await getDoc(refArticle);
     let article: ExArticle = <ExArticle>snapArticle.data();
     //名前を取得して設定する
-    article.writer_name = this.pickUpUserName(member, article.writer);
+    article.writer_name = this.sUrdayin.pickUpUserName(member, article.writer);
 
     // Editionsを取得する
     const qEdition = query(collectionGroup(db, ArticleCollectionName.EDITIONS), where(ArticleFiledName.ARTICLE_ID, "==", id), where(ArticleFiledName.EDITION, "==", article.last_edition));
@@ -254,18 +254,6 @@ export class ArticleService {
     let article: Article = <Article>snapArticle.data();
 
     return article.reactions;
-  }
-  //#endregion
-
-  //#region 
-  /**
-   * ユーザー名を取得する
-   * @param memberData 
-   * @param email 
-   * @returns 
-   */
-  private pickUpUserName(memberData: Urdayin[], email: string): string {
-    return <string>memberData.find(x => x.email === email)?.user_name;
   }
   //#endregion
 

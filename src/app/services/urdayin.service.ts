@@ -143,6 +143,18 @@ export class UrdayinService {
   }
   //#endregion
 
+  //#region 
+  /**
+   * ユーザー名を取得する
+   * @param memberData 
+   * @param email 
+   * @returns 
+   */
+  public pickUpUserName(memberData: Urdayin[], email: string): string {
+    return <string>memberData.find(x => x.email === email)?.user_name;
+  }
+  //#endregion
+
   //#region getMemberData
   /**
    * メンバー一覧を取得する
