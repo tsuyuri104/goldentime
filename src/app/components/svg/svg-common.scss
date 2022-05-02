@@ -15,12 +15,14 @@ path {
     }
     &.nav-item {
         &-svg {
-            path {
+            path,
+            rect:not(rect:first-child) {
                 stroke: color.$white;
             }
         }
         &_selected {
-            path {
+            path,
+            rect:not(rect:first-child) {
                 stroke: color.$main;
             }
         }
