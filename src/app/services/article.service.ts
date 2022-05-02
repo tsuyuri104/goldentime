@@ -14,7 +14,7 @@ import { Urdayin } from '../interfaces/document/urdayin';
 import { ArticleStatus } from '../types/article-status';
 import { ReactionType } from '../types/reaction-type';
 import { Common } from '../utilities/common';
-import { EditionsService } from './editions.service';
+import { CommentsService } from './comments.service';
 import { UrdayinService } from './urdayin.service';
 
 @Injectable({
@@ -23,7 +23,7 @@ import { UrdayinService } from './urdayin.service';
 export class ArticleService {
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService, private sEditions: EditionsService) {
+  constructor(private sUrdayin: UrdayinService, private sComments: CommentsService) {
 
   }
   //#endregion
@@ -120,9 +120,10 @@ export class ArticleService {
   /**
    * 記事データを記事IDから取得する
    * @param id 
+   * @param email
    * @returns 
    */
-  public async getArticleData(id: string): Promise<ArticleData> {
+  public async getArticleData(id: string, email: string): Promise<ArticleData> {
     let data: ArticleData = this.getEmptyArticleData();
     const db = getFirestore();
 
@@ -142,17 +143,7 @@ export class ArticleService {
     let edition: ExEdition = <ExEdition>docsEsition.docs[0].data();
 
     // Commentsを取得する
-    const qComments = query(collectionGroup(db, this.SUB_COLLECTION_NAME.COMMENTS), where(this.sEditions.FIELD_NAME.ARTICLE_ID, "==", id));
-    const docsComments = await getDocs(qComments);
-    let comments: ExComment[] = [];
-    docsComments.forEach(doc => {
-      let tmp: ExComment = <ExComment>doc.data();
-
-      //名前を取得して設定する
-      tmp.commenter_name = this.pickUpUserName(member, tmp.commenter);
-
-      comments.push(tmp);
-    });
+    let comments: ExComment[] = await this.sComments.getComments(id, email);
 
     data.article = article;
     data.text = edition;
@@ -236,6 +227,33 @@ export class ArticleService {
 
     //再取得したデータを返す
     return this.getReactionVolume(articleId);
+  }
+  //#endregion
+
+  //#region updateComments
+  /**
+   * コメント数を更新する
+   * @param articleId 
+   * @returns 
+   */
+  public async updateComments(articleId: string): Promise<number> {
+    const db = getFirestore();
+
+    //対象のデータを取得する
+    const refArticle = doc(db, ArticleCollectionName.ARTICLE, articleId);
+    const snapArticle = await getDoc(refArticle);
+    let article: Article = <Article>snapArticle.data();
+
+    //値を加算する
+    let volume: number = article.comment_volume + 1;
+    article.comment_volume = volume;
+
+    //登録する
+    const docRef = doc(db, ArticleCollectionName.ARTICLE, articleId);
+    await setDoc(docRef, article);
+
+    //追加後の値
+    return volume;
   }
   //#endregion
 

@@ -39,11 +39,23 @@
         </div>
         <div class="comment">
             <div class="comment-card-wrapper">
-
+                <div class="comment-card" *ngFor="let comment of articleData.comments"
+                    [class.comment-card_mine]="comment.is_mine">
+                    <div class="comment-header">
+                        <span *ngIf="!comment.is_mine" class="comment-commenter">{{ comment.commenter_name }}</span>
+                    </div>
+                    <div class="comment-card-body article-text " [innerHTML]="comment.comment">
+                    </div>
+                    <div class="comment-card-footer">
+                        <span class="comment-date">{{ comment.create_timestamp | timesago }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="comment-form">
-
-            </div>
+            <form [formGroup]="frmComment" (ngSubmit)="writeComment()" class="comment-form">
+                <quill-editor formControlName="comment" [modules]="quillConfiguration" [placeholder]="''">
+                </quill-editor>
+                <button type="submit">コメントする</button>
+            </form>
         </div>
     </div>
 </main>

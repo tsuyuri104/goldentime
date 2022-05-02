@@ -2,6 +2,7 @@
 export class ArticleFiledName {
     // 共通 
     public static readonly ARTICLE_ID: string = "article_id";
+    public static readonly CREATE_TIMESTAMP: string = "create_timestamp";
 
     // 記事専用
     public static readonly WRITER: string = "writer";

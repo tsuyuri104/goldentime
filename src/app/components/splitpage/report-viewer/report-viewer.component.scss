@@ -5,6 +5,10 @@ main {
     @include mixins.common-main();
 }
 
+button[type="submit"] {
+    @include mixins.common-submit-button();
+}
+
 .article {
     border-bottom: 2px solid;
     border-image: color.$gradation-neon;
@@ -32,20 +36,23 @@ main {
     &-text {
         //記事内の要素に対する設定はarticle.scssに記述してstyle.scssから呼び出す
         word-wrap: break-word;
-        &_skeleton {
-            @include mixins.common-skeleton(100%, 5em);
+        &_loading {
+            min-height: 25%;
         }
     }
 }
 .reaction {
     display: flex;
     flex-direction: row;
+
     > * {
         margin-right: 1.5em;
     }
     &-list {
         display: flex;
         flex-direction: row;
+        padding: 0.5em;
+        border-radius: 0.5em;
         > *:first-child {
             margin-right: 0.5em;
         }
@@ -56,6 +63,10 @@ main {
     &_off {
         cursor: pointer;
         filter: grayscale(100%);
+        &:hover {
+            background-color: color.$base-light;
+            animation: grayscale-wave 1.05s ease-out forwards;
+        }
     }
     &_on {
         cursor: default;
@@ -63,4 +74,82 @@ main {
     }
 }
 .comment {
+    > * {
+        margin: 0.5em 0;
+    }
+    &-card {
+        $parent-comment-card: &;
+        word-wrap: break-word;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            > * {
+                margin: 0.5em 0;
+            }
+        }
+
+        $fukidashi-radius: 10px;
+
+        &-body {
+            max-width: 70%;
+            border: 2px solid;
+            border-color: color.$neon-accent1;
+            padding: 0.5em;
+            border-radius: $fukidashi-radius $fukidashi-radius $fukidashi-radius 0;
+            position: relative;
+
+            &::after {
+                content: " ";
+                height: 10px;
+                width: 10px;
+                bottom: -10px;
+                left: -2px;
+                position: absolute;
+                border: 5px solid transparent;
+                border-left: 8px solid color.$neon-accent1;
+                transform: translateY(-3px);
+            }
+        }
+
+        &_mine {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+
+            #{$parent-comment-card}-body {
+                border-color: color.$neon-accent2;
+                border-radius: $fukidashi-radius $fukidashi-radius 0 $fukidashi-radius;
+                &::after {
+                    left: unset;
+                    right: -2px;
+                    border-left: 5px solid transparent;
+                    border-right: 8px solid color.$neon-accent2;
+                }
+            }
+        }
+    }
+
+    &-form {
+        > * {
+            margin-top: 0.5em;
+        }
+    }
+
+    &-date,
+    &-commenter {
+        color: color.$text-light;
+        font-size: 0.8em;
+    }
+}
+@keyframes grayscale-wave {
+    0% {
+        filter: grayscale(100%);
+    }
+    100% {
+        filter: grayscale(40%);
+    }
 }

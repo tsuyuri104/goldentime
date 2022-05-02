@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { QuillModules } from "ngx-quill";
 import { ArticleData } from 'src/app/interfaces/component/article-data';
+import { InputOfFrmComment } from 'src/app/interfaces/component/input-of-frm-comment';
 import { Reactioner } from 'src/app/interfaces/document/reactioner';
+import { QuillConfiguration } from 'src/app/modules/quill-configuration/quill-configuration.module';
 import { ArticleService } from 'src/app/services/article.service';
+import { CommentsService } from 'src/app/services/comments.service';
 import { ReactionerService } from 'src/app/services/reactioner.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { ReactionType } from 'src/app/types/reaction-type';
@@ -18,13 +23,20 @@ export class ReportViewerComponent implements OnInit {
 
   public isLoaded: boolean = false;
   public articleData: ArticleData = this.sArticle.getEmptyArticleData();
+  public quillConfiguration: QuillModules = QuillConfiguration;
+  public frmComment: FormGroup = this.fb.group({
+    comment: '',
+  });
+
   //#endregion
 
   //#region コンストラクタ
   constructor(private route: ActivatedRoute,
     private sArticle: ArticleService,
     private sReactioner: ReactionerService,
-    private sUrdayin: UrdayinService) {
+    private sUrdayin: UrdayinService,
+    private fb: FormBuilder,
+    private sComments: CommentsService) {
 
   }
   //#endregion
@@ -83,6 +95,38 @@ export class ReportViewerComponent implements OnInit {
   }
   //#endregion
 
+  //#region writeComment
+  /**
+   * コメントする
+   * @returns 
+   */
+  public writeComment(): void {
+
+    const inputData: InputOfFrmComment = this.frmComment.value;
+
+    //空文字の場合は登録しない
+    if (inputData.comment === "") {
+      return;
+    }
+
+    const articleId: string = this.getArticleId();
+
+    // データ登録
+    this.sComments.addComment(articleId, this.sUrdayin.getSelectedUser(), inputData.comment).then(data => {
+      this.articleData.comments = data;
+      this.frmComment = this.fb.group({
+        comment: '',
+      });
+    });
+
+    // データ更新
+    this.sArticle.updateComments(articleId).then(data => {
+      // データ再取得
+      this.articleData.article.comment_volume = data;
+    });
+  }
+  //#endregion
+
   //#region isReactioned
   /**
    * リアクションしたか判定する
@@ -111,10 +155,12 @@ export class ReportViewerComponent implements OnInit {
     this.isLoaded = false;
 
     const id: string = this.getArticleId();
-    this.articleData = await this.sArticle.getArticleData(id);
+    const email: string = this.sUrdayin.getSelectedUser();
+
+    this.articleData = await this.sArticle.getArticleData(id, email);
 
     //閲覧者の反応データを取得する
-    const reactioners: Reactioner[] = await this.sReactioner.getReactionerData(id, this.sUrdayin.getSelectedUser());
+    const reactioners: Reactioner[] = await this.sReactioner.getReactionerData(id, email);
     reactioners.forEach(reactioner => {
       switch (reactioner.reaction) {
         case "heart":
