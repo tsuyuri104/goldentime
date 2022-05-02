@@ -76,6 +76,7 @@ export class ArticleService {
       reactions: this.getEmptyReactions(),
       summary_title: Common.cutLongText(title, 10),
       summary_text: Common.cutLongText(Common.deleteHtmlTag(text), 100),
+      comment_volume: 0,
     }
 
     //Articleに登録する
@@ -206,7 +207,8 @@ export class ArticleService {
           clap: 0,
           thumbsup: 0,
         },
-        writer_name: ''
+        writer_name: '',
+        comment_volume: 0,
       },
       text: {
         edition: 0,

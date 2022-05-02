@@ -11,4 +11,5 @@ export interface Article {
     reactions: Reaction,
     summary_title: string,
     summary_text: string,
+    comment_volume: number,
 }
