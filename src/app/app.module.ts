@@ -44,6 +44,7 @@ import { EmojiSparklingHeartComponent } from './components/emoji/emoji-sparkling
 import { EmojiClapComponent } from './components/emoji/emoji-clap/emoji-clap.component';
 import { EmojiThumbsUpComponent } from './components/emoji/emoji-thumbs-up/emoji-thumbs-up.component';
 import { EmojiSpeechBalloonComponent } from './components/emoji/emoji-speech-balloon/emoji-speech-balloon.component';
+import { SvgRoadSignComponent } from './components/svg/svg-road-sign/svg-delete.component';
 
 registerLocaleData(localeJa);
 
@@ -76,6 +77,7 @@ registerLocaleData(localeJa);
     EmojiClapComponent,
     EmojiThumbsUpComponent,
     EmojiSpeechBalloonComponent,
+    SvgRoadSignComponent,
   ],
   imports: [
     BrowserModule,
