@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionGroup, doc, DocumentReference, getDoc, getDocs, getFirestore, query, setDoc, Timestamp, where } from 'firebase/firestore';
+import { ArticleCollectionName } from '../classes/article-collection-name';
+import { ArticleFiledName } from '../classes/article-filed-name';
 import { ArticleData } from '../interfaces/component/article-data';
 import { ArticleList } from '../interfaces/component/article-list';
 import { ExArticle } from '../interfaces/component/ex-article';
@@ -19,31 +21,6 @@ import { UrdayinService } from './urdayin.service';
   providedIn: 'root'
 })
 export class ArticleService {
-
-  //#region 変数
-
-  public readonly COLLECTION_NAME: string = "article";
-
-  //#endregion
-
-  //#region 内部クラス
-
-  private FIELD_NAME = class {
-    public static readonly WRITER: string = "writer";
-    public static readonly STATUS: string = "status";
-    public static readonly SUMMARY_TITLE: string = "summary_title";
-    public static readonly SUMMARY_TEXT: string = "summary_text";
-    public static readonly CREATE_TIMESTAMP: string = "create_timestamp";
-    public static readonly UPDATE_TIMESTAMP: string = "update_timestamp";
-  }
-
-  public SUB_COLLECTION_NAME = class {
-    public static readonly COMMENTS: string = "comments";
-    public static readonly EDITIONS: string = "editions";
-    public static readonly REACTIONER: string = "reactioner";
-  }
-
-  //#endregion
 
   //#region コンストラクタ
   constructor(private sUrdayin: UrdayinService, private sEditions: EditionsService) {
@@ -80,7 +57,7 @@ export class ArticleService {
     }
 
     //Articleに登録する
-    const articleRef = collection(db, this.COLLECTION_NAME);
+    const articleRef = collection(db, ArticleCollectionName.ARTICLE);
     const articleDocRef: DocumentReference = await addDoc(articleRef, articleDatum);
 
     //Editionsに登録するデータ
@@ -93,7 +70,7 @@ export class ArticleService {
     }
 
     //Editionsに登録する
-    const editionRef = collection(db, this.COLLECTION_NAME, articleDocRef.id, this.SUB_COLLECTION_NAME.EDITIONS);
+    const editionRef = collection(db, ArticleCollectionName.ARTICLE, articleDocRef.id, ArticleCollectionName.EDITIONS);
     addDoc(editionRef, editionDatum);
   }
   //#endregion
@@ -109,12 +86,12 @@ export class ArticleService {
     const db = getFirestore();
 
     //公開非公開問わず自分の記事を取得する
-    const myQuery = query(collection(db, this.COLLECTION_NAME), where(this.FIELD_NAME.WRITER, "==", email));
+    const myQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "==", email));
     const myDocs = await getDocs(myQuery);
 
     //公開の他人の記事を取得する
     let theirStatus: ArticleStatus = "public";
-    const theirQuery = query(collection(db, this.COLLECTION_NAME), where(this.FIELD_NAME.WRITER, "!=", email), where(this.FIELD_NAME.STATUS, "==", theirStatus))
+    const theirQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "!=", email), where(ArticleFiledName.STATUS, "==", theirStatus))
     const theirDocs = await getDocs(theirQuery);
 
     //メンバーデータを取得する
@@ -153,14 +130,14 @@ export class ArticleService {
     let member: Urdayin[] = await this.sUrdayin.getMemberData();
 
     // Articleを取得する
-    const refArticle = doc(db, this.COLLECTION_NAME, id);
+    const refArticle = doc(db, ArticleCollectionName.ARTICLE, id);
     const snapArticle = await getDoc(refArticle);
     let article: ExArticle = <ExArticle>snapArticle.data();
     //名前を取得して設定する
     article.writer_name = this.pickUpUserName(member, article.writer);
 
     // Editionsを取得する
-    const qEdition = query(collectionGroup(db, this.SUB_COLLECTION_NAME.EDITIONS), where(this.sEditions.FIELD_NAME.ARTICLE_ID, "==", id), where(this.sEditions.FIELD_NAME.EDITION, "==", article.last_edition));
+    const qEdition = query(collectionGroup(db, ArticleCollectionName.EDITIONS), where(ArticleFiledName.ARTICLE_ID, "==", id), where(ArticleFiledName.EDITION, "==", article.last_edition));
     const docsEsition = await getDocs(qEdition);
     let edition: ExEdition = <ExEdition>docsEsition.docs[0].data();
 
@@ -236,7 +213,7 @@ export class ArticleService {
     const db = getFirestore();
 
     //対象のデータを取得する
-    const refArticle = doc(db, this.COLLECTION_NAME, articleId);
+    const refArticle = doc(db, ArticleCollectionName.ARTICLE, articleId);
     const snapArticle = await getDoc(refArticle);
     let article: Article = <Article>snapArticle.data();
 
@@ -254,7 +231,7 @@ export class ArticleService {
     }
 
     //登録する
-    const docRef = doc(db, this.COLLECTION_NAME, articleId);
+    const docRef = doc(db, ArticleCollectionName.ARTICLE, articleId);
     await setDoc(docRef, article);
 
     //再取得したデータを返す
@@ -272,7 +249,7 @@ export class ArticleService {
     const db = getFirestore();
 
     // Articleを取得する
-    const refArticle = doc(db, this.COLLECTION_NAME, articleId);
+    const refArticle = doc(db, ArticleCollectionName.ARTICLE, articleId);
     const snapArticle = await getDoc(refArticle);
     let article: Article = <Article>snapArticle.data();
 

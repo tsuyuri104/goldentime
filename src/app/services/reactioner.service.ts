@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionGroup, getDocs, getFirestore, query, Timestamp, where } from 'firebase/firestore';
+import { ArticleCollectionName } from '../classes/article-collection-name';
+import { ArticleFiledName } from '../classes/article-filed-name';
 import { Reactioner } from '../interfaces/document/reactioner';
 import { ReactionType } from '../types/reaction-type';
 import { ArticleService } from './article.service';
@@ -8,17 +10,6 @@ import { ArticleService } from './article.service';
   providedIn: 'root'
 })
 export class ReactionerService {
-
-  //#region 内部クラス
-
-  private FIELD_NAME = class {
-    public static readonly USER: string = "user";
-    public static readonly REACTION: string = "reaction";
-    public static readonly CREATE_TIMESTAMP: string = "create_timestamp";
-    public static readonly ARTICLE_ID: string = "article_id";
-  }
-
-  //#endregion
 
   //#region コンストラクタ
   constructor(private sArticle: ArticleService) {
@@ -47,7 +38,7 @@ export class ReactionerService {
     }
 
     //登録する
-    const ref = collection(db, this.sArticle.COLLECTION_NAME, articleId, this.sArticle.SUB_COLLECTION_NAME.REACTIONER);
+    const ref = collection(db, ArticleCollectionName.ARTICLE, articleId, ArticleCollectionName.REACTIONER);
     addDoc(ref, data);
   }
   //#endregion
@@ -64,7 +55,7 @@ export class ReactionerService {
     const db = getFirestore();
 
     // 反応者を取得する
-    const q = query(collectionGroup(db, this.sArticle.SUB_COLLECTION_NAME.REACTIONER), where(this.FIELD_NAME.ARTICLE_ID, "==", articleId), where(this.FIELD_NAME.USER, "==", email));
+    const q = query(collectionGroup(db, ArticleCollectionName.REACTIONER), where(ArticleFiledName.ARTICLE_ID, "==", articleId), where(ArticleFiledName.USER, "==", email));
     const docs = await getDocs(q);
 
     docs.forEach(doc => {
