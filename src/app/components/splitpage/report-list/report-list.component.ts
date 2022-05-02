@@ -39,13 +39,15 @@ export class ReportListComponent implements OnInit {
 
   //#region メソッド
 
+  //#region transitionViewer
   /**
    * 閲覧画面に遷移する
    * @param id 
    */
-  public transitionViewr(id: string): void {
+  public transitionViewer(id: string): void {
     this.router.navigateByUrl("/" + RouteName.VIEWER + "/" + id);
   }
+  //#endregion
 
   //#region getArticleList
   /**

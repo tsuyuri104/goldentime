@@ -8,7 +8,7 @@
         </div>
         <div class="group">
             <div class="card-wrapper">
-                <div class="card" *ngFor="let item of articleList" (click)="transitionViewr(item.id)">
+                <div class="card" *ngFor="let item of articleList" (click)="transitionViewer(item.id)">
                     <div class="card-header">
                         <h2 class="article-title">{{ item.title }}</h2>
                         <span class="article-writer">{{ item.user_name }}</span>
