@@ -2,15 +2,16 @@
     <div class="left-wrapper">
         <div class="left-inner-wrapper">
             <app-header></app-header>
-            <app-navigation class="nav_wide"></app-navigation>
-            <app-footer></app-footer>
+            <app-navigation class="part_wide"></app-navigation>
+            <app-footer class="part_wide"></app-footer>
         </div>
     </div>
-    <app-navigation class="nav_narrow"></app-navigation>
+    <app-navigation class="part_narrow"></app-navigation>
 
     <div class="right-wrapper">
         <router-outlet></router-outlet>
     </div>
 
+    <app-footer class="part_narrow"></app-footer>
 
 </div>

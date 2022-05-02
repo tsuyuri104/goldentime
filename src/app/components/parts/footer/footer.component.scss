@@ -1,5 +1,6 @@
 @use "../../../sass-utiles/const";
 @use "../../../sass-utiles/color";
+@use "../../../sass-utiles/mixins";
 
 footer {
     display: flex;
@@ -10,4 +11,8 @@ footer {
     background-color: color.$main-dark;
     color: color.$white;
     padding: 2em;
+    @include mixins.ForNarrowMode() {
+        background-color: color.$base;
+        color: color.$text;
+    }
 }
