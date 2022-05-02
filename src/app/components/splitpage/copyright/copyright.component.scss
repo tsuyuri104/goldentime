@@ -1,0 +1,16 @@
+@use "./../../../sass-utiles/mixins";
+@use "./../../../sass-utiles/color";
+
+main {
+    @include mixins.common-main();
+}
+
+.link {
+    &-list {
+        list-style-type: circle;
+        padding-left: 1em;
+    }
+    &-item {
+        cursor: pointer;
+    }
+}

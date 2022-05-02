@@ -6,4 +6,5 @@ export class RouteName {
     public static readonly REPORT: string = "report";
     public static readonly EDITOR: string = "editor";
     public static readonly VIEWER: string = "viewer";
+    public static readonly COPYRIGHT: string = "copyright";
 }

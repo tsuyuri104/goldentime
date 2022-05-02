@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RouteName } from './classes/route-name';
 import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscreen-default/fullscreen-default.component';
 import { LoginComponent } from './components/fullscreenpage/login/login.component';
+import { CopyrightComponent } from './components/splitpage/copyright/copyright.component';
 import { OverviewComponent } from './components/splitpage/overview/overview.component';
 import { RegisterComponent } from './components/splitpage/register/register.component';
 import { ReportEditorComponent } from './components/splitpage/report-editor/report-editor.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: RouteName.REPORT, component: ReportListComponent },
       { path: RouteName.EDITOR + '/:id', component: ReportEditorComponent },
       { path: RouteName.VIEWER + '/:id', component: ReportViewerComponent },
+      { path: RouteName.COPYRIGHT, component: CopyrightComponent },
     ]
     , canActivate: [AuthGuard]
   },

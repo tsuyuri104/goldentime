@@ -42,5 +42,9 @@
                 display: none;
             }
         }
+        &-link {
+            display: flex;
+            flex-direction: row;
+        }
     }
 }
