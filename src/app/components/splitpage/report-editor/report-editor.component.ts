@@ -69,6 +69,11 @@ export class ReportEditorComponent implements OnInit {
       // 編集の場合 
       this.sArticle.updateArticle(this.getArticleId(), inputData.title, inputData.article, btn);
     }
+
+    //公開した場合は、下書きボタンを表示しない
+    if (btn === "public") {
+      this.isDisplayPrivateButton = false;
+    }
   }
   //#endregion
 
