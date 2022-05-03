@@ -11,9 +11,6 @@ button[type="submit"] {
 }
 
 .article {
-    border-bottom: 2px solid;
-    border-image: color.$gradation-neon;
-    border-image-slice: 1;
     > * {
         margin-bottom: 0.5em;
     }
@@ -43,6 +40,9 @@ button[type="submit"] {
     }
 }
 .reaction {
+    border-top: 2px solid;
+    border-image: color.$gradation-neon;
+    border-image-slice: 1;
     display: flex;
     flex-direction: row;
 

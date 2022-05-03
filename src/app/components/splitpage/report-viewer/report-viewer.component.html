@@ -14,7 +14,7 @@
             <div class="article-text" [innerHTML]="articleData.text.text" [class.article-text_loading]="!isLoaded">
             </div>
         </div>
-        <div class="reaction">
+        <div class="reaction" *ngIf="articleData.article.status === 'public'">
             <dl class="reaction-list" [class.reacrion_on]="articleData.isReactionedHeart"
                 [class.reaction_off]="!articleData.isReactionedHeart" (click)="reaction('heart')">
                 <dt class="reaction-emoji">
@@ -37,7 +37,7 @@
                 <dd class="reaction-volume">{{ articleData.article.reactions.thumbsup }}</dd>
             </dl>
         </div>
-        <div class="comment">
+        <div class="comment" *ngIf="articleData.article.status === 'public'">
             <div class="comment-card-wrapper">
                 <div class="comment-card" *ngFor="let comment of articleData.comments"
                     [class.comment-card_mine]="comment.is_mine">
