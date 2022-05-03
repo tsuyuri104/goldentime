@@ -76,6 +76,47 @@ export class ArticleService {
   }
   //#endregion
 
+  //#region updateArticle
+  /**
+   * 記事を更新する
+   * @param id 
+   * @param title 
+   * @param text 
+   */
+  public async updateArticle(id: string, title: string, text: string): Promise<void> {
+    const db = getFirestore();
+    const tsNow: Timestamp = Timestamp.now();
+
+    //対象のデータを取得する
+    const refArticle = doc(db, ArticleCollectionName.ARTICLE, id);
+    const snapArticle = await getDoc(refArticle);
+    let article: Article = <Article>snapArticle.data();
+
+    // 更新する値を設定する
+    const newEdition: number = article.last_edition + 1;
+    article.last_edition = newEdition;
+    article.update_timestamp = tsNow;
+    article.summary_title = Common.cutLongText(title, 10);
+    article.summary_text = Common.cutLongText(Common.deleteHtmlTag(text), 100);
+
+    //登録する
+    setDoc(refArticle, article);
+
+    //Editionsに登録するデータ
+    const edition: Edition = {
+      edition: newEdition,
+      title: title,
+      text: text,
+      create_timestamp: tsNow,
+      article_id: id,
+    }
+
+    //Editionsに登録する
+    const editionRef = collection(db, ArticleCollectionName.ARTICLE, id, ArticleCollectionName.EDITIONS);
+    addDoc(editionRef, edition);
+  }
+  //#endregion
+
   //#region getArticleList
   /**
    *記事一覧を取得する

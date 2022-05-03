@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QuillModules } from "ngx-quill";
+import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { InputOfFrmArticle } from 'src/app/interfaces/component/input-of-frm-article';
 import { QuillConfiguration } from 'src/app/modules/quill-configuration/quill-configuration.module';
 import { ArticleService } from 'src/app/services/article.service';
@@ -42,7 +43,7 @@ export class ReportEditorComponent implements OnInit {
    * 初期設定
    */
   public ngOnInit(): void {
-
+    this.procInit();
   }
   //#endregion
 
@@ -59,8 +60,63 @@ export class ReportEditorComponent implements OnInit {
 
     const inputData: InputOfFrmArticle = this.frmArticle.value;
 
-    this.sArticle.addArticle(this.sUrdayin.getSelectedUser(), inputData.title, inputData.article);
+    if (this.isNewArticle()) {
+      // 新規作成の場合
+      this.sArticle.addArticle(this.sUrdayin.getSelectedUser(), inputData.title, inputData.article);
+    } else {
+      // 編集の場合 
+      this.sArticle.updateArticle(this.getArticleId(), inputData.title, inputData.article);
+    }
+  }
+  //#endregion
 
+  //#region procInit
+  /**
+   * 初期設定
+   */
+  private procInit(): void {
+    if (this.isNewArticle()) {
+      //新規作成の場合
+      // とくになし
+    } else {
+      //編集の場合
+      this.getArticleData();
+    }
+  }
+  //#endregion
+
+  //#region getArticleData
+  /**
+   * 記事データを取得する
+   */
+  private async getArticleData(): Promise<void> {
+    const id: string = this.getArticleId();
+    const email: string = this.sUrdayin.getSelectedUser();
+    let article: ArticleData = await this.sArticle.getArticleData(id, email);
+    this.frmArticle = this.fb.group({
+      title: article.text.title,
+      article: article.text.text
+    });
+  }
+  //#endregion
+
+  //#region isNewArticle
+  /**
+   * 新規登録か判定する
+   * @returns 
+   */
+  private isNewArticle(): boolean {
+    return this.getArticleId() === "new";
+  }
+  //#endregion
+
+  //#region getArticleId
+  /**
+   * URLから記事IDを取得する
+   * @returns 
+   */
+  private getArticleId(): string {
+    return <string>this.route.snapshot.paramMap.get('id');
   }
   //#endregion
 
