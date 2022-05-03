@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { Daily } from 'src/app/interfaces/document/daily';
 import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Monthly } from 'src/app/interfaces/document/monthly';
@@ -23,7 +24,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
 
   public selectedDateForDisply: Date = new Date();
   public dailyTotalHours: number = 0;
-  public submitMessage: string = "";
   public listGroup: GroupName[] = [];
 
   private subscriptionSelectedDate!: Subscription;
@@ -47,6 +47,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     , private sJobs: JobsService
     , private sGroupName: GroupNameService
     , private fb: FormBuilder
+    , private toastr: ToastrService
   ) {
 
   }
@@ -128,7 +129,6 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    * 日次データを更新する
    */
   public async updateDailyData(): Promise<void> {
-    this.submitMessage = "";
     let inputData: Daily = this.frmDaily.value;
     const email: string = this.sUrdayin.getSelectedUser();
     const yearmonth: string = Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate());
@@ -167,7 +167,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     this.sUrdayin.onSharedDailyDataChanged(newDailys);
 
     ///成功
-    this.submitMessage = "Successed submit";
+    this.toastr.success("登録しました");
 
   }
   //#endregion

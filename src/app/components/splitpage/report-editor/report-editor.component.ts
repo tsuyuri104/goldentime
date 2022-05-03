@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QuillModules } from "ngx-quill";
+import { ToastrService } from 'ngx-toastr';
 import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { InputOfFrmArticle } from 'src/app/interfaces/component/input-of-frm-article';
 import { QuillConfiguration } from 'src/app/modules/quill-configuration/quill-configuration.module';
@@ -33,7 +34,8 @@ export class ReportEditorComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
     private sArticle: ArticleService,
-    private sUrdayin: UrdayinService) {
+    private sUrdayin: UrdayinService,
+    private toastr: ToastrService) {
 
   }
   //#endregion
@@ -74,6 +76,8 @@ export class ReportEditorComponent implements OnInit {
     if (btn === "public") {
       this.isDisplayPrivateButton = false;
     }
+
+    this.toastr.success("登録しました");
   }
   //#endregion
 

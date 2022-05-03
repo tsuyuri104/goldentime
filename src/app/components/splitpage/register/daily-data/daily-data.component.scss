@@ -64,14 +64,6 @@ button[type="submit"] {
         @include mixins.common-sub-action-button();
     }
 }
-.submit-message {
-    background: color.$gradation-neon;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 600;
-    text-align: center;
-    animation: fadeout 5s ease 0s 1 forwards;
-}
 @keyframes fadeout {
     0% {
         opacity: 1;
