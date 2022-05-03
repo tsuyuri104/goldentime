@@ -16,6 +16,9 @@ main {
     justify-content: center;
     align-items: center;
     background: color.$gradation-main;
+    @include mixins.ForNarrowMode() {
+        align-items: stretch;
+    }
 }
 .wrapper {
     width: 45vw;
