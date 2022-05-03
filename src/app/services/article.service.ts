@@ -37,12 +37,12 @@ export class ArticleService {
    * @param email 
    * @param title 
    * @param text 
+   * @param status
    */
-  public async addArticle(email: string, title: string, text: string): Promise<void> {
+  public async addArticle(email: string, title: string, text: string, status: ArticleStatus): Promise<void> {
     const db = getFirestore();
     const tsNow: Timestamp = Timestamp.now();
     const edition: number = 1;
-    const status: ArticleStatus = "public";
 
     //Articleに登録するデータ
     const articleDatum: Article = {
@@ -82,8 +82,9 @@ export class ArticleService {
    * @param id 
    * @param title 
    * @param text 
+   * @param status
    */
-  public async updateArticle(id: string, title: string, text: string): Promise<void> {
+  public async updateArticle(id: string, title: string, text: string, status: ArticleStatus): Promise<void> {
     const db = getFirestore();
     const tsNow: Timestamp = Timestamp.now();
 
@@ -98,6 +99,7 @@ export class ArticleService {
     article.update_timestamp = tsNow;
     article.summary_title = Common.cutLongText(title, 10);
     article.summary_text = Common.cutLongText(Common.deleteHtmlTag(text), 100);
+    article.status = status;
 
     //登録する
     setDoc(refArticle, article);

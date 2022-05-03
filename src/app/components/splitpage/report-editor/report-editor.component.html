@@ -11,7 +11,11 @@
                 </quill-editor>
             </div>
             <div class="input-wrapper">
-                <button type="submit" (click)="submit('public')">公開する</button>
+                <div class="input-button-wrapper">
+                    <button type="submit" (click)="submit('public')" class="input-button_public">公開する</button>
+                    <button type="submit" (click)="submit('private')" class="input-button_private"
+                        *ngIf="isDisplayPrivateButton">下書き保存する</button>
+                </div>
             </div>
         </form>
     </div>

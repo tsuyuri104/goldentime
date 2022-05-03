@@ -7,6 +7,7 @@ import { InputOfFrmArticle } from 'src/app/interfaces/component/input-of-frm-art
 import { QuillConfiguration } from 'src/app/modules/quill-configuration/quill-configuration.module';
 import { ArticleService } from 'src/app/services/article.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { ArticleStatus } from 'src/app/types/article-status';
 
 @Component({
   selector: 'app-report-editor',
@@ -24,6 +25,7 @@ export class ReportEditorComponent implements OnInit {
   });
 
   public quillConfiguration: QuillModules = QuillConfiguration;
+  public isDisplayPrivateButton: boolean = false;
 
   //#endregion
 
@@ -56,16 +58,16 @@ export class ReportEditorComponent implements OnInit {
    * データを保存する
    * @param btn 保存の種類
    */
-  public submit(btn: string): void {
+  public submit(btn: ArticleStatus): void {
 
     const inputData: InputOfFrmArticle = this.frmArticle.value;
 
     if (this.isNewArticle()) {
       // 新規作成の場合
-      this.sArticle.addArticle(this.sUrdayin.getSelectedUser(), inputData.title, inputData.article);
+      this.sArticle.addArticle(this.sUrdayin.getSelectedUser(), inputData.title, inputData.article, btn);
     } else {
       // 編集の場合 
-      this.sArticle.updateArticle(this.getArticleId(), inputData.title, inputData.article);
+      this.sArticle.updateArticle(this.getArticleId(), inputData.title, inputData.article, btn);
     }
   }
   //#endregion
@@ -97,6 +99,7 @@ export class ReportEditorComponent implements OnInit {
       title: article.text.title,
       article: article.text.text
     });
+    this.isDisplayPrivateButton = article.article.status === "private";
   }
   //#endregion
 

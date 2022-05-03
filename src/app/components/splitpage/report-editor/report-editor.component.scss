@@ -6,9 +6,6 @@ main {
     flex-direction: column;
     justify-content: flex-start;
 }
-button[type="submit"] {
-    @include mixins.common-submit-button();
-}
 .input {
     &-wrapper {
         height: 100%;
@@ -16,6 +13,19 @@ button[type="submit"] {
     &-text {
         &-long {
             width: 100%;
+        }
+    }
+    &-button {
+        &-wrapper {
+            > * {
+                margin: 0.5em 0;
+            }
+        }
+        &_public {
+            @include mixins.common-submit-button();
+        }
+        &_private {
+            @include mixins.common-sub-action-button();
         }
     }
 }
