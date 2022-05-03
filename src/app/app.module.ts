@@ -13,7 +13,9 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuillModule } from 'ngx-quill';
+import { ToastrModule } from 'ngx-toastr';
 
 import { RegisterComponent } from './components/splitpage/register/register.component';
 import { LoginComponent } from './components/fullscreenpage/login/login.component';
@@ -104,6 +106,8 @@ registerLocaleData(localeJa);
       registrationStrategy: 'registerWhenStable:30000'
     }),
     QuillModule.forRoot(),
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ja-JP' },
