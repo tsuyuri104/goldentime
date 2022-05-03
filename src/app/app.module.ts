@@ -47,6 +47,8 @@ import { EmojiSpeechBalloonComponent } from './components/emoji/emoji-speech-bal
 import { SvgRoadSignComponent } from './components/svg/svg-road-sign/svg-road-sign.component';
 import { CopyrightComponent } from './components/splitpage/copyright/copyright.component';
 import { SvgLogComponent } from './components/svg/svg-log/svg-log.component';
+import { SvgLockComponent } from './components/svg/svg-lock/svg-lock.component';
+import { SvgUnlockComponent } from './components/svg/svg-unlock/svg-unlock.component';
 
 registerLocaleData(localeJa);
 
@@ -82,6 +84,8 @@ registerLocaleData(localeJa);
     SvgRoadSignComponent,
     CopyrightComponent,
     SvgLogComponent,
+    SvgLockComponent,
+    SvgUnlockComponent,
   ],
   imports: [
     BrowserModule,
