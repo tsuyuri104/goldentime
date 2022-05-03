@@ -79,7 +79,7 @@ export class ReportEditorComponent implements OnInit {
   private procInit(): void {
     if (this.isNewArticle()) {
       //新規作成の場合
-      // とくになし
+      this.isDisplayPrivateButton = true;
     } else {
       //編集の場合
       this.getArticleData();
