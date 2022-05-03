@@ -1,16 +1,21 @@
 <main>
     <div class="wrapper">
         <div class="group">
-            <a routerLink="/editor/new">
-                <svg-write class="svg-size_20"></svg-write>
-                <span>新規作成</span>
+            <a routerLink="/editor/new" class="new-button">
+                新規作成
             </a>
         </div>
         <div class="group">
             <div class="card-wrapper">
                 <div class="card" *ngFor="let item of articleList" (click)="transitionViewer(item.id)">
                     <div class="card-header">
-                        <h2 class="article-title">{{ item.title }}</h2>
+                        <div class="card-inner-wrapper">
+                            <ng-container *ngIf="item.isMine">
+                                <svg-lock *ngIf="isPrivate(item.status)" class="svg-size_20"></svg-lock>
+                                <svg-unlock *ngIf="isPublic(item.status)" class="svg-size_20"></svg-unlock>
+                            </ng-container>
+                            <h2 class="article-title">{{ item.title }}</h2>
+                        </div>
                         <span class="article-writer">{{ item.user_name }}</span>
                     </div>
                     <div class="card-body">

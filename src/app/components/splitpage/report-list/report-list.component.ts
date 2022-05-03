@@ -4,6 +4,7 @@ import { RouteName } from 'src/app/classes/route-name';
 import { ArticleList } from 'src/app/interfaces/component/article-list';
 import { ArticleService } from 'src/app/services/article.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { ArticleStatus } from 'src/app/types/article-status';
 
 @Component({
   selector: 'app-report-list',
@@ -46,6 +47,27 @@ export class ReportListComponent implements OnInit {
    */
   public transitionViewer(id: string): void {
     this.router.navigateByUrl("/" + RouteName.VIEWER + "/" + id);
+  }
+  //#endregion
+
+  //#region isPrivate
+  /**
+   * 非公開の記事か判定する
+   * @param status 
+   * @returns 
+   */
+  public isPrivate(status: ArticleStatus): boolean {
+    return status === "private";
+  }
+
+  //#region isPublic
+  /**
+   * 公開の記事か判定する
+   * @param status 
+   * @returns 
+   */
+  public isPublic(status: ArticleStatus): boolean {
+    return status === "public";
   }
   //#endregion
 

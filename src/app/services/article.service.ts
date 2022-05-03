@@ -145,13 +145,13 @@ export class ArticleService {
     //自分の記事を格納する
     myDocs.forEach(doc => {
       let data: Article = <Article>doc.data();
-      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer)));
+      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer), email));
     });
 
     //他人の記事を格納する
     theirDocs.forEach(doc => {
       let data: Article = <Article>doc.data();
-      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer)));
+      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer), email));
     });
 
     //更新日降順でソートする
@@ -344,9 +344,10 @@ export class ArticleService {
    * @param id 
    * @param data 
    * @param userName 
+   * @param email
    * @returns 
    */
-  private setArticleListItem(id: string, data: Article, userName: string): ArticleList {
+  private setArticleListItem(id: string, data: Article, userName: string, email: string): ArticleList {
     return <ArticleList>{
       id: id,
       title: data.summary_title,
@@ -356,6 +357,8 @@ export class ArticleService {
       user_name: userName,
       reactions: data.reactions,
       comments: data.comment_volume,
+      status: data.status,
+      isMine: data.writer === email,
     }
   }
   //#endregion
