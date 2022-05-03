@@ -10,6 +10,9 @@ main {
         list-style-type: circle;
         padding-left: 1em;
     }
+    &-topic {
+        margin-bottom: 1.5em;
+    }
     &-item {
         cursor: pointer;
     }
