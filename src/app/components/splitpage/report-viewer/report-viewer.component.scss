@@ -146,6 +146,23 @@ button[type="submit"] {
         font-size: 0.8em;
     }
 }
+.editor {
+    border-top: 2px solid;
+    border-image: color.$gradation-neon;
+    border-image-slice: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    > * {
+        margin: 1em 0;
+    }
+    &-button {
+        @include mixins.common-sub-action-button();
+        &-wrapper {
+            width: 40%;
+        }
+    }
+}
 @keyframes grayscale-wave {
     0% {
         filter: grayscale(100%);

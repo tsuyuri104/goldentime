@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuillModules } from "ngx-quill";
+import { RouteName } from 'src/app/classes/route-name';
 import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { InputOfFrmComment } from 'src/app/interfaces/component/input-of-frm-comment';
 import { Reactioner } from 'src/app/interfaces/document/reactioner';
@@ -36,7 +37,8 @@ export class ReportViewerComponent implements OnInit {
     private sReactioner: ReactionerService,
     private sUrdayin: UrdayinService,
     private fb: FormBuilder,
-    private sComments: CommentsService) {
+    private sComments: CommentsService,
+    private router: Router) {
 
   }
   //#endregion
@@ -127,6 +129,28 @@ export class ReportViewerComponent implements OnInit {
   }
   //#endregion
 
+  //#region  delete
+  /**
+   * 記事を削除する
+   */
+  public delete(): void {
+    const id: string = this.getArticleId();
+    this.sArticle.deleteArticle(id).then(() => {
+      this.router.navigateByUrl("/" + RouteName.REPORT);
+    });
+  }
+  //#endregion
+
+  //#region transitionEditor
+  /**
+   * 編集画面に遷移する
+   */
+  public transitionEditor(): void {
+    const id: string = this.getArticleId();
+    this.router.navigateByUrl("/" + RouteName.EDITOR + "/" + id);
+  }
+  //#endregion
+
   //#region isReactioned
   /**
    * リアクションしたか判定する
@@ -174,6 +198,9 @@ export class ReportViewerComponent implements OnInit {
           break;
       }
     });
+
+    //自分の記事か判定する
+    this.articleData.isMine = this.articleData.article.writer === email;
 
     this.isLoaded = true;
   }

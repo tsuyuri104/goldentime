@@ -9,4 +9,5 @@ export interface ArticleData {
     isReactionedHeart: boolean,
     isReactionedClap: boolean,
     isReactionedThumbsup: boolean,
+    isMine: boolean,
 }

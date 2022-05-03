@@ -57,5 +57,13 @@
                 <button type="submit">コメントする</button>
             </form>
         </div>
+        <div class="editor" *ngIf="articleData.isMine">
+            <div class="editor-button-wrapper">
+                <button class="editor-button" (click)="transitionEditor()">編集する</button>
+            </div>
+            <div class="editor-button-wrapper">
+                <button class="editor-button" (click)="delete()">削除する</button>
+            </div>
+        </div>
     </div>
 </main>

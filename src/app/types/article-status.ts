@@ -1,1 +1,1 @@
-export declare type ArticleStatus = "public" | "private";
+export declare type ArticleStatus = "public" | "private" | "delete";

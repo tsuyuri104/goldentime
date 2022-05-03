@@ -86,12 +86,13 @@ export class ArticleService {
     let list: ArticleList[] = [];
     const db = getFirestore();
 
-    //公開非公開問わず自分の記事を取得する
-    const myQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "==", email));
+    //公開非公開問わず自分の記事を取得する(削除は除く)
+    const deleted: ArticleStatus = "delete";
+    const myQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "==", email), where(ArticleFiledName.STATUS, "!=", deleted));
     const myDocs = await getDocs(myQuery);
 
     //公開の他人の記事を取得する
-    let theirStatus: ArticleStatus = "public";
+    const theirStatus: ArticleStatus = "public";
     const theirQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "!=", email), where(ArticleFiledName.STATUS, "==", theirStatus))
     const theirDocs = await getDocs(theirQuery);
 
@@ -188,6 +189,7 @@ export class ArticleService {
       isReactionedHeart: false,
       isReactionedClap: false,
       isReactionedThumbsup: false,
+      isMine: false,
     }
   }
   //#endregion
@@ -253,6 +255,25 @@ export class ArticleService {
 
     //追加後の値
     return volume;
+  }
+  //#endregion
+
+  //#region deleteArticle
+  /**
+   * 記事を削除する（論理削除）
+   * @param id 
+   */
+  public async deleteArticle(id: string): Promise<void> {
+    const db = getFirestore();
+
+    //対象のデータを取得する
+    const refArticle = doc(db, ArticleCollectionName.ARTICLE, id);
+    const snapArticle = await getDoc(refArticle);
+    let article: Article = <Article>snapArticle.data();
+    article.status = "delete";
+
+    //登録する
+    await setDoc(refArticle, article);
   }
   //#endregion
 
