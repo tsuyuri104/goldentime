@@ -20,10 +20,7 @@ export class ReportEditorComponent implements OnInit {
 
   //#region 変数
 
-  public frmArticle: FormGroup = this.fb.group({
-    title: '',
-    article: '',
-  });
+  public frmArticle!: FormGroup;
 
   public quillConfiguration: QuillModules = QuillConfiguration;
   public isDisplayPrivateButton: boolean = false;
@@ -36,7 +33,11 @@ export class ReportEditorComponent implements OnInit {
     private sArticle: ArticleService,
     private sUrdayin: UrdayinService,
     private toastr: ToastrService) {
-
+    // 記事用フォーム
+    this.frmArticle = this.fb.group({
+      title: '',
+      article: '',
+    });
   }
   //#endregion
 
