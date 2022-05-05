@@ -9,6 +9,7 @@ import { ConfigService } from 'src/app/services/config.service';
 import { CSVService } from 'src/app/services/csv.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { Encode } from 'src/app/types/encode';
 import { Common } from 'src/app/utilities/common';
 
 @Component({
@@ -136,8 +137,12 @@ export class OverviewComponent implements OnInit {
   //#region exportCsv
   /**
    * CSVを出力する
+   * @param e
+   * @param encode
    */
-  public async exportCsv(elm: HTMLButtonElement): Promise<void> {
+  public async exportCsv(e: Event, encode: Encode): Promise<void> {
+
+    const elm: HTMLElement = <HTMLElement>e.target;
 
     //ボタンのデータ属性を取得する
     const year: string | unknown = elm.getAttribute("data-year");
@@ -162,7 +167,7 @@ export class OverviewComponent implements OnInit {
     });
 
     //出力する
-    this.sCsv.download(strCsvValue, "工数一覧_" + Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
+    this.sCsv.download(strCsvValue, "工数一覧_" + Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()), encode);
   }
   //#endregion
 

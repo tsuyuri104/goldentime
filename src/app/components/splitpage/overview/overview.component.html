@@ -62,9 +62,12 @@
             </table>
         </div>
         <div class="export" *ngIf="list.length > 0">
-            <button #btnCsv type="button" class="export-button" (click)="exportCsv(btnCsv)"
+            <button type="button" class="export-button" (click)="exportCsv($event,'UTF8')"
                 [attr.data-year]="slcYear.value" [attr.data-month]="slcMonth.value"
-                [attr.data-user]="slcUser.value">CSV出力</button>
+                [attr.data-user]="slcUser.value">CSV出力(UTF8)</button>
+            <button type="button" class="export-button" (click)="exportCsv($event,'SJIS')"
+                [attr.data-year]="slcYear.value" [attr.data-month]="slcMonth.value"
+                [attr.data-user]="slcUser.value">CSV出力(SJIS)</button>
         </div>
     </div>
 </main>

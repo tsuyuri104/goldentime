@@ -85,3 +85,8 @@ button[type="button"] {
         }
     }
 }
+.export {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
