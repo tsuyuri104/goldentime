@@ -9,9 +9,9 @@ import { DailyService } from 'src/app/services/daily.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
-import { Common } from 'src/app/utilities/common';
 import { GroupName } from 'src/app/interfaces/document/group-name';
 import { GroupNameService } from 'src/app/services/group-name.service';
+import { DateUtil } from 'src/app/utilities/date-util';
 
 @Component({
   selector: 'app-daily-data',
@@ -131,8 +131,8 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   public async updateDailyData(): Promise<void> {
     let inputData: Daily = this.frmDaily.value;
     const email: string = this.sUrdayin.getSelectedUser();
-    const yearmonth: string = Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate());
-    const date: string = Common.dateToString(this.sUrdayin.getSelectedDate());
+    const yearmonth: string = DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate());
+    const date: string = DateUtil.toString(this.sUrdayin.getSelectedDate());
     inputData.total = this.calcTotalHours();
 
     //日次データを更新する
@@ -178,7 +178,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    * @param range 変更日数
    */
   public setSelectedDate(range: number): void {
-    const date: Date = Common.addDate(this.sUrdayin.getSelectedDate(), range);
+    const date: Date = DateUtil.addDate(this.sUrdayin.getSelectedDate(), range);
     this.sUrdayin.onSharedSelectedDateChanged(date);
   }
   //#endregion
@@ -189,7 +189,7 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    */
   private procInit(): void {
     this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
-    this.getDailyData(this.sUrdayin.getSelectedUser(), Common.dateToString(this.sUrdayin.getSelectedDate()));
+    this.getDailyData(this.sUrdayin.getSelectedUser(), DateUtil.toString(this.sUrdayin.getSelectedDate()));
     this.getGroupNameData();
   }
   //#endregion

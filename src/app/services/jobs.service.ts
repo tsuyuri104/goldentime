@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionGroup, DocumentData, getDocs, getFirestore, query, QuerySnapshot, where } from 'firebase/firestore';
 import { Daily } from '../interfaces/document/daily';
 import { Jobs } from '../interfaces/document/jobs';
-import { Common } from '../utilities/common';
+import { DateUtil } from '../utilities/date-util';
 import { DailyService } from './daily.service';
 import { UrdayinService } from './urdayin.service';
 
@@ -58,10 +58,10 @@ export class JobsService {
     const jobDocs: Jobs[] = await this.getDataOneMonth(email, yearmonth);
 
     //月の一日を取得する
-    const firstDate: Date = Common.getFirstDateFromYearMonth(yearmonth);
+    const firstDate: Date = DateUtil.getFirstDateFromYearMonth(yearmonth);
 
     //月の最終日を取得する
-    const lastDate: Date = Common.getLastDateFromYearMonth(yearmonth);
+    const lastDate: Date = DateUtil.getLastDateFromYearMonth(yearmonth);
 
     //CSVに書き込む内容
     let contents: string[][] = [];
@@ -74,8 +74,8 @@ export class JobsService {
     for (let i = 0; i < daysInMonth; i++) {
 
       //日付を取得する
-      const tmpDate: Date = Common.addDate(firstDate, i);
-      const strTmpDate: string = Common.dateToString(tmpDate);
+      const tmpDate: Date = DateUtil.addDate(firstDate, i);
+      const strTmpDate: string = DateUtil.toString(tmpDate);
 
       //ヘッダー行用
       lineHeader.push(strTmpDate);

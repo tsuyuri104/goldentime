@@ -10,7 +10,7 @@ import { CSVService } from 'src/app/services/csv.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Encode } from 'src/app/types/encode';
-import { Common } from 'src/app/utilities/common';
+import { DateUtil } from 'src/app/utilities/date-util';
 
 @Component({
   selector: 'app-overview',
@@ -156,7 +156,7 @@ export class OverviewComponent implements OnInit {
     const contents: string[][] = await this.sJobs.getDataForCsv(<string>user, yearmonth);
 
     //月の最終日を取得する
-    const lastDate: Date = Common.getLastDateFromYearMonth(yearmonth);
+    const lastDate: Date = DateUtil.getLastDateFromYearMonth(yearmonth);
     const daysInMonth: number = lastDate.getDate();
 
     //CSVフォーマットとして文字連結する
@@ -167,7 +167,7 @@ export class OverviewComponent implements OnInit {
     });
 
     //出力する
-    this.sCsv.download(strCsvValue, "工数一覧_" + Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()), encode);
+    this.sCsv.download(strCsvValue, "工数一覧_" + DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()), encode);
   }
   //#endregion
 

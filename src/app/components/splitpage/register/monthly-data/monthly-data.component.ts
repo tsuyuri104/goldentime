@@ -9,7 +9,7 @@ import { DailyService } from 'src/app/services/daily.service';
 import { HolidayService } from 'src/app/services/holiday.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
-import { Common } from 'src/app/utilities/common';
+import { DateUtil } from 'src/app/utilities/date-util';
 
 @Component({
   selector: 'app-monthly-data',
@@ -99,7 +99,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const date: Date = Common.stringToDate(fullDate);
+    const date: Date = DateUtil.toDate(fullDate);
     this.sUrdayin.onSharedSelectedDateChanged(date);
   }
   //#endregion
@@ -110,7 +110,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @param range 現在選択している月からの移動月数
    */
   public setSelectedMonth(range: number): void {
-    const nowDate: Date = Common.getFirstDate(this.sUrdayin.getSelectedDate());
+    const nowDate: Date = DateUtil.getFirstDate(this.sUrdayin.getSelectedDate());
     const y: number = nowDate.getFullYear();
     const m: number = nowDate.getMonth();
     const d: number = nowDate.getDate();
@@ -126,7 +126,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * @returns 真偽値
    */
   public isSelectedDate(day: string): boolean {
-    return day === Common.dateToString(this.sUrdayin.getSelectedDate());
+    return day === DateUtil.toString(this.sUrdayin.getSelectedDate());
   }
   //#endregion
 
@@ -163,14 +163,14 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     let calender: Calendar = { rows: [] };
 
     //月の一日を取得する
-    const firstDate: Date = Common.getFirstDate(this.sUrdayin.getSelectedDate());
+    const firstDate: Date = DateUtil.getFirstDate(this.sUrdayin.getSelectedDate());
 
     //月の最終日を取得する
-    const lastDate: Date = Common.getLastDate(this.sUrdayin.getSelectedDate());
+    const lastDate: Date = DateUtil.getLastDate(this.sUrdayin.getSelectedDate());
 
     //祝日を取得する
     const date: Date = this.sUrdayin.getSelectedDate();
-    const holiday: string[] = await this.sHoliday.getHolidayData(Common.dateToStringYearMonth(date));
+    const holiday: string[] = await this.sHoliday.getHolidayData(DateUtil.toStringYearMonth(date));
 
     //カレンダーの１行分の情報を格納する
     let row: CalendarRow = { days: [] };
@@ -186,7 +186,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     for (let i = 0; i < daysInMonth; i++) {
 
       //曜日を取得する
-      const tmpDate: Date = Common.addDate(firstDate, i);
+      const tmpDate: Date = DateUtil.addDate(firstDate, i);
       const dayOfWeek: number = tmpDate.getDay();
 
       //日曜日の場合
@@ -197,14 +197,14 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
 
       const isSunday: boolean = dayOfWeek === 0;
       const isSaturday: boolean = dayOfWeek === 6;
-      const isHoliday: boolean = holiday.findIndex(h => h === Common.dateToString(tmpDate)) > -1;
+      const isHoliday: boolean = holiday.findIndex(h => h === DateUtil.toString(tmpDate)) > -1;
 
       row.days.push(<CalendarDay>{
         date: tmpDate.getDate(),
         isSunday: isSunday,
         isSaturday: isSaturday,
         isBlank: false,
-        fullDate: Common.dateToString(tmpDate),
+        fullDate: DateUtil.toString(tmpDate),
         isHoliday: isHoliday,
       });
     }
@@ -237,7 +237,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * 月次データを取得する
    */
   private async getMonthlyData(): Promise<void> {
-    this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate()));
+    this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()));
   }
   //#endregion
 
@@ -246,7 +246,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * １ヶ月分の日次データを取得する
    */
   private async getDailysData(): Promise<void> {
-    this.dailys = this.sDaily.convertDailyKeyValueInterface(await this.sDaily.getDataOneMonth(this.sUrdayin.getSelectedUser(), Common.dateToStringYearMonth(this.sUrdayin.getSelectedDate())));
+    this.dailys = this.sDaily.convertDailyKeyValueInterface(await this.sDaily.getDataOneMonth(this.sUrdayin.getSelectedUser(), DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate())));
   }
   //#endregion
 

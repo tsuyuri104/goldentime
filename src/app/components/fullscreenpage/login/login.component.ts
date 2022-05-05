@@ -8,7 +8,7 @@ import { ComponentControlService } from 'src/app/services/component-control.serv
 import { NoticesService } from 'src/app/services/notices.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { Timestamp } from 'firebase/firestore';
-import { Common } from 'src/app/utilities/common';
+import { DateUtil } from 'src/app/utilities/date-util';
 
 @Component({
   selector: 'app-login',
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
   public isWithinFewDays(ts: Timestamp): boolean {
     const noticeDate: Date = ts.toDate();
     const today: Date = new Date();
-    const fewDaysAgo: Date = Common.addDate(today, -3);
+    const fewDaysAgo: Date = DateUtil.addDate(today, -3);
     return noticeDate > fewDaysAgo;
   }
   //#endregion

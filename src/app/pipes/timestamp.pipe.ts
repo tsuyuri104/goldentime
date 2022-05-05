@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Timestamp } from 'firebase/firestore';
-import { Common } from '../utilities/common';
+import { DateUtil } from '../utilities/date-util';
 
 @Pipe({
   name: 'timestamp'
@@ -17,7 +17,7 @@ export class TimestampPipe implements PipeTransform {
     }
 
     //フォーマットに整形する
-    return Common.dateToStringFormat(value.toDate(), format);
+    return DateUtil.toStringFormat(value.toDate(), format);
   }
 
 }
