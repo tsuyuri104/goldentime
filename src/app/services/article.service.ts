@@ -38,8 +38,9 @@ export class ArticleService {
    * @param title 
    * @param text 
    * @param status
+   * @returns
    */
-  public async addArticle(email: string, title: string, text: string, status: ArticleStatus): Promise<void> {
+  public async addArticle(email: string, title: string, text: string, status: ArticleStatus): Promise<string> {
     const db = getFirestore();
     const tsNow: Timestamp = Timestamp.now();
     const edition: number = 1;
@@ -73,6 +74,8 @@ export class ArticleService {
     //Editionsに登録する
     const editionRef = collection(db, ArticleCollectionName.ARTICLE, articleDocRef.id, ArticleCollectionName.EDITIONS);
     addDoc(editionRef, editionDatum);
+
+    return articleDocRef.id;
   }
   //#endregion
 
@@ -93,8 +96,15 @@ export class ArticleService {
     const snapArticle = await getDoc(refArticle);
     let article: Article = <Article>snapArticle.data();
 
+    const beforeStatus: ArticleStatus = article.status;
+
+    let newEdition: number = article.last_edition;
+    if (beforeStatus === "public") {
+      newEdition += 1;
+      // 非公開の場合はエディションを上げない
+    }
+
     // 更新する値を設定する
-    const newEdition: number = article.last_edition + 1;
     article.last_edition = newEdition;
     article.update_timestamp = tsNow;
     article.summary_title = Common.cutLongText(title, 10);
@@ -105,7 +115,7 @@ export class ArticleService {
     setDoc(refArticle, article);
 
     //Editionsに登録するデータ
-    const edition: Edition = {
+    let edition: Edition = {
       edition: newEdition,
       title: title,
       text: text,
@@ -113,9 +123,16 @@ export class ArticleService {
       article_id: id,
     }
 
-    //Editionsに登録する
-    const editionRef = collection(db, ArticleCollectionName.ARTICLE, id, ArticleCollectionName.EDITIONS);
-    addDoc(editionRef, edition);
+    if (beforeStatus === "public") {
+      // 公開用
+      const editionRef = collection(db, ArticleCollectionName.ARTICLE, id, ArticleCollectionName.EDITIONS);
+      addDoc(editionRef, edition);
+    } else {
+      // 非公開用
+      const editionId: string = await this.sEdition.getEditionId(id, newEdition);
+      const editionRef = doc(db, ArticleCollectionName.ARTICLE, id, ArticleCollectionName.EDITIONS, editionId);
+      setDoc(editionRef, edition);
+    }
   }
   //#endregion
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuillModules } from "ngx-quill";
 import { ToastrService } from 'ngx-toastr';
+import { RouteName } from 'src/app/classes/route-name';
 import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { InputOfFrmArticle } from 'src/app/interfaces/component/input-of-frm-article';
 import { QuillConfiguration } from 'src/app/modules/quill-configuration/quill-configuration.module';
@@ -32,7 +33,8 @@ export class ReportEditorComponent implements OnInit {
     private fb: FormBuilder,
     private sArticle: ArticleService,
     private sUrdayin: UrdayinService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private router: Router) {
     // 記事用フォーム
     this.frmArticle = this.fb.group({
       title: '',
@@ -61,24 +63,27 @@ export class ReportEditorComponent implements OnInit {
    * データを保存する
    * @param btn 保存の種類
    */
-  public submit(btn: ArticleStatus): void {
+  public async submit(btn: ArticleStatus): Promise<void> {
 
     const inputData: InputOfFrmArticle = this.frmArticle.value;
+    let id: string = this.getArticleId();
 
     if (this.isNewArticle()) {
       // 新規作成の場合
-      this.sArticle.addArticle(this.sUrdayin.getSelectedUser(), inputData.title, inputData.article, btn);
+      id = await this.sArticle.addArticle(this.sUrdayin.getSelectedUser(), inputData.title, inputData.article, btn);
     } else {
       // 編集の場合 
       this.sArticle.updateArticle(this.getArticleId(), inputData.title, inputData.article, btn);
     }
 
     //公開した場合は、下書きボタンを表示しない
-    if (btn === "public") {
-      this.isDisplayPrivateButton = false;
-    }
+    this.setDiesplayMode(btn);
 
     this.toastr.success("登録しました");
+
+    //URLを書き換える
+    const newUrl: string = "/" + RouteName.EDITOR + "/" + id;
+    this.router.navigateByUrl(newUrl);
   }
   //#endregion
 
@@ -89,7 +94,7 @@ export class ReportEditorComponent implements OnInit {
   private procInit(): void {
     if (this.isNewArticle()) {
       //新規作成の場合
-      this.isDisplayPrivateButton = true;
+      this.setDiesplayMode("private");
     } else {
       //編集の場合
       this.getArticleData();
@@ -109,7 +114,7 @@ export class ReportEditorComponent implements OnInit {
       title: article.text.title,
       article: article.text.text
     });
-    this.isDisplayPrivateButton = article.article.status === "private";
+    this.setDiesplayMode(article.article.status);
   }
   //#endregion
 
@@ -130,6 +135,16 @@ export class ReportEditorComponent implements OnInit {
    */
   private getArticleId(): string {
     return <string>this.route.snapshot.paramMap.get('id');
+  }
+  //#endregion
+
+  //#region setDiesplayMode
+  /**
+   * 下書きボタン表示変数の値を設定する
+   * @param status 
+   */
+  private setDiesplayMode(status: ArticleStatus): void {
+    this.isDisplayPrivateButton = status === "private";
   }
   //#endregion
 

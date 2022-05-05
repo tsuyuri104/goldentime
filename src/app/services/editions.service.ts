@@ -29,4 +29,19 @@ export class EditionsService {
     return <ExEdition>docs.docs[0].data();
   }
   //#endregion
+
+  //#region getEditionId
+  /**
+   * 記事IDとエディション番号を指定して、エディションIDを取得する
+   * @param articleId 
+   * @param edition 
+   * @returns 
+   */
+  public async getEditionId(articleId: string, edition: number): Promise<string> {
+    const db = getFirestore();
+    const q = query(collectionGroup(db, ArticleCollectionName.EDITIONS), where(ArticleFiledName.ARTICLE_ID, "==", articleId), where(ArticleFiledName.EDITION, "==", edition));
+    const docs = await getDocs(q);
+    return docs.docs[0].id;
+  }
+  //#endregion
 }
