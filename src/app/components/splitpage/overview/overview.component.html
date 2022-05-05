@@ -30,12 +30,9 @@
                 </div>
             </form>
         </div>
-        <div class="total">
+        <div class="total" *ngIf="list.length > 0">
             <span>{{ slcYear.value }}年{{ slcMonth.value }}月の合計</span>
             <span>{{ totalHours | number:'1.1-1' }} 時間</span>
-        </div>
-        <div *ngIf="summary.length === 0">
-
         </div>
         <div class="summary" *ngIf="summary.length > 0">
             <div class="summary-card" *ngFor="let sum of summary">
@@ -68,6 +65,9 @@
             <button type="button" class="export-button" (click)="exportCsv($event,'SJIS')"
                 [attr.data-year]="slcYear.value" [attr.data-month]="slcMonth.value"
                 [attr.data-user]="slcUser.value">CSV出力(SJIS)</button>
+        </div>
+        <div *ngIf="summary.length === 0">
+            <div>Nothing</div>
         </div>
     </div>
 </main>
