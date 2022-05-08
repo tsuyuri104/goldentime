@@ -9,7 +9,7 @@ export class TimestampPipe implements PipeTransform {
 
   constructor() { }
 
-  transform(value: Timestamp | undefined | null, format: string = ""): string {
+  transform(value: Timestamp | undefined | null, format: string): string {
 
     //値が設定されていない場合は、空文字を返す
     if (value === undefined || value == null) {
