@@ -27,7 +27,7 @@
                             <span class="article-date_const">{{ item.update_timestamp | timestamp:'yyyy年M月d日 HH時m分'
                                 }}</span>
                         </div>
-                        <div class="article-reactions">
+                        <div class="article-reactions" *ngIf="isPublic(item.status)">
                             <dl class="article-reactions-list">
                                 <dt class="article-reactions-emoji">
                                     <emoji-sparkling-heart class="emoji-size_20"></emoji-sparkling-heart>
