@@ -57,8 +57,8 @@
         height: $height;
         width: $width;
         background: color.$gradation-skeleton;
-        background-size: 200% 200%;
-        animation: skeleton 1.2s linear infinite;
+        background-size: 150% 90%;
+        animation: skeleton 1.2s ease infinite;
     }
 }
 

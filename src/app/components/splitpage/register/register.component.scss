@@ -12,6 +12,6 @@ main {
 
     @include mixins.ForNarrowMode() {
         flex-direction: column;
-        padding: 2em;
+        padding: 1em;
     }
 }

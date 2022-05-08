@@ -11,6 +11,9 @@ button[type="submit"] {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    @include mixins.ForNarrowMode() {
+        margin-top: 0;
+    }
     &-title {
         min-width: 270px;
         text-align: center;
