@@ -16,6 +16,7 @@ import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuillModule } from 'ngx-quill';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxDiffModule } from 'ngx-diff';
 
 import { RegisterComponent } from './components/splitpage/register/register.component';
 import { LoginComponent } from './components/fullscreenpage/login/login.component';
@@ -106,6 +107,7 @@ registerLocaleData(localeJa);
     QuillModule.forRoot(),
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    NgxDiffModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ja-JP' },
