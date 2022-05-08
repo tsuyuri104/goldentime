@@ -37,7 +37,7 @@ export class TimesagoPipe implements PipeTransform {
     }
 
     if (diffMonths > 0) {
-      return diffMonths + "か月" + diffDays + "前";
+      return diffMonths + "か月" + diffDays + "日前";
     }
 
     if (diffDays > 0) {
