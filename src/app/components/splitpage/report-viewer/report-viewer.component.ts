@@ -151,6 +151,23 @@ export class ReportViewerComponent implements OnInit {
   }
   //#endregion
 
+  //#region transitionDiffer
+  /**
+   * 差分表示画面に遷移する
+   * @returns 
+   */
+  public transitionDiffer(): void {
+
+    // 初稿の場合は遷移しない
+    if (this.articleData.article.last_edition === 1) {
+      return;
+    }
+
+    const id: string = this.getArticleId();
+    this.router.navigateByUrl("/" + RouteName.DIFFER + "/" + id);
+  }
+  //#endregion
+
   //#region isReactioned
   /**
    * リアクションしたか判定する

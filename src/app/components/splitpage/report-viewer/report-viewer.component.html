@@ -13,6 +13,12 @@
             </div>
             <div class="article-text" [innerHTML]="articleData.text.text" [class.article-text_loading]="!isLoaded">
             </div>
+            <div class="article-footer" *ngIf="articleData.article.status === 'public'">
+                <span>更新回数：{{ articleData.article.last_edition }} </span>
+                <button class="article-footer-button"
+                    [class.article-footer-button_disable]="articleData.article.last_edition === 1"
+                    (click)="transitionDiffer()">編集履歴</button>
+            </div>
         </div>
         <div class="reaction" *ngIf="articleData.article.status === 'public'">
             <dl class="reaction-list" [class.reacrion_on]="articleData.isReactionedHeart"

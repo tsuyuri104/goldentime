@@ -38,6 +38,24 @@ button[type="submit"] {
             min-height: 25%;
         }
     }
+    &-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        align-items: center;
+        &-button {
+            padding: 0.5em;
+            &:hover {
+                background-color: color.$base-light;
+            }
+            &_disable {
+                cursor: default;
+                &:hover {
+                    background-color: unset;
+                }
+            }
+        }
+    }
 }
 .reaction {
     border-top: 2px solid;

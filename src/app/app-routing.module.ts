@@ -6,6 +6,7 @@ import { LoginComponent } from './components/fullscreenpage/login/login.componen
 import { CopyrightComponent } from './components/splitpage/copyright/copyright.component';
 import { OverviewComponent } from './components/splitpage/overview/overview.component';
 import { RegisterComponent } from './components/splitpage/register/register.component';
+import { ReportDifferComponent } from './components/splitpage/report-differ/report-differ.component';
 import { ReportEditorComponent } from './components/splitpage/report-editor/report-editor.component';
 import { ReportListComponent } from './components/splitpage/report-list/report-list.component';
 import { ReportViewerComponent } from './components/splitpage/report-viewer/report-viewer.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: RouteName.REPORT, component: ReportListComponent },
       { path: RouteName.EDITOR + '/:id', component: ReportEditorComponent },
       { path: RouteName.VIEWER + '/:id', component: ReportViewerComponent },
+      { path: RouteName.DIFFER + '/:id', component: ReportDifferComponent },
       { path: RouteName.COPYRIGHT, component: CopyrightComponent },
     ]
     , canActivate: [AuthGuard]

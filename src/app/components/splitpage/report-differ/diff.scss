@@ -1,0 +1,13 @@
+@mixin diff() {
+    $insert: #9dff97;
+    $delete: #ff8c8c;
+
+    .inline-diff {
+        $parent-prefix: &;
+        &-content {
+            &-wrapper {
+                position: unset !important;
+            }
+        }
+    }
+}

@@ -51,6 +51,7 @@ import { CopyrightComponent } from './components/splitpage/copyright/copyright.c
 import { SvgLogComponent } from './components/svg/svg-log/svg-log.component';
 import { SvgLockComponent } from './components/svg/svg-lock/svg-lock.component';
 import { SvgUnlockComponent } from './components/svg/svg-unlock/svg-unlock.component';
+import { ReportDifferComponent } from './components/splitpage/report-differ/report-differ.component';
 
 registerLocaleData(localeJa);
 
@@ -87,6 +88,7 @@ registerLocaleData(localeJa);
     SvgLogComponent,
     SvgLockComponent,
     SvgUnlockComponent,
+    ReportDifferComponent,
   ],
   imports: [
     BrowserModule,
