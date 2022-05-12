@@ -17,7 +17,9 @@ main {
     align-items: center;
     background: color.$gradation-main;
     @include mixins.ForNarrowMode() {
-        align-items: stretch;
+        align-items: flex-start;
+        height: auto;
+        min-height: 100vh;
     }
 }
 .wrapper {
