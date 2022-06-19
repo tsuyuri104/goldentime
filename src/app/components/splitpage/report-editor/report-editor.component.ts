@@ -29,12 +29,13 @@ export class ReportEditorComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private sArticle: ArticleService,
-    private sUrdayin: UrdayinService,
-    private toastr: ToastrService,
-    private router: Router) {
+  constructor(
+    private route: ActivatedRoute
+    , private fb: FormBuilder
+    , private sArticle: ArticleService
+    , private sUrdayin: UrdayinService
+    , private toastr: ToastrService
+    , private router: Router) {
     // 記事用フォーム
     this.frmArticle = this.fb.group({
       title: '',

@@ -29,11 +29,12 @@ export class ReportDifferComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private route: ActivatedRoute,
-    private sEditions: EditionsService,
-    private sArticle: ArticleService,
-    private sUrdayin: UrdayinService,
-    private fb: FormBuilder) {
+  constructor(
+    private route: ActivatedRoute
+    , private sEditions: EditionsService
+    , private sArticle: ArticleService
+    , private sUrdayin: UrdayinService
+    , private fb: FormBuilder) {
     //検索条件の初期化
     this.frmVersion = this.fb.group({
       version: 0,

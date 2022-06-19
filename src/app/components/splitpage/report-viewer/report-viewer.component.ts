@@ -32,13 +32,14 @@ export class ReportViewerComponent implements OnInit {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private route: ActivatedRoute,
-    private sArticle: ArticleService,
-    private sReactioner: ReactionerService,
-    private sUrdayin: UrdayinService,
-    private fb: FormBuilder,
-    private sComments: CommentsService,
-    private router: Router) {
+  constructor(
+    private route: ActivatedRoute
+    , private sArticle: ArticleService
+    , private sReactioner: ReactionerService
+    , private sUrdayin: UrdayinService
+    , private fb: FormBuilder
+    , private sComments: CommentsService
+    , private router: Router) {
 
   }
   //#endregion
