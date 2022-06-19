@@ -5,6 +5,7 @@ import { CalendarDay } from 'src/app/interfaces/component/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/component/calendar-row';
 import { DailyKeyValue } from 'src/app/interfaces/document/daily-key-value';
 import { Monthly } from 'src/app/interfaces/document/monthly';
+import { ConfigService } from 'src/app/services/config.service';
 import { DailyService } from 'src/app/services/daily.service';
 import { HolidayService } from 'src/app/services/holiday.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
@@ -36,7 +37,8 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     private sMonthly: MonthlyService
     , private sDaily: DailyService
     , private sUrdayin: UrdayinService
-    , private sHoliday: HolidayService) {
+    , private sHoliday: HolidayService
+    , private sConfig: ConfigService) {
 
   }
   //#endregion
@@ -115,6 +117,12 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
     const m: number = nowDate.getMonth();
     const d: number = nowDate.getDate();
     const newDate: Date = new Date(y, m + range, d);
+
+    //最小年より前の場合は変更させない
+    if (this.sConfig.registerStartYear > newDate.getFullYear()) {
+      return;
+    }
+
     this.sUrdayin.onSharedSelectedDateChanged(newDate);
   }
   //#endregion
