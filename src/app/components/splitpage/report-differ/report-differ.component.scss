@@ -5,3 +5,10 @@ main {
     @include mixins.common-main();
     justify-content: left;
 }
+.select {
+    &-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}
