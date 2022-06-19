@@ -68,6 +68,3 @@ strong {
 .article-text {
     @include article.article();
 }
-.inline-diff {
-    @include diff.diff();
-}
