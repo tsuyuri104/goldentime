@@ -107,14 +107,10 @@ export class UrdayinService {
   //#region setSelectedUser
   /**
    * 対象のユーザーを設定する
-   * @param user ユーザー情報
+   * @param email ユーザーのメールアドレス
    */
-  public setSelectedUser(user: UserCredential | undefined): void {
-    if (user === undefined) {
-      this.selectedUser = "";
-    } else {
-      this.selectedUser = String(user.user.email);
-    }
+  public setSelectedUser(email: string): void {
+    this.selectedUser = email;
   }
   //#endregion
 

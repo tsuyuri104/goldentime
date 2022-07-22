@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { signInWithEmailAndPassword, getAuth, UserCredential, signOut } from 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Subject } from 'rxjs';
 import { UrdayinService } from './urdayin.service';
 
@@ -12,13 +12,13 @@ export class AuthService {
 
   private sharedIsLoginedDataSource = new Subject<boolean>();
 
-  public user: UserCredential | undefined;
+  public user: firebase.default.auth.UserCredential | null = null;
   public sharedIsLoginedDataSource$ = this.sharedIsLoginedDataSource.asObservable();
 
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService) {
+  constructor(private sUrdayin: UrdayinService, private angularAuth: AngularFireAuth) {
 
   }
   //#endregion
@@ -41,14 +41,12 @@ export class AuthService {
    * @param password 
    * @returns 
    */
-  public login(email: string, password: string): Promise<UserCredential | void> {
-    const auth = getAuth();
-    return signInWithEmailAndPassword(auth, email, password)
-      .then((u) => {
-        this.user = u;
-        this.sUrdayin.setSelectedUser(u);
-        this.onSharedIsLoginedDateChanged(true);
-      });
+  public login(email: string, password: string): Promise<firebase.default.auth.UserCredential | void> {
+    return this.angularAuth.signInWithEmailAndPassword(email, password).then(u => {
+      this.user = u;
+      this.sUrdayin.setSelectedUser(String(u.user?.email));
+      this.onSharedIsLoginedDateChanged(true);
+    })
   }
   //#endregion
 
@@ -58,12 +56,9 @@ export class AuthService {
    * @returns 
    */
   public logout(): Promise<void> {
-    const auth = getAuth();
-    return signOut(auth)
-      .then(() => {
-        this.user = undefined;
-        this.onSharedIsLoginedDateChanged(false);
-      });
+    return this.angularAuth.signOut().then(res => {
+      this.sUrdayin.setSelectedUser("");
+    });
   }
   //#endregion
 
