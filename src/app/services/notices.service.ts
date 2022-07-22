@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { collection, DocumentData, documentId, getDocs, getFirestore, limit, orderBy, query, QuerySnapshot } from 'firebase/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+import { Notice } from '../interfaces/document/notice';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +23,7 @@ export class NoticesService {
   //#endregion
 
   //#region コンストラクタ
-  constructor() {
-
+  constructor(private angularFire: AngularFirestore) {
   }
   //#endregion
 
@@ -31,12 +32,11 @@ export class NoticesService {
   //#region 
   /**
    * 更新履歴データを取得する
+   * バージョン降順、３件のみ取得する
    * @returns 更新履歴データ
    */
-  public async getNotices(): Promise<QuerySnapshot<DocumentData>> {
-    const db = getFirestore();
-    const q = query(collection(db, this.COLLECTION_NAME), orderBy(this.FIELD_NAME.VERSION, "desc"), limit(3));
-    return await getDocs(q);
+  public getNotices(): Observable<Notice[]> {
+    return this.angularFire.collection<Notice>(this.COLLECTION_NAME, ref => ref.orderBy(this.FIELD_NAME.VERSION, "desc").limit(3)).valueChanges();
   }
   //#endregion
 

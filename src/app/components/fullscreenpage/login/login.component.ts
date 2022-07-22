@@ -49,11 +49,10 @@ export class LoginComponent implements OnInit {
   /**
    * 初期設定
    */
-  public async ngOnInit(): Promise<void> {
+  public ngOnInit(): void {
     this.version = this.sConfig.version;
     this.sComponentControl.onSharedIsContentPageChanged(false);
-    await this.getNotices();
-
+    this.getNotices();
   }
   //#endregion
 
@@ -112,16 +111,17 @@ export class LoginComponent implements OnInit {
     this.notices.push(empty);
     this.notices.push(empty);
 
-    const snaps = await this.sNotices.getNotices();
+    this.sNotices.getNotices()
+      .subscribe(snaps => {
+        this.notices = [];
+        snaps.forEach((snap) => {
+          this.notices.push(snap);
+        });
 
-    this.notices = [];
+        // 読み込み終了
+        this.isLoaded = true;
+      });
 
-    snaps.forEach((snap) => {
-      this.notices.push(<Notice>snap.data());
-    });
-
-    // 読み込み終了
-    this.isLoaded = true;
   }
   //#endregion
 
