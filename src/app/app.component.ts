@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ComponentControlService } from './services/component-control.service';
 
 @Component({
   selector: 'app-root',

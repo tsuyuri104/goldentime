@@ -4,7 +4,6 @@ import { RouteName } from 'src/app/classes/route-name';
 import { InputsOfLogin } from 'src/app/interfaces/component/input-of-frm-login';
 import { Notice } from 'src/app/interfaces/document/notice';
 import { AuthService } from 'src/app/services/auth.service';
-import { ComponentControlService } from 'src/app/services/component-control.service';
 import { NoticesService } from 'src/app/services/notices.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { Timestamp } from 'firebase/firestore';
@@ -37,7 +36,6 @@ export class LoginComponent implements OnInit {
     private router: Router
     , private sAuth: AuthService
     , private sNotices: NoticesService
-    , private sComponentControl: ComponentControlService
     , private sConfig: ConfigService) {
 
   }
@@ -51,14 +49,9 @@ export class LoginComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.version = this.sConfig.version;
-    this.sComponentControl.onSharedIsContentPageChanged(false);
     this.getNotices();
   }
   //#endregion
-
-  public ngOnDestroy(): void {
-    this.sComponentControl.onSharedIsContentPageChanged(true);
-  }
 
   //#endregion
 

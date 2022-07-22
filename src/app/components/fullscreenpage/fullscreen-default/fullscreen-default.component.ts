@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ComponentControlService } from 'src/app/services/component-control.service';
 
 @Component({
   selector: 'app-fullscreen-default',
@@ -8,14 +7,12 @@ import { ComponentControlService } from 'src/app/services/component-control.serv
 })
 export class FullscreenDefaultComponent implements OnInit {
 
-  constructor(private sComponentControl: ComponentControlService) { }
+  constructor() {
 
-  ngOnInit(): void {
-    // this.sComponentControl.onSharedIsContentPageChanged(false);
   }
 
-  ngOnDestroy(): void {
-    // this.sComponentControl.onSharedIsContentPageChanged(true);
+  ngOnInit(): void {
+
   }
 
 }
