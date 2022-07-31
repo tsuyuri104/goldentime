@@ -22,7 +22,7 @@
     "@angular/service-worker": "~13.0.0",
     "diff-match-patch-ts": "^0.2.0",
     "firebase": "^9.5.0",
-    "firebase-tools": "^9.23.0",
+    "firebase-tools": "^11.3.0",
     "http-server": "^14.0.0",
     "ngx-diff": "^1.0.0",
     "ngx-quill": "^16.2.0",
@@ -35,9 +35,10 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.0.2",
+    "@angular-devkit/build-angular": "^13.3.9",
     "@angular/cli": "~13.0.2",
     "@angular/compiler-cli": "~13.0.0",
+    "@types/angularfire": "^0.8.34",
     "@types/encoding-japanese": "^2.0.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
