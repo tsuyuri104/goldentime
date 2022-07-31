@@ -229,6 +229,11 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
+  //#region getEmptyCalendarDay
+  /**
+   * カレンダーの空用データを取得する
+   * @returns 空用データ
+   */
   private getEmptyCalendarDay(): CalendarDay {
     return {
       date: 0,
@@ -239,6 +244,7 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
       isHoliday: false,
     };
   }
+  //#endregion
 
   //#region getMonthlyData
   /**
