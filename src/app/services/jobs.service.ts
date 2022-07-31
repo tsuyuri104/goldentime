@@ -7,6 +7,7 @@ import { Jobs } from '../interfaces/document/jobs';
 import { DateUtil } from '../utilities/date-util';
 import { DailyService } from './daily.service';
 import { UrdayinService } from './urdayin.service';
+import { CsvRow } from '../interfaces/component/csv-row';
 
 @Injectable({
   providedIn: 'root'
@@ -60,11 +61,13 @@ export class JobsService {
     return this.getDataOneMonth(email, yearmonth)
       .pipe(
         map(jobDocs => {
-          //CSVに書き込む内容
-          let contents: string[][] = [];
-          let lineHeader: string[] = [];
-          lineHeader.push("集約グループ");
-          lineHeader.push("作業内容");
+          // CSVに書き込む内容
+          let contents: CsvRow[] = [];
+          let header: CsvRow = {
+            group_name: "集約グループ",
+            job_name: "作業内容",
+            daily_hours: new Map(),
+          }
 
           //月の一日を取得する
           const firstDate: Date = DateUtil.getFirstDateFromYearMonth(yearmonth);
@@ -72,79 +75,63 @@ export class JobsService {
           //月の最終日を取得する
           const lastDate: Date = DateUtil.getLastDateFromYearMonth(yearmonth);
 
-          //日単位で処理する
+          // 月間日数を取得する
           const daysInMonth: number = lastDate.getDate();
-          for (let i = 0; i < daysInMonth; i++) {
 
+          // 日数分キーを作成してテンプレートとする
+          const templateDailyHours: Map<string, number> = new Map();
+          for (let i = 0; i < daysInMonth; i++) {
             //日付を取得する
             const tmpDate: Date = DateUtil.addDate(firstDate, i);
             const strTmpDate: string = DateUtil.toString(tmpDate);
 
-            //ヘッダー行用
-            lineHeader.push(strTmpDate);
+            // テンプレートにキーを用意する
+            templateDailyHours.set(strTmpDate, 0);
 
-            ///対象の仕事データを取得する
-            const jobs: Jobs[] = jobDocs.filter(doc => doc.date === strTmpDate);
-
-            //仕事データ単位で処理する
-            jobs.forEach(job => {
-
-              let targetIndex: number = contents.findIndex(line => line[0] === job.group_name && line[1] === job.job);
-              let targetLine: string[] = [];
-              let targetLineLength: number = 0;
-              let maxEmptyColIndex: number = i;
-
-              ///すでに格納されている場合は取り出す
-              if (targetIndex >= 0) {
-                targetLine = contents[targetIndex];
-                targetLineLength = targetLine.length;
-              }
-
-              if (targetLineLength === 0) {
-                //ない場合は作業内容を追加する
-                targetLine.push(job.group_name);
-                targetLine.push(job.job);
-              } else {
-                //ある場合は空白セルの列を１つずらす
-                maxEmptyColIndex += 2;
-              }
-
-              //前日分までデータが存在しているか
-              if (targetLineLength - 1 < (i + 2)) {
-                //存在してない場合は、前日分まで０を追加する
-                for (let j = targetLineLength; j < maxEmptyColIndex; j++) {
-                  targetLine.push("0");
-                }
-              }
-
-              //処理日の工数を追加する
-              targetLine.push(job.hours.toString());
-
-              //CSVの内容として格納する
-              if (targetIndex < 0) {
-                contents.push(targetLine);
-              } else {
-                contents[targetIndex] = targetLine;
-              }
-            });
+            // ヘッダーに日付を設定する
+            header.daily_hours.set(strTmpDate, 0);
           }
+
+          // CSVに書き込む内容をデータ単位で処理する
+          jobDocs.forEach(doc => {
+
+            let targetIndex: number = contents.findIndex(x => x.group_name === doc.group_name && x.job_name === doc.job);
+            let target: CsvRow = {
+              group_name: doc.group_name,
+              job_name: doc.job,
+              daily_hours: new Map(templateDailyHours),
+            }
+
+            // 存在する場合は取得する
+            if (targetIndex > -1) {
+              target = contents[targetIndex];
+            }
+
+            // 加算
+            target.daily_hours.set(doc.date, target.daily_hours.get(doc.date)! + doc.hours);
+
+            // 存在しない場合は追加する
+            if (targetIndex === -1) {
+              contents.push(target);
+            }
+          });
 
           //集約グループ単位でソートする
           contents.sort(function (a, b) {
             //集約グループ名
-            if (a[0] < b[0]) {
+            if (a.group_name < b.group_name) {
               return -1;
             }
-            if (a[0] > b[0]) {
+            if (a.group_name > b.group_name) {
               return 1;
             }
 
             //作業内容
-            if (a[1] < b[1]) {
+            if (a.job_name < b.job_name) {
               return -1;
             }
 
-            if (a[1] > b[1]) {
+            if (a.job_name > b.job_name) {
               return 1;
             }
 
@@ -152,9 +139,10 @@ export class JobsService {
           });
 
           //日付のヘッダー行を追加する
-          contents.unshift(lineHeader);
+          contents.unshift(header);
 
-          return contents;
+          // CSV書き込む形の文字列の配列に変換する
+          return this.convertStringArrayForCsv(contents, firstDate, daysInMonth);
         })
       );
   }
@@ -245,6 +233,43 @@ export class JobsService {
     jobs.sort((a, b) => (a.index === undefined ? 0 : a.index) - (b.index === undefined ? 0 : b.index));
 
     return jobs;
+  }
+  //#endregion
+
+  //#region convertStringArrayForCsv
+  /**
+   * CSV型から文字列配列に変換する
+   * @param contents CSV型
+   * @param firstDate 月の最初の日
+   * @param daysInMonth 月間の日数
+   * @returns CSV出力用文字列
+   */
+  private convertStringArrayForCsv(contents: CsvRow[], firstDate: Date, daysInMonth: number): string[][] {
+    let csvData: string[][] = [];
+    let isHeader: boolean = true;
+
+    contents.forEach(row => {
+      let line: string[] = [];
+      line.push(row.group_name);
+      line.push(row.job_name);
+
+      for (let i = 0; i < daysInMonth; i++) {
+        //日付を取得する
+        const tmpDate: Date = DateUtil.addDate(firstDate, i);
+        const strTmpDate: string = DateUtil.toString(tmpDate);
+
+        if (isHeader) {
+          line.push(strTmpDate);
+        } else {
+          line.push(String(row.daily_hours.get(strTmpDate)));
+        }
+      }
+      isHeader = false;
+
+      csvData.push(line);
+    });
+
+    return csvData;
   }
   //#endregion
 
