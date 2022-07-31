@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { InputOfFrmSearch } from 'src/app/interfaces/component/input-of-frm-search';
 import { OverviewListRow } from 'src/app/interfaces/component/overview-list-row';
 import { Summary } from 'src/app/interfaces/component/summary';
@@ -17,7 +18,7 @@ import { DateUtil } from 'src/app/utilities/date-util';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
 
   //#region 変数
 
@@ -30,6 +31,8 @@ export class OverviewComponent implements OnInit {
 
   public optionYear: number[] = [];
   public optionMonth: number[] = [];
+
+  private csvSubscription: Subscription = new Subscription();
 
   //#endregion
 
@@ -61,6 +64,15 @@ export class OverviewComponent implements OnInit {
 
     //初期の検索
     this.search();
+  }
+  //#endregion
+
+  //#region ngOnDestroy
+  /**
+   * 破棄設定
+   */
+  public ngOnDestroy(): void {
+    this.csvSubscription.unsubscribe();
   }
   //#endregion
 
@@ -156,7 +168,7 @@ export class OverviewComponent implements OnInit {
     const yearmonth: string = this.convertNumberToYearMonthString(<number>year, <number>month);
 
     //出力対象のデータを取得する
-    this.sJobs.getDataForCsv(<string>user, yearmonth).subscribe(contents => {
+    this.csvSubscription = this.sJobs.getDataForCsv(<string>user, yearmonth).subscribe(contents => {
 
       //月の最終日を取得する
       const lastDate: Date = DateUtil.getLastDateFromYearMonth(yearmonth);
