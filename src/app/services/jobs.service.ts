@@ -240,43 +240,5 @@ export class JobsService {
   }
   //#endregion
 
-  //#region initializeSyokei
-  /**
-   * 小計カウント用配列を初期化する
-   * （日付の数だけ要素を用意し、値には０を設定する）
-   * @param daysInMonth 
-   * @returns 
-   */
-  private initializeSyokei(daysInMonth: number): number[] {
-    let syokei: number[] = [];
-
-    for (let i = 0; i < daysInMonth; i++) {
-      syokei.push(0);
-    }
-
-    return syokei;
-  }
-  //#endregion
-
-  //#region stuffSyokeiRow
-  /**
-   * 小計行用配列に要素を入れる
-   * @param groupName 
-   * @param syokeiCount 
-   * @returns 
-   */
-  private stuffSyokeiRow(groupName: string, syokeiCount: number[]): string[] {
-
-    let syoukeiRow: string[] = [];
-    syoukeiRow.push(groupName);
-    syoukeiRow.push("小計");
-    syokeiCount.forEach(dayHours => {
-      syoukeiRow.push(dayHours.toString());
-    });
-
-    return syoukeiRow;
-  }
-  //#endregion
-
   //#endregion
 }
