@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { addDoc, collection, collectionGroup, deleteDoc, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 import { Daily } from '../interfaces/document/daily';
 import { GroupName } from '../interfaces/document/group-name';
 import { GroupNameKeyValue } from '../interfaces/document/group-name-key-value';
@@ -21,7 +23,7 @@ export class GroupNameService {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService) {
+  constructor(private sUrdayin: UrdayinService, private angularFire: AngularFirestore) {
 
   }
   //#endregion
@@ -34,18 +36,10 @@ export class GroupNameService {
    * @param email 
    * @returns 
    */
-  public async getData(email: string): Promise<GroupName[]> {
-    let data: GroupName[] = [];
-
-    const db = getFirestore();
-    const q = query(collectionGroup(db, this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME), where(this.FIELD_NAME.USER, "==", email));
-    const docs = await getDocs(q);
-
-    docs.forEach(doc => {
-      data.push(<GroupName>doc.data());
-    });
-
-    return data;
+  public getData(email: string): Observable<GroupName[]> {
+    return this.angularFire.collectionGroup<GroupName>(this.sUrdayin.SUB_COLLECTION_NAME.GROUP_NAME,
+      ref => ref.where(this.FIELD_NAME.USER, "==", email)
+    ).valueChanges();
   }
   //#endregion
 

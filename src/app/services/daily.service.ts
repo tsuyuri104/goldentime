@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, documentId, getDocs, QuerySnapshot, addDoc } from 'firebase/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, getDocs, QuerySnapshot, addDoc, documentId, snapshotEqual } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 import { Daily } from '../interfaces/document/daily';
 import { DailyKeyValue } from '../interfaces/document/daily-key-value';
-import { Jobs } from '../interfaces/document/jobs';
 import { UrdayinService } from './urdayin.service';
+import { Fire } from '../utilities/fire';
+import { Jobs } from '../interfaces/document/jobs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +26,14 @@ export class DailyService {
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sUrdayin: UrdayinService) {
+  constructor(private sUrdayin: UrdayinService, private angularFire: AngularFirestore) {
 
   }
   //#endregion
 
   //#region メソッド
 
-  //#region getDailyData
+  //#region getData
   /**
    * 日次データを取得する
    * @param email 対象のユーザーのメールアドレス
@@ -52,10 +55,12 @@ export class DailyService {
    * @param yearmonth 対象の年月
    * @returns 対象の日次データ
    */
-  public async getDataOneMonth(email: string, yearmonth: string): Promise<QuerySnapshot<DocumentData>> {
-    const db = getFirestore();
-    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY), where(documentId(), ">=", yearmonth + "01"), where(documentId(), "<=", yearmonth + "31"));
-    return await getDocs(q);
+  public getDataOneMonth(email: string, yearmonth: string): Observable<Daily[]> {
+    const path: string = Fire.combinePath([this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY]);
+    return this.angularFire.collection<Daily>(path,
+      ref => ref.where(documentId(), ">=", yearmonth + "01")
+        .where(documentId(), "<=", yearmonth + "31")
+    ).valueChanges({ idField: 'date' });
   }
   //#endregion
 
@@ -88,16 +93,19 @@ export class DailyService {
   }
   //#endregion
 
-  //#region convertDailysInterface
+  //#region convertDailyKeyValue
   /**
-   * スナップショットからDailys型へ変換する
+   * Daily型からDailyKeyValue型へ変換する
    * @param docs 
    * @returns 
    */
-  public convertDailyKeyValueInterface(docs: QuerySnapshot<DocumentData>): DailyKeyValue {
+  public convertDailyKeyValue(dailys: Daily[]): DailyKeyValue {
     let newDailys: DailyKeyValue = {};
-    docs.forEach(snap => {
-      newDailys[snap.id] = <Daily>snap.data();
+    dailys.forEach(day => {
+      const date: string = <string>day.date;
+      if (date !== "") {
+        newDailys[date] = day;
+      }
     });
     return newDailys;
   }

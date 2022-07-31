@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Calendar } from 'src/app/interfaces/component/calendar';
 import { CalendarDay } from 'src/app/interfaces/component/calendar-day';
 import { CalendarRow } from 'src/app/interfaces/component/calendar-row';
@@ -17,7 +16,7 @@ import { DateUtil } from 'src/app/utilities/date-util';
   templateUrl: './monthly-data.component.html',
   styleUrls: ['./monthly-data.component.scss']
 })
-export class MonthlyDataComponent implements OnInit, OnDestroy {
+export class MonthlyDataComponent implements OnInit {
 
   //#region 変数
 
@@ -25,10 +24,6 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   public calendar: Calendar = { rows: [] };
   public monthly: Monthly = { total: 0 };
   public dailys: DailyKeyValue = {};
-
-  private subscriptionMonthly!: Subscription;
-  private subscriptionDailys!: Subscription;
-  private subscriptionSelectedDate!: Subscription;
 
   //#endregion
 
@@ -52,36 +47,14 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.procInit();
 
-    //監視対象の設定
-    this.subscriptionMonthly = this.sUrdayin.sharedMonthlyDataSource$.subscribe(
-      data => {
-        //月次データの表示を更新する
-        this.monthly = data;
-      }
-    );
-    this.subscriptionDailys = this.sUrdayin.sharedDailysDataSource$.subscribe(
-      data => {
-        //１ヶ月分の日次データを更新する
-        this.dailys = data;
-      }
-    )
-    this.subscriptionSelectedDate = this.sUrdayin.sharedSelectedDateDataSource$.subscribe(
-      data => {
-        //対象の日付が変更された場合は、初期表示を行う
-        this.procInit();
-      }
-    );
-  }
-  //#endregion
-
-  //#region ngOnDestroy
-  /**
-   * 破棄設定
-   */
-  ngOnDestroy(): void {
-    this.subscriptionMonthly.unsubscribe();
-    this.subscriptionDailys.unsubscribe();
-    this.subscriptionSelectedDate.unsubscribe();
+    // 監視対象の設定
+    this.sUrdayin.sharedSelectedDateDataSource$
+      .subscribe(
+        arg => {
+          //対象の日付が変更された場合は、初期表示を行う
+          this.procInit();
+        }
+      );
   }
   //#endregion
 
@@ -250,8 +223,11 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
   /**
    * 月次データを取得する
    */
-  private async getMonthlyData(): Promise<void> {
-    this.monthly = <Monthly>await this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()));
+  private getMonthlyData(): void {
+    this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()))
+      .subscribe(data => {
+        this.monthly = <Monthly>data;
+      });
   }
   //#endregion
 
@@ -260,7 +236,10 @@ export class MonthlyDataComponent implements OnInit, OnDestroy {
    * １ヶ月分の日次データを取得する
    */
   private async getDailysData(): Promise<void> {
-    this.dailys = this.sDaily.convertDailyKeyValueInterface(await this.sDaily.getDataOneMonth(this.sUrdayin.getSelectedUser(), DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate())));
+    this.sDaily.getDataOneMonth(this.sUrdayin.getSelectedUser(), DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()))
+      .subscribe(data => {
+        this.dailys = this.sDaily.convertDailyKeyValue(data);
+      });
   }
   //#endregion
 

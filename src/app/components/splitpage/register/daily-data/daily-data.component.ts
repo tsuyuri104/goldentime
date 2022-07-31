@@ -1,10 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Daily } from 'src/app/interfaces/document/daily';
 import { Jobs } from 'src/app/interfaces/document/jobs';
-import { Monthly } from 'src/app/interfaces/document/monthly';
 import { DailyService } from 'src/app/services/daily.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { MonthlyService } from 'src/app/services/monthly.service';
@@ -18,15 +16,13 @@ import { DateUtil } from 'src/app/utilities/date-util';
   templateUrl: './daily-data.component.html',
   styleUrls: ['./daily-data.component.scss']
 })
-export class DailyDataComponent implements OnInit, OnDestroy {
+export class DailyDataComponent implements OnInit {
 
   //#region 変数
 
   public selectedDateForDisply: Date = new Date();
   public dailyTotalHours: number = 0;
   public listGroup: GroupName[] = [];
-
-  private subscriptionSelectedDate!: Subscription;
 
   /**
    * 入力項目
@@ -60,24 +56,16 @@ export class DailyDataComponent implements OnInit, OnDestroy {
    * 初期設定
    */
   ngOnInit(): void {
-
     this.procInit();
 
-    this.subscriptionSelectedDate = this.sUrdayin.sharedSelectedDateDataSource$.subscribe(
-      data => {
-        //対象日が変更された場合は、初期表示を行う
-        this.procInit();
-      }
-    );
-  }
-  //#endregion
-
-  //#region ngOnDestroy
-  /**
-   * 破棄設定
-   */
-  ngOnDestroy(): void {
-    this.subscriptionSelectedDate.unsubscribe();
+    // 監視対象の設定
+    this.sUrdayin.sharedSelectedDateDataSource$
+      .subscribe(
+        arg => {
+          //対象の日付が変更された場合は、初期表示を行う
+          this.procInit();
+        }
+      );
   }
   //#endregion
 
@@ -145,26 +133,11 @@ export class DailyDataComponent implements OnInit, OnDestroy {
     this.sGroupName.insertData(inputData, email);
 
     //１ヶ月分の日次データを取得する
-    let dailyDataOneMonth = await this.sDaily.getDataOneMonth(email, yearmonth);
-
-    //月次データのトータルを更新する
-    this.sMonthly.updateMonthlyTotal(email, yearmonth, dailyDataOneMonth)
-      .then(async arg => {
-        //月次データを再取得する
-        const newMonthly = <Monthly>await this.sMonthly.getMonthlyData(email, yearmonth);
-        //サービスに新しい月次データを渡す
-        this.sUrdayin.onSharedMonthlyDataChanged(newMonthly);
+    this.sDaily.getDataOneMonth(email, yearmonth)
+      .subscribe(dailyDataOneMonth => {
+        //月次データのトータルを更新する
+        this.sMonthly.updateMonthlyTotal(email, yearmonth, dailyDataOneMonth);
       });
-
-    //サマリーデータを再取得する
-    const newSummary = <Jobs[]>await this.sMonthly.getSummaryData(email, yearmonth);
-    //サービスに新しいサマリーデータを渡す
-    this.sUrdayin.onSharedSummaryDataChanged(newSummary);
-
-    //１ヶ月の日次データを再取得する
-    const newDailys = this.sDaily.convertDailyKeyValueInterface(dailyDataOneMonth);
-    //サービスに１ヶ月の日次データを渡す
-    this.sUrdayin.onSharedDailyDataChanged(newDailys);
 
     ///成功
     this.toastr.success("登録しました");
@@ -198,8 +171,11 @@ export class DailyDataComponent implements OnInit, OnDestroy {
   /**
    * グループ名を取得する
    */
-  private async getGroupNameData(): Promise<void> {
-    this.listGroup = await this.sGroupName.getData(this.sUrdayin.getSelectedUser());
+  private getGroupNameData(): void {
+    this.sGroupName.getData(this.sUrdayin.getSelectedUser())
+      .subscribe(data => {
+        this.listGroup = data;
+      });
   }
   //#endregion
 
