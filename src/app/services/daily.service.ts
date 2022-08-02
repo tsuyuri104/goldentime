@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getDoc, getFirestore, deleteDoc, doc, setDoc, DocumentData, query, collection, where, getDocs, QuerySnapshot, addDoc, documentId, snapshotEqual } from 'firebase/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Daily } from '../interfaces/document/daily';
 import { DailyKeyValue } from '../interfaces/document/daily-key-value';
 import { UrdayinService } from './urdayin.service';
@@ -39,11 +39,9 @@ export class DailyService {
    * @param date 対象の年月日
    * @returns 対象の日次データ
    */
-  public async getData(email: string, date: string): Promise<DocumentData | undefined> {
-    const db = getFirestore();
-    const ref = doc(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date);
-    const snap = await getDoc(ref);
-    return snap.data();
+  public getData(email: string, date: string): Observable<Daily> {
+    const path: string = Fire.combinePath([this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date]);
+    return this.angularFire.doc<Daily>(path).valueChanges().pipe(map(x => this.setInitValue(x)));
   }
   //#endregion
 
@@ -107,6 +105,23 @@ export class DailyService {
       }
     });
     return newDailys;
+  }
+  //#endregion
+
+  //#region setInitValue
+  /**
+   * 日次データの初期値を設定する
+   * @param datum 日次データ
+   * @returns 
+   */
+  private setInitValue(datum: Daily | undefined): Daily {
+    if (datum === undefined) {
+      datum = {
+        total: 0,
+        memo: ""
+      }
+    }
+    return datum;
   }
   //#endregion
 

@@ -10,6 +10,7 @@ import { UrdayinService } from 'src/app/services/urdayin.service';
 import { GroupName } from 'src/app/interfaces/document/group-name';
 import { GroupNameService } from 'src/app/services/group-name.service';
 import { DateUtil } from 'src/app/utilities/date-util';
+import { map, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-daily-data',
@@ -187,14 +188,23 @@ export class DailyDataComponent implements OnInit {
    */
   private async getDailyData(email: string, date: string): Promise<void> {
     //日次データを取得する
-    const dailyData = this.setInitValueDaily(<Daily>await this.sDaily.getData(email, date));
-
-    //仕事データを取得する
-    let jobs: Jobs[] = await this.sJobs.getData(email, date);
-    jobs = this.setInitValueJobs(jobs);
-
-    this.frmDaily = this.convertFormGroup(dailyData, jobs);
-    this.dailyTotalHours = dailyData.total;
+    this.sDaily.getData(email, date)
+      .pipe(
+        mergeMap((daily: Daily) => {
+          //仕事データを取得する
+          return this.sJobs.getData(email, date)
+            .pipe(
+              map((jobs: Jobs[]) => {
+                // 日次データと仕事データを返す
+                return { daily, jobs };
+              })
+            )
+        })
+      )
+      .subscribe(arg => {
+        this.frmDaily = this.convertFormGroup(arg.daily, arg.jobs);
+        this.dailyTotalHours = (arg.daily).total;
+      });
   }
   //#endregion
 
@@ -241,43 +251,6 @@ export class DailyDataComponent implements OnInit {
     });
 
     return group;
-  }
-  //#endregion
-
-  //#region setInitValueDaily
-  /**
-   * 日次データの初期値を設定する
-   * @param datum 日次データ
-   * @returns 
-   */
-  private setInitValueDaily(datum: Daily): Daily {
-    if (datum === undefined) {
-      datum = {
-        total: 0,
-        memo: ""
-      }
-    }
-    return datum;
-  }
-  //#endregion
-
-  //#region setInitValueJobs
-  /**
-   * 仕事データの初期値を設定する
-   * @param data 
-   * @returns 
-   */
-  private setInitValueJobs(data: Jobs[]): Jobs[] {
-    if (data.length === 0) {
-      data.push({
-        job: "",
-        hours: 0,
-        user: "",
-        date: "",
-        group_name: "",
-      });
-    }
-    return data;
   }
   //#endregion
 

@@ -8,6 +8,7 @@ import { DateUtil } from '../utilities/date-util';
 import { DailyService } from './daily.service';
 import { UrdayinService } from './urdayin.service';
 import { CsvRow } from '../interfaces/component/csv-row';
+import { Fire } from '../utilities/fire';
 
 @Injectable({
   providedIn: 'root'
@@ -41,11 +42,9 @@ export class JobsService {
    * @param date 対象の年月日
    * @returns 仕事データ
    */
-  public async getData(email: string, date: string): Promise<Jobs[]> {
-    const db = getFirestore();
-    const q = query(collection(db, this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.sDaily.SUB_COLLECTION_NAME.JOBS));
-    const docs = await getDocs(q);
-    return this.convertJobsArray(docs);
+  public getData(email: string, date: string): Observable<Jobs[]> {
+    const path: string = Fire.combinePath([this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.sDaily.SUB_COLLECTION_NAME.JOBS]);
+    return this.angularFire.collection<Jobs>(path).valueChanges().pipe(map(x => this.setInitValue(x)));
   }
   //#endregion
 
@@ -249,6 +248,26 @@ export class JobsService {
     });
 
     return csvData;
+  }
+  //#endregion
+
+  //#region setInitValue
+  /**
+   * 仕事データの初期値を設定する
+   * @param data 
+   * @returns 
+   */
+  private setInitValue(data: Jobs[]): Jobs[] {
+    if (data.length === 0) {
+      data.push({
+        job: "",
+        hours: 0,
+        user: "",
+        date: "",
+        group_name: "",
+      });
+    }
+    return data;
   }
   //#endregion
 
