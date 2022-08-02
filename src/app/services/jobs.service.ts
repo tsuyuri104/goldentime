@@ -215,27 +215,6 @@ export class JobsService {
   }
   //#endregion
 
-  //#region convertJobsArray
-  /**
-   * スナップショットから仕事データ配列に変換する（ソート込み）
-   * @param docs 
-   * @returns 
-   */
-  private convertJobsArray(docs: QuerySnapshot<DocumentData>): Jobs[] {
-
-    //配列に変換
-    let jobs: Jobs[] = [];
-    docs.forEach(snap => {
-      jobs.push(<Jobs>snap.data());
-    });
-
-    //ソート
-    jobs.sort((a, b) => (a.index === undefined ? 0 : a.index) - (b.index === undefined ? 0 : b.index));
-
-    return jobs;
-  }
-  //#endregion
-
   //#region convertStringArrayForCsv
   /**
    * CSV型から文字列配列に変換する

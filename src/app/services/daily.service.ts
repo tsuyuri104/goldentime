@@ -6,7 +6,6 @@ import { Daily } from '../interfaces/document/daily';
 import { DailyKeyValue } from '../interfaces/document/daily-key-value';
 import { UrdayinService } from './urdayin.service';
 import { Fire } from '../utilities/fire';
-import { Jobs } from '../interfaces/document/jobs';
 
 @Injectable({
   providedIn: 'root'
