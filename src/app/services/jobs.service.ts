@@ -44,7 +44,8 @@ export class JobsService {
    */
   public getData(email: string, date: string): Observable<Jobs[]> {
     const path: string = Fire.combinePath([this.sUrdayin.COLLECTION_NAME, email, this.sUrdayin.SUB_COLLECTION_NAME.DAILY, date, this.sDaily.SUB_COLLECTION_NAME.JOBS]);
-    return this.angularFire.collection<Jobs>(path).valueChanges().pipe(map(x => this.setInitValue(x)));
+    return this.angularFire.collection<Jobs>(path, ref => ref.orderBy(this.FIELD_NAME.INDEX, "asc")).valueChanges()
+      .pipe(map(x => this.setInitValue(x)));
   }
   //#endregion
 
