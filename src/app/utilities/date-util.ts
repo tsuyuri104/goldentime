@@ -125,8 +125,8 @@ export class DateUtil {
      * @returns 
      */
     private static splitYearMonth(yearmonth: string): { year: number, month: number } {
-        const year: number = <number><unknown>yearmonth.substring(0, 4);
-        const month: number = <number><unknown>yearmonth.substring(4, 6) - 1;
+        const year: number = Number(yearmonth.substring(0, 4));
+        const month: number = Number(yearmonth.substring(4, 6)) - 1;
 
         return {
             year: year,
