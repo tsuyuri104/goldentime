@@ -30,10 +30,10 @@ export const SetDailyData = functions.https.onCall(async (data, context) => {
         }
 
         // 値に問題ないので処理しやすい形に変換する
-        const daily: Map<string, Daily> = convertDailyData(data.data);
+        const daily: Daily[] = convertDailyData(data.data);
 
         // 登録処理
-        if (! await insertData(daily)) {
+        if (! await insertData(daily, data.data.email)) {
             throw new functions.https.HttpsError('unknown', "登録処理に失敗しました。");
         }
 
@@ -179,5 +179,138 @@ async function isValidUserKey(email: string, key: string): Promise<boolean> {
     const db = admin.firestore();
     const docs = await db.collection("apikey").where("email", "==", email).where("key", "==", key).get();
     return !docs.empty;
+}
+//#endregion
+
+//#region convertDailyData
+/**
+ * POSTされたデータを扱いやすいDailyに変換する
+ * @param data 
+ * @returns 
+ */
+function convertDailyData(data: any): Daily[] {
+    // let ret: Map<string, Daily> = new Map();
+
+    let ret: Daily[] = [];
+    data.kosu.forEach((datum: any) => {
+
+        let tmpJobs: Jobs = {
+            job: datum.task,
+            hours: datum.hours,
+            user: data.email,
+            date: datum.date,
+            index: 0,
+            group_name: datum.group ? datum.group : "",
+        }
+
+        let tmpDaily: Daily = {
+            jobs: [],
+            memo: "",
+            total: datum.hours,
+            date: datum.date,
+        }
+
+        const index: number = ret.findIndex(x => x.date === datum.date);
+        if (index > -1) {
+            ret[index].jobs.push(tmpJobs);
+            ret[index].total += datum.hours;
+        } else {
+            tmpDaily.jobs.push(tmpJobs);
+            ret.push(tmpDaily);
+        }
+
+    });
+
+    // indexを設定
+    ret.forEach((daily: Daily) => {
+        daily.jobs.forEach((job: Jobs, index: number) => {
+            job.index = index;
+        });
+    });
+
+    return ret;
+}
+//#endregion
+
+//#region insertData
+/**
+ * データ登録処理
+ * @param daily 
+ * @param user 
+ * @returns 
+ */
+async function insertData(daily: Daily[], user: string): Promise<boolean> {
+
+    let isSuccess: boolean = true;
+
+    try {
+
+        let refsForDelete: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>[] = [];
+        const db = admin.firestore();
+
+        // 削除対象を取得する
+        for (let d of daily) {
+            const docs = await db.collectionGroup("jobs").where("user", "==", user).where("date", "==", d.date).get();
+            docs.forEach(doc => {
+                refsForDelete.push(doc.ref);
+            });
+        }
+
+        // 削除する
+        refsForDelete.forEach(ref => {
+            db.collection(ref.parent.path).doc(ref.id).delete();
+        });
+
+        let months: string[] = [];
+        for (let d of daily) {
+            const pathDaily = combinePath([user, "daily"]);
+            const pathJobs = combinePath([user, "daily", d.date, "jobs"]);
+
+            // 仕事データ作成
+            for (let job of d.jobs) {
+                await db.collection(pathJobs).add(job);
+            }
+
+            // 日次データ更新
+            await db.collection(pathDaily).doc(d.date).set({
+                memo: d.memo,
+                total: d.total,
+            });
+
+            const yearMonth = getYearMonth(d.date);
+            if (!months.find(x => x === yearMonth)) {
+                months.push(yearMonth);
+                console.log(yearMonth);
+            }
+        }
+    }
+    catch (e) {
+        isSuccess = false;
+    }
+    finally {
+        return isSuccess;
+    }
+}
+//#endregion
+
+//#region combinePath
+/**
+ * コレクションのパスを作成する
+ * @param layers 
+ * @returns 
+ */
+function combinePath(layers: string[]): string {
+    return '/urdayin/' + layers.join('/') + '/';
+}
+//#endregion
+
+//#region getYearMonth
+/**
+ * 年月日から年月を取得する
+ * @param date 
+ * @returns 
+ */
+function getYearMonth(date: string): string {
+    return date.substring(0, 6);
 }
 //#endregion

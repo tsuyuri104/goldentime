@@ -4,5 +4,5 @@ export interface Daily {
     jobs: Jobs[],
     memo: string,
     total: number,
-    user: string,
+    date: string,
 }
