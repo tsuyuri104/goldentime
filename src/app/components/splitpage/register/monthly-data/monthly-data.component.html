@@ -62,6 +62,6 @@
 
     <div class="monthly">
         <span>{{ selectedDateForDisply | date:'yyyy年M月' }}の合計</span>
-        <span>{{ monthly? monthly.total : 0 | number:'1.1-1' }} 時間</span>
+        <span>{{ monthly.total | number:'1.1-1' }} 時間</span>
     </div>
 </div>
