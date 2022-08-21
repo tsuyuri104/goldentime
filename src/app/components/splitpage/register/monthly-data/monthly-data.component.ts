@@ -226,7 +226,14 @@ export class MonthlyDataComponent implements OnInit {
   private getMonthlyData(): void {
     this.sMonthly.getMonthlyData(this.sUrdayin.getSelectedUser(), DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()))
       .subscribe(data => {
-        this.monthly = <Monthly>data;
+
+        if (data === undefined) {
+          data = {
+            total: 0,
+          }
+        }
+
+        this.monthly = data;
       });
   }
   //#endregion
