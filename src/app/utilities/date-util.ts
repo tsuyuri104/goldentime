@@ -24,6 +24,17 @@ export class DateUtil {
     }
     //#endregion
 
+    //#region toStringDateTime
+    /**
+     * 日付を文字列に変換する（表示用）（時刻込み）
+     * @param date 
+     * @returns 文字列yyyy年M月d日 HH時m分
+     */
+    public static toStringDateTime(date: Date): string {
+        return this.toStringFormat(date, 'yyyy年M月d日 HH時m分');
+    }
+    //#endregion
+
     //#region toDate
     /**
      * 文字列から日付型に変換する
