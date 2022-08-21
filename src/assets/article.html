@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: "Noto Serif JP", serif;
+            font-weight: 200;
+        }
+
+        main {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        main .wrapper {
+            width: 100vw;
+            max-width: 70%;
+        }
+
+        main .wrapper>* {
+            margin: 1em;
+        }
+
+        .article>* {
+            margin-bottom: 0.5em;
+        }
+
+        .article-writer {
+            color: #656565;
+        }
+
+        .article-date {
+            color: #656565;
+        }
+
+        .article-text {
+            word-wrap: break-word;
+        }
+
+        .article-text_loading {
+            min-height: 25%;
+        }
+
+        .article-text * {
+            line-height: 1.5em;
+        }
+
+        .article-text h1 {
+            font-size: 1.4em;
+            display: inline-block;
+            margin-top: 0.8em;
+        }
+
+        .article-text h2 {
+            font-size: 1.2em;
+            display: inline-block;
+            margin-top: 0.6em;
+        }
+
+        .article-text ul {
+            list-style-type: disc;
+            padding-left: 1.5em;
+        }
+
+        .article-text ol {
+            list-style-type: decimal;
+            padding-left: 1.5em;
+        }
+
+        .article-text li {
+            margin: 0.2em 0;
+        }
+
+        .article-text blockquote {
+            border-left: 1em solid;
+            border-color: #cdf0ea;
+            background-color: white;
+            padding: 0.25em;
+        }
+
+        .article-text pre.ql-syntax {
+            background-color: #3e4746;
+            padding: 0.25em;
+            color: #ffffff;
+        }
+
+        .article-text .ql-indent-1 {
+            padding-left: 2em;
+        }
+
+        .article-text .ql-indent-2 {
+            padding-left: 4em;
+        }
+
+        .article-text .ql-indent-3 {
+            padding-left: 6em;
+        }
+
+        .article-text .ql-indent-4 {
+            padding-left: 8em;
+        }
+
+        .article-text .ql-indent-5 {
+            padding-left: 10em;
+        }
+
+        .article-footer {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        .article-footer-button {
+            padding: 0.5em;
+        }
+
+        .article-footer-button:hover {
+            background-color: white;
+        }
+
+        .article-footer-button_disable {
+            cursor: default;
+        }
+
+        .article-footer-button_disable:hover {
+            background-color: unset;
+        }
+
+        .reaction {
+            border-top: 2px solid;
+            -o-border-image: linear-gradient(to right, #30cfd0, #c43ad6);
+            border-image: -webkit-gradient(linear, left top, right top, from(#30cfd0), to(#c43ad6));
+            border-image: linear-gradient(to right, #30cfd0, #c43ad6);
+            border-image-slice: 1;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .reaction>* {
+            margin-right: 1.5em;
+        }
+
+        .reaction-list {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            padding: 0.5em;
+            border-radius: 0.5em;
+        }
+
+        .reaction-list>*:first-child {
+            margin-right: 0.5em;
+        }
+
+        .reaction-volume {
+            min-width: 2em;
+        }
+
+        .reaction_off {
+            cursor: pointer;
+            -webkit-filter: grayscale(100%);
+            filter: grayscale(100%);
+        }
+
+        .reaction_off:hover {
+            background-color: white;
+            -webkit-animation: grayscale-wave 1.05s ease-out forwards;
+            animation: grayscale-wave 1.05s ease-out forwards;
+        }
+
+        .reaction_on {
+            cursor: default;
+            -webkit-filter: grayscale(0%);
+            filter: grayscale(0%);
+        }
+
+        .comment>* {
+            margin: 0.5em 0;
+        }
+
+        .comment-card {
+            word-wrap: break-word;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: start;
+            -ms-flex-align: start;
+            align-items: flex-start;
+        }
+
+        .comment-card-wrapper {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+
+        .comment-card-wrapper>* {
+            margin: 0.5em 0;
+        }
+
+        .comment-card-body {
+            max-width: 70%;
+            border: 2px solid;
+            border-color: #30cfd0;
+            padding: 0.5em;
+            border-radius: 10px 10px 10px 0;
+            position: relative;
+        }
+
+        .comment-card-body::after {
+            content: " ";
+            height: 10px;
+            width: 10px;
+            bottom: -10px;
+            left: -2px;
+            position: absolute;
+            border: 5px solid transparent;
+            border-left: 8px solid #30cfd0;
+            -webkit-transform: translateY(-3px);
+            transform: translateY(-3px);
+        }
+
+        .comment-card_mine {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: end;
+            -ms-flex-align: end;
+            align-items: flex-end;
+        }
+
+        .comment-card_mine .comment-card-body {
+            border-color: #c43ad6;
+            border-radius: 10px 10px 0 10px;
+        }
+
+        .comment-card_mine .comment-card-body::after {
+            left: unset;
+            right: -2px;
+            border-left: 5px solid transparent;
+            border-right: 8px solid #c43ad6;
+        }
+
+        .comment-form>* {
+            margin-top: 0.5em;
+        }
+
+        .comment-date,
+        .comment-commenter {
+            color: #656565;
+            font-size: 0.8em;
+        }
+
+        .comment-template {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="wrapper">
+            <div class="article">
+                <div class="article-title">
+                    <h2 id="articleTitle"></h2>
+                </div>
+                <div class="article-writer">
+                    <span id="articleWriter"></span>
+                </div>
+                <div class="article-date">
+                    <span id="articleCreateDateTime"></span>
+                </div>
+                <div class="article-text" id="articleText">
+                </div>
+            </div>
+            <div class="reaction">
+                <dl class="reaction-list">
+                    <dt class="reaction-emoji">
+                        ハート：
+                    </dt>
+                    <dd class="reaction-volume" id="reactionHeart"></dd>
+                </dl>
+                <dl class="reaction-list">
+                    <dt class="reaction-emoji">
+                        拍手：
+                    </dt>
+                    <dd class="reaction-volume" id="reactionClap"></dd>
+                </dl>
+                <dl class="reaction-list">
+                    <dt class="reaction-emoji">
+                        グッド：
+                    </dt>
+                    <dd class="reaction-volume" id="reactionThumbsup">
+                    </dd>
+                </dl>
+            </div>
+            <div class="comment">
+                <div class="comment-card-wrapper" id="commentWrapper">
+                    <div class="comment-card comment-template">
+                        <div class="comment-header">
+                            <span class="comment-commenter"></span>
+                        </div>
+                        <div class="comment-card-body article-text">
+                        </div>
+                        <div class="comment-card-footer">
+                            <span class="comment-date"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
