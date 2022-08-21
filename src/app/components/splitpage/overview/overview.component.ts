@@ -8,6 +8,7 @@ import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
 import { CSVService } from 'src/app/services/csv.service';
+import { FileService } from 'src/app/services/file.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Encode } from 'src/app/types/encode';
@@ -42,7 +43,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
     , private sJobs: JobsService
     , private sConfig: ConfigService
     , private sCsv: CSVService
-    , private fb: FormBuilder) {
+    , private fb: FormBuilder
+    , private sFile: FileService) {
     //検索条件の初期化
     this.frmSearch = this.fb.group({
       user: [this.sUrdayin.getSelectedUser(), [Validators.required]],
@@ -182,7 +184,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       });
 
       //出力する
-      this.sCsv.download(strCsvValue, "工数一覧_" + DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()), encode);
+      this.sFile.download(strCsvValue, "工数一覧_" + DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()), "text/csv", encode);
     });
   }
   //#endregion

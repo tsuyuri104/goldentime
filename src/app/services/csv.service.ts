@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Encode } from '../types/encode';
-import { EncodingService } from './encoding.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,40 +6,12 @@ import { EncodingService } from './encoding.service';
 export class CSVService {
 
   //#region コンストラクタ
-  constructor(private sEncoding: EncodingService) {
+  constructor() {
 
   }
   //#endregion
 
   //#region メソッド
-
-  //#region download
-  /**
-   * CSVファイルとしてダウンロードする
-   * @param value CSVファイルの内容
-   * @param fileName ファイル名（拡張子不要）
-   * @param encode
-   */
-  public download(value: string, fileName: string, encode: Encode): void {
-
-    //拡張子つきのファイル名
-    const fileNameWithExtension: string = fileName + ".csv";
-
-    const type: string = "text/csv";
-
-    // SJISの場合は変換する
-    let blob = new Blob([value], { type: type });
-    if (encode === "SJIS") {
-      blob = new Blob([new Uint8Array(this.sEncoding.convertUnit8ArrayFromUnicode(value))], { type: type });
-    }
-
-    // ダウンロードさせる
-    let downloader = document.createElement('a');
-    downloader.href = URL.createObjectURL(blob);
-    downloader.download = fileNameWithExtension;
-    downloader.click();
-  }
-  //#endregion
 
   //#region convertStringCsvLine
   /**

@@ -1,0 +1,1 @@
+export declare type FileType = "text/csv" | "text/html";
