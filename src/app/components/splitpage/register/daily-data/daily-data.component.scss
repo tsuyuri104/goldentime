@@ -6,13 +6,23 @@ button[type="submit"] {
 }
 
 .header {
-    margin: 1em 0;
+    padding: 1em 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 1em;
+    background-color: color.$base;
     @include mixins.ForNarrowMode() {
         margin-top: 0;
+        top: 0;
+    }
+    &-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
     &-title {
         min-width: 270px;

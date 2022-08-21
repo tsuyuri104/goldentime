@@ -1,67 +1,69 @@
 <div class="wrapper">
-    <div class="calendar">
-        <div class="calendar-nav">
-            <div>
-                <button type="button" (click)="setSelectedMonth(-1)">&#x3C;&#x3C;</button>
+    <div class="contents">
+        <div class="calendar">
+            <div class="calendar-nav">
+                <div>
+                    <button type="button" (click)="setSelectedMonth(-1)">&#x3C;&#x3C;</button>
+                </div>
+                <div>
+                    {{ selectedDateForDisply | date:'yyyy年M月' }}
+                </div>
+                <div>
+                    <button type="button" (click)="setSelectedMonth(1)">&#x3E;&#x3E;</button>
+                </div>
             </div>
-            <div>
-                {{ selectedDateForDisply | date:'yyyy年M月' }}
-            </div>
-            <div>
-                <button type="button" (click)="setSelectedMonth(1)">&#x3E;&#x3E;</button>
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="calendar-th">
+                            <span class="calendar-sunday">日</span>
+                        </th>
+                        <th class="calendar-th">
+                            <span>月</span>
+                        </th>
+                        <th class="calendar-th">
+                            <span>火</span>
+                        </th>
+                        <th class="calendar-th">
+                            <span>水</span>
+                        </th>
+                        <th class="calendar-th">
+                            <span>木</span>
+                        </th>
+                        <th class="calendar-th">
+                            <span>金</span>
+                        </th>
+                        <th class="calendar-th">
+                            <span class="calendar-saturday">土</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of calendar.rows">
+                        <ng-container *ngFor="let day of row.days">
+                            <td class="calendar-cell" [class.calendar-cell_blank]="day.isBlank"
+                                [class.calendar_selected]="isSelectedDate(day.fullDate)"
+                                (click)="setSelectedDate(day.fullDate)">
+                                <span *ngIf="day.isBlank === false" [class.calendar-holiday]="day.isHoliday"
+                                    [class.calendar-sunday]="day.isSunday" [class.calendar-saturday]="day.isSaturday">
+                                    {{ day.date }}
+                                </span>
+                                <span *ngIf="(day.isBlank === false && dailys[day.fullDate])" class="calendar-hours">
+                                    {{ dailys[day.fullDate].total | number:'1.1-1' }}
+                                </span>
+                                <span *ngIf="(day.isBlank === false && !dailys[day.fullDate])" class="calendar-hours">
+                                    0.0
+                                </span>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th class="calendar-th">
-                        <span class="calendar-sunday">日</span>
-                    </th>
-                    <th class="calendar-th">
-                        <span>月</span>
-                    </th>
-                    <th class="calendar-th">
-                        <span>火</span>
-                    </th>
-                    <th class="calendar-th">
-                        <span>水</span>
-                    </th>
-                    <th class="calendar-th">
-                        <span>木</span>
-                    </th>
-                    <th class="calendar-th">
-                        <span>金</span>
-                    </th>
-                    <th class="calendar-th">
-                        <span class="calendar-saturday">土</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let row of calendar.rows">
-                    <ng-container *ngFor="let day of row.days">
-                        <td class="calendar-cell" [class.calendar-cell_blank]="day.isBlank"
-                            [class.calendar_selected]="isSelectedDate(day.fullDate)"
-                            (click)="setSelectedDate(day.fullDate)">
-                            <span *ngIf="day.isBlank === false" [class.calendar-holiday]="day.isHoliday"
-                                [class.calendar-sunday]="day.isSunday" [class.calendar-saturday]="day.isSaturday">
-                                {{ day.date }}
-                            </span>
-                            <span *ngIf="(day.isBlank === false && dailys[day.fullDate])" class="calendar-hours">
-                                {{ dailys[day.fullDate].total | number:'1.1-1' }}
-                            </span>
-                            <span *ngIf="(day.isBlank === false && !dailys[day.fullDate])" class="calendar-hours">
-                                0.0
-                            </span>
-                        </td>
-                    </ng-container>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 
-    <div class="monthly">
-        <span>{{ selectedDateForDisply | date:'yyyy年M月' }}の合計</span>
-        <span>{{ monthly.total | number:'1.1-1' }} 時間</span>
+        <div class="monthly">
+            <span>{{ selectedDateForDisply | date:'yyyy年M月' }}の合計</span>
+            <span>{{ monthly.total | number:'1.1-1' }} 時間</span>
+        </div>
     </div>
 </div>
