@@ -91,4 +91,9 @@ main {
             min-width: 2em;
         }
     }
+    &-export {
+        button {
+            @include mixins.common-submit-button();
+        }
+    }
 }

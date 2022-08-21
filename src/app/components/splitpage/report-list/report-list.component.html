@@ -21,7 +21,7 @@
                     <div class="card-body" (click)="transitionViewer(item.id)">
                         <div class="article-text">{{ item.text }}</div>
                     </div>
-                    <div class="card-footer" (click)="exportArticle(item.id)">
+                    <div class="card-footer">
                         <div class="article-date">
                             <span class="article-date_diff">{{ item.update_timestamp | timesago }}</span>
                             <span class="article-date_const">{{ item.update_timestamp | timestamp:'yyyy年M月d日 HH時m分'
@@ -53,8 +53,8 @@
                                 <dd class="article-reactions-volume">{{ item.comments }}</dd>
                             </dl>
                         </div>
-                        <div class="">
-                            <button>ダウンロード</button>
+                        <div class="article-export">
+                            <button (click)="exportArticle(item.id, item.title)">ダウンロード</button>
                         </div>
                     </div>
                 </div>
