@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import { Holiday } from '../interfaces/document/holiday';
+import { DateUtil } from '../utilities/date-util';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class HolidayService {
 
   public FIELD_NAME = class {
     public static readonly YEARMONTH: string = "yearmonth";
+    public static readonly DATE: string = "date";
   }
 
   //#endregion
@@ -47,6 +49,22 @@ export class HolidayService {
     });
 
     return data;
+  }
+  //#endregion
+
+  //#region isHoliday
+  /**
+   * 祝日判定
+   * @param date 
+   * @returns 
+   */
+  public async isHoliday(date: Date): Promise<boolean> {
+
+    const db = getFirestore();
+    const ref = query(collection(db, this.COLLECTION_NAME), where(this.FIELD_NAME.DATE, "==", DateUtil.toString(date)));
+    const snaps = await getDocs(ref);
+
+    return snaps.docs.length > 0;
   }
   //#endregion
 
