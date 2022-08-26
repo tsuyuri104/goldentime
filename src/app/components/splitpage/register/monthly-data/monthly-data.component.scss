@@ -5,7 +5,7 @@
     max-width: 380px;
     min-height: 100%;
     > div {
-        margin: 1em;
+        padding: 1em;
     }
     @include mixins.ForNarrowMode() {
         display: none;
@@ -13,7 +13,7 @@
 }
 .contents {
     position: sticky;
-    top: 1em;
+    top: 0;
 }
 .calendar {
     &-nav {
