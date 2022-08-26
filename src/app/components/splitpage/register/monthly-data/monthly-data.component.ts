@@ -192,7 +192,7 @@ export class MonthlyDataComponent implements OnInit {
 
     //カレンダーの最終行の来月分の箇所に空白を設定する
     const lastDayOfWeek: number = lastDate.getDay();
-    for (let i = lastDayOfWeek; i < 7; i++) {
+    for (let i = lastDayOfWeek; i < 6; i++) {
       row.days.push(this.getEmptyCalendarDay());
     }
 
