@@ -176,8 +176,8 @@ export class MonthlyDataComponent implements OnInit {
         row = { days: [] };
       }
 
-      const isSunday: boolean = dayOfWeek === 0;
-      const isSaturday: boolean = dayOfWeek === 6;
+      const isSunday: boolean = DateUtil.isSunday(tmpDate);
+      const isSaturday: boolean = DateUtil.isSaturday(tmpDate);
       const isHoliday: boolean = holiday.findIndex(h => h === DateUtil.toString(tmpDate)) > -1;
 
       row.days.push(<CalendarDay>{
