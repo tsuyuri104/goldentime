@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuillModules } from "ngx-quill";
 import { ToastrService } from 'ngx-toastr';
-import { RouteName } from 'src/app/classes/route-name';
+import { RouteName } from 'src/app/consts/route-name';
 import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { InputOfFrmArticle } from 'src/app/interfaces/component/input-of-frm-article';
 import { QuillConfiguration } from 'src/app/modules/quill-configuration/quill-configuration.module';

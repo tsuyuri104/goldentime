@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouteName } from 'src/app/classes/route-name';
+import { RouteName } from 'src/app/consts/route-name';
 import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { ArticleList } from 'src/app/interfaces/component/article-list';
 import { Reactioner } from 'src/app/interfaces/document/reactioner';

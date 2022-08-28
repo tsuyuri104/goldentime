@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuillModules } from "ngx-quill";
-import { RouteName } from 'src/app/classes/route-name';
+import { RouteName } from 'src/app/consts/route-name';
 import { ArticleData } from 'src/app/interfaces/component/article-data';
 import { InputOfFrmComment } from 'src/app/interfaces/component/input-of-frm-comment';
 import { Reactioner } from 'src/app/interfaces/document/reactioner';

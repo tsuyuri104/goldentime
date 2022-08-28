@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionGroup, getDocs, getFirestore, query, Timestamp, where } from 'firebase/firestore';
-import { ArticleCollectionName } from '../classes/article-collection-name';
-import { ArticleFiledName } from '../classes/article-filed-name';
+import { ArticleCollectionName } from '../consts/article-collection-name';
+import { ArticleFiledName } from '../consts/article-filed-name';
 import { Reactioner } from '../interfaces/document/reactioner';
 import { ReactionType } from '../types/reaction-type';
 

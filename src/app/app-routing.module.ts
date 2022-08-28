@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RouteName } from './classes/route-name';
+import { RouteName } from './consts/route-name';
 import { FullscreenDefaultComponent } from './components/fullscreenpage/fullscreen-default/fullscreen-default.component';
 import { LoginComponent } from './components/fullscreenpage/login/login.component';
 import { CopyrightComponent } from './components/splitpage/copyright/copyright.component';

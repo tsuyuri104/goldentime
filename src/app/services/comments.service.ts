@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionGroup, getDocs, getFirestore, orderBy, query, Timestamp, where } from 'firebase/firestore';
-import { ArticleCollectionName } from '../classes/article-collection-name';
-import { ArticleFiledName } from '../classes/article-filed-name';
+import { ArticleCollectionName } from '../consts/article-collection-name';
+import { ArticleFiledName } from '../consts/article-filed-name';
 import { ExComment } from '../interfaces/component/ex-comment';
 import { Comment } from '../interfaces/document/comment';
 import { Urdayin } from '../interfaces/document/urdayin';
