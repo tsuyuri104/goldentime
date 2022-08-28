@@ -30,6 +30,13 @@ button[type="submit"] {
         @include mixins.ForNarrowMode() {
             min-width: unset;
         }
+        &_sunday,
+        &_holiday {
+            color: red;
+        }
+        &_saturday {
+            color: blue;
+        }
     }
     &-button {
         display: none;

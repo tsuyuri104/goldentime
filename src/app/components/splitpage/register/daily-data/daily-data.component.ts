@@ -11,6 +11,8 @@ import { GroupName } from 'src/app/interfaces/document/group-name';
 import { GroupNameService } from 'src/app/services/group-name.service';
 import { DateUtil } from 'src/app/utilities/date-util';
 import { map, mergeMap } from 'rxjs';
+import { HolidayService } from 'src/app/services/holiday.service';
+import { DateInfo } from 'src/app/interfaces/component/date-info';
 
 @Component({
   selector: 'app-daily-data',
@@ -21,7 +23,7 @@ export class DailyDataComponent implements OnInit {
 
   //#region 変数
 
-  public selectedDateForDisply: Date = new Date();
+  public selectedDate: DateInfo = new DateInfo(this.sHoliday);
   public dailyTotalHours: number = 0;
   public listGroup: GroupName[] = [];
 
@@ -45,6 +47,7 @@ export class DailyDataComponent implements OnInit {
     , private sGroupName: GroupNameService
     , private fb: FormBuilder
     , private toastr: ToastrService
+    , private sHoliday: HolidayService
   ) {
 
   }
@@ -161,9 +164,10 @@ export class DailyDataComponent implements OnInit {
   /**
    * 初期表示処理
    */
-  private procInit(): void {
-    this.selectedDateForDisply = this.sUrdayin.getSelectedDate();
-    this.getDailyData(this.sUrdayin.getSelectedUser(), DateUtil.toString(this.sUrdayin.getSelectedDate()));
+  private async procInit(): Promise<void> {
+    const date: Date = this.sUrdayin.getSelectedDate();
+    await this.selectedDate.Set(date);
+    this.getDailyData(this.sUrdayin.getSelectedUser(), DateUtil.toString(date));
     this.getGroupNameData();
   }
   //#endregion
