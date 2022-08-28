@@ -60,14 +60,9 @@ main {
         }
     }
     &_new {
-        &::after {
-            content: "New";
-            position: relative;
-            left: 1em;
-            @include mixins.common-gradation-wave-animation(color.$gradation-neon, 2s);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        @include mixins.common-gradation-wave-animation(color.$gradation-neon, 2s);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     &-list {
         margin: 1em 0;

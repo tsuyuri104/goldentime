@@ -18,8 +18,9 @@
         <div class="notice">
             <h2>更新履歴</h2>
             <ul class="notice-list" [class.notice_skeleton]="!isLoaded">
-                <li *ngFor="let notice of notices" [class.notice_new]="isWithinFewDays(notice.date)">
+                <li *ngFor="let notice of notices">
                     {{ notice.version }}
+                    <span *ngIf="isWithinFewDays(notice.date)" class="notice_new">New</span>
                     <ul class="notice-detail">
                         <li *ngFor="let info of notice.detail" class="notice-detail-item">
                             {{ info }}
