@@ -51,17 +51,11 @@ main {
 }
 .notice {
     min-height: 25vh;
-    &-row {
-        margin: 1em 0;
-    }
     &_skeleton {
         > * {
             margin: 0.25em 0;
         }
-        dt {
-            @include mixins.common-skeleton(6em);
-        }
-        dd {
+        li {
             @include mixins.common-skeleton();
         }
     }
@@ -73,6 +67,25 @@ main {
             @include mixins.common-gradation-wave-animation(color.$gradation-neon, 2s);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+    }
+    &-list {
+        margin: 1em 0;
+        > * {
+            margin: 0.8em 0;
+        }
+    }
+    &-detail {
+        padding-left: 1em;
+        list-style-type: disc;
+
+        > * {
+            margin: 0.25em 0;
+        }
+        &-item {
+            &::marker {
+                color: color.$neon-accent1;
+            }
         }
     }
 }
