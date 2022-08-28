@@ -1,4 +1,5 @@
 import { DatePipe } from "@angular/common";
+import { DayOfWeek } from "../types/day-of-week";
 
 export class DateUtil {
 
@@ -126,6 +127,28 @@ export class DateUtil {
         const datepipe: DatePipe = new DatePipe('en-US');
         let formatted: string | null = datepipe.transform(date, format);
         return formatted == null ? "" : formatted;
+    }
+    //#endregion
+
+    //#region isSunday
+    /**
+     * 日曜日か判定する
+     * @param date 
+     * @returns 
+     */
+    public static isSunday(date: Date): boolean {
+        return date.getDay() === DayOfWeek.Sunday;
+    }
+    //#endregion
+
+    //#region isSaturday
+    /**
+     * 土曜日か判定する
+     * @param date 
+     * @returns 
+     */
+    public static isSaturday(date: Date): boolean {
+        return date.getDay() === DayOfWeek.Saturday;
     }
     //#endregion
 
