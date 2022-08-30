@@ -61,7 +61,7 @@ main {
     }
     &_new {
         @include mixins.common-gradation-wave-animation(color.$gradation-neon, 2s);
-        -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
     }
     &-list {
