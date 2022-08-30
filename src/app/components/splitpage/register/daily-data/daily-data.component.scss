@@ -6,7 +6,6 @@ button[type="submit"] {
 }
 
 .header {
-    padding: 1em 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -17,6 +16,9 @@ button[type="submit"] {
     @include mixins.ForNarrowMode() {
         margin-top: 0;
         top: 0;
+    }
+    > * {
+        margin: 0.5em 0;
     }
     &-row {
         display: flex;
