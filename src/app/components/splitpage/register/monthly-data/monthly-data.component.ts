@@ -152,7 +152,24 @@ export class MonthlyDataComponent implements OnInit {
     const lastDate: Date = DateUtil.getLastDate(date);
 
     //祝日を取得する
-    const holiday: string[] = await this.sHoliday.getHolidayData(DateUtil.toStringYearMonth(date));
+    this.sHoliday.getHolidayData(DateUtil.toStringYearMonth(date)).then(holidays => {
+      // 取得した祝日単位で処理する
+      holidays.forEach(h => {
+
+        // カレンダーの行単位で処理する
+        calender.rows.forEach(row => {
+
+          // カレンダーの日付単位で処理する
+          row.days.forEach(day => {
+
+            // 日付と祝日が一致した場合はフラグを更新する
+            if (day.fullDate === h) {
+              day.isHoliday = true;
+            }
+          });
+        });
+      });
+    });
 
     //カレンダーの１行分の情報を格納する
     let row: CalendarRow = { days: [] };
@@ -179,7 +196,6 @@ export class MonthlyDataComponent implements OnInit {
 
       const isSunday: boolean = DateUtil.isSunday(tmpDate);
       const isSaturday: boolean = DateUtil.isSaturday(tmpDate);
-      const isHoliday: boolean = holiday.findIndex(h => h === DateUtil.toString(tmpDate)) > -1;
 
       row.days.push(<CalendarDay>{
         date: tmpDate.getDate(),
@@ -187,7 +203,7 @@ export class MonthlyDataComponent implements OnInit {
         isSaturday: isSaturday,
         isBlank: false,
         fullDate: DateUtil.toString(tmpDate),
-        isHoliday: isHoliday,
+        isHoliday: false, //祝日判定は非同期で設定する
       });
     }
 
