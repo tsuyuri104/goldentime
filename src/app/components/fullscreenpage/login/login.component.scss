@@ -37,6 +37,7 @@ main {
     @include mixins.ForNarrowMode() {
         width: 95vw;
         padding: 1em;
+        margin: 0.5em;
         > div + div {
             margin-top: 1.5em;
         }
