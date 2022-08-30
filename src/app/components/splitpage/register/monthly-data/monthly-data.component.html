@@ -48,11 +48,15 @@
                                     [class.calendar-sunday]="day.isSunday" [class.calendar-saturday]="day.isSaturday">
                                     {{ day.date }}
                                 </span>
-                                <span *ngIf="(day.isBlank === false && dailys[day.fullDate])" class="calendar-hours">
-                                    {{ dailys[day.fullDate].total | number:'1.1-1' }}
-                                </span>
-                                <span *ngIf="(day.isBlank === false && !dailys[day.fullDate])" class="calendar-hours">
-                                    0.0
+                                <span *ngIf="day.isBlank === false" class="calendar-hours">
+                                    <ng-container *ngIf="dailys[day.fullDate];then enoughHour else emptyHour">
+                                    </ng-container>
+                                    <ng-template #enoughHour>
+                                        {{ dailys[day.fullDate].total | number:'1.1-1' }}
+                                    </ng-template>
+                                    <ng-template #emptyHour>
+                                        {{ 0 | number:'1.1-1' }}
+                                    </ng-template>
                                 </span>
                             </td>
                         </ng-container>
