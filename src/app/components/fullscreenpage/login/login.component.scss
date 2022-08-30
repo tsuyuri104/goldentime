@@ -78,9 +78,7 @@ main {
             margin: 0.25em 0;
         }
         &-item {
-            &::marker {
-                color: color.$neon-accent1;
-            }
+            @include mixins.common-list-marker();
         }
     }
 }

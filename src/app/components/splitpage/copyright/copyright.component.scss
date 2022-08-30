@@ -12,8 +12,10 @@ main {
     }
     &-topic {
         margin-bottom: 1.5em;
+        @include mixins.common-list-marker();
     }
     &-item {
         cursor: pointer;
+        @include mixins.common-list-marker();
     }
 }

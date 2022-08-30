@@ -74,6 +74,13 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
+// 箇条書きリストの共通設定
+@mixin common-list-marker() {
+    &::marker {
+        color: color.$neon-accent1;
+    }
+}
+
 //SVGのサイズの設定
 @mixin svg-size($size) {
     svg {
