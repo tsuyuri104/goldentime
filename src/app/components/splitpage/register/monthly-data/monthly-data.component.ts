@@ -143,14 +143,15 @@ export class MonthlyDataComponent implements OnInit {
 
     let calender: Calendar = { rows: [] };
 
+    const date: Date = this.sUrdayin.getSelectedDate();
+
     //月の一日を取得する
-    const firstDate: Date = DateUtil.getFirstDate(this.sUrdayin.getSelectedDate());
+    const firstDate: Date = DateUtil.getFirstDate(date);
 
     //月の最終日を取得する
-    const lastDate: Date = DateUtil.getLastDate(this.sUrdayin.getSelectedDate());
+    const lastDate: Date = DateUtil.getLastDate(date);
 
     //祝日を取得する
-    const date: Date = this.sUrdayin.getSelectedDate();
     const holiday: string[] = await this.sHoliday.getHolidayData(DateUtil.toStringYearMonth(date));
 
     //カレンダーの１行分の情報を格納する
