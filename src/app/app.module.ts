@@ -51,6 +51,7 @@ import { SvgLockComponent } from './components/svg/svg-lock/svg-lock.component';
 import { SvgUnlockComponent } from './components/svg/svg-unlock/svg-unlock.component';
 import { ReportDifferComponent } from './components/splitpage/report-differ/report-differ.component';
 import { AnalysisComponent } from './components/splitpage/analysis/analysis.component';
+import { SvgAnalysisComponent } from './components/svg/svg-analysis/svg-analysis';
 
 registerLocaleData(localeJa);
 
@@ -89,6 +90,7 @@ registerLocaleData(localeJa);
     SvgUnlockComponent,
     ReportDifferComponent,
     AnalysisComponent,
+    SvgAnalysisComponent,
   ],
   imports: [
     BrowserModule,
