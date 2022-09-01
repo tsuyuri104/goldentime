@@ -13,6 +13,7 @@ import { ReportViewerComponent } from './components/splitpage/report-viewer/repo
 import { SettingsComponent } from './components/splitpage/settings/settings.component';
 import { SplitDefaultComponent } from './components/splitpage/split-default/split-default.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AnalysisComponent } from './components/splitpage/analysis/analysis.component';
 
 const routes: Routes = [
   { path: '', redirectTo: RouteName.LOGIN, pathMatch: 'full' },
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: RouteName.VIEWER + '/:id', component: ReportViewerComponent },
       { path: RouteName.DIFFER + '/:id', component: ReportDifferComponent },
       { path: RouteName.COPYRIGHT, component: CopyrightComponent },
+      { path: RouteName.ANALYSIS, component: AnalysisComponent },
     ]
     , canActivate: [AuthGuard]
   },

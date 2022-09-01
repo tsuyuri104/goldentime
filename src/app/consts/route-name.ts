@@ -8,4 +8,5 @@ export class RouteName {
     public static readonly VIEWER: string = "viewer";
     public static readonly DIFFER: string = "differ";
     public static readonly COPYRIGHT: string = "copyright";
+    public static readonly ANALYSIS: string = "analysis";
 }
