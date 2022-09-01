@@ -15,6 +15,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-item-link" routerLink="/analysis" [class.nav-item_selected]="isSelected('analysis')">
+                <svg-table-report class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('overview')">
+                </svg-table-report>
+                <span class="nav-item-text">工数分析</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-item-link" routerLink="/report" [class.nav-item_selected]="isSelected('report')">
                 <svg-log class="nav-item-svg svg-size_20" [class.nav-item_selected]="isSelected('report')">
                 </svg-log>
