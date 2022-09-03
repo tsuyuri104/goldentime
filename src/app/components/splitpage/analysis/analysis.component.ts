@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName } from '@angular/forms';
+import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
+import { UrdayinService } from 'src/app/services/urdayin.service';
 
 @Component({
   selector: 'app-analysis',
@@ -27,11 +29,14 @@ export class AnalysisComponent implements OnInit {
 
   public optionYear: number[] = [];
   public optionMonth: number[] = [];
+  public memberData: Urdayin[] = [];
 
   //#endregion
 
   //#region コンストラクタ
-  constructor(private sConfig: ConfigService) {
+  constructor(
+    private sConfig: ConfigService
+    , private sUrdayin: UrdayinService) {
 
   }
   //#endregion
@@ -55,6 +60,13 @@ export class AnalysisComponent implements OnInit {
    * 選択肢を作成する
    */
   private createOptionValues() {
+
+    // メンバー
+    this.sUrdayin.getMemberData()
+      .subscribe(urdayin => {
+        this.memberData = urdayin;
+      });
+
     //年
     const nowYear: number = new Date().getFullYear();
     for (let i = this.sConfig.registerStartYear; i < nowYear + 1; i++) {

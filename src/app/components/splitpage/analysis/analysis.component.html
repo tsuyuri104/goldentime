@@ -3,7 +3,11 @@
         <form [formGroup]="conditionForm" class="form">
             <div class="form-cell">
                 <label for="member">メンバー</label>
-                <select formControlName="member" id="member"></select>
+                <select formControlName="member" id="member">
+                    <option *ngFor="let datum of memberData" value="{{ datum.email }}">
+                        {{datum.user_name }}
+                    </option>
+                </select>
             </div>
             <div class="form-cell">
                 <label for="startYear">開始年</label>
