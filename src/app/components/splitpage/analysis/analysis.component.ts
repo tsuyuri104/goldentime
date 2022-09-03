@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName } from '@angular/forms';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
+import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { DateUtil } from 'src/app/utilities/date-util';
 
 @Component({
   selector: 'app-analysis',
@@ -36,7 +38,8 @@ export class AnalysisComponent implements OnInit {
   //#region コンストラクタ
   constructor(
     private sConfig: ConfigService
-    , private sUrdayin: UrdayinService) {
+    , private sUrdayin: UrdayinService
+    , private sJobs: JobsService) {
 
   }
   //#endregion
@@ -55,6 +58,9 @@ export class AnalysisComponent implements OnInit {
 
     // 監視設定
     this.setSubscribes();
+
+    // 検索する
+    this.search();
   }
   //#endregion
 
@@ -107,11 +113,39 @@ export class AnalysisComponent implements OnInit {
    * 監視を設定する
    */
   private setSubscribes() {
-    this.member.valueChanges.subscribe(x => console.log(x));
-    this.startYear.valueChanges.subscribe(x => console.log(x));
-    this.startMonth.valueChanges.subscribe(x => console.log(x));
-    this.endYear.valueChanges.subscribe(x => console.log(x));
-    this.endMonth.valueChanges.subscribe(x => console.log(x));
+    this.member.valueChanges.subscribe(x => this.search());
+    this.startYear.valueChanges.subscribe(x => this.search());
+    this.startMonth.valueChanges.subscribe(x => this.search());
+    this.endYear.valueChanges.subscribe(x => this.search());
+    this.endMonth.valueChanges.subscribe(x => this.search());
+  }
+  //#endregion
+
+  //#region 
+  /**
+   * 検索する
+   */
+  private search() {
+
+    let isLoading: boolean = true;
+
+    const member: string = this.member.value;
+    const startYear: number = this.startYear.value;
+    const startMonth: number = this.startMonth.value;
+    const endYear: number = this.endYear.value;
+    const endMonth: number = this.endMonth.value;
+
+    const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
+    const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
+
+    console.log("検索開始");
+
+    this.sJobs.getDataRangeMonth(member, startYearMonth, endYearMonth)
+      .subscribe(jobs => {
+
+
+        isLoading = false;
+      });
   }
   //#endregion
 
