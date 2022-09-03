@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName } from '@angular/forms';
+import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
+import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
+import { AnalysisRightJobsData } from 'src/app/interfaces/component/analysis-right-jobs-data';
+import { AnalysisTopGroupData } from 'src/app/interfaces/component/analysis-top-group-data';
+import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
 import { JobsService } from 'src/app/services/jobs.service';
@@ -32,6 +37,21 @@ export class AnalysisComponent implements OnInit {
   public optionYear: number[] = [];
   public optionMonth: number[] = [];
   public memberData: Urdayin[] = [];
+
+  public dataTopGroup: AnalysisTopGroupData = {
+    summary: [],
+    totalHours: 0
+  };
+  public dataLeftDaily: AnalysisLeftDailyData = {
+    date: '',
+    totalHours: 0,
+    breakdown: []
+  };
+  public dataRightJobs: AnalysisRightJobsData = {
+    groupName: '',
+    jobName: '',
+    hours: 0
+  }
 
   //#endregion
 
@@ -143,9 +163,127 @@ export class AnalysisComponent implements OnInit {
     this.sJobs.getDataRangeMonth(member, startYearMonth, endYearMonth)
       .subscribe(jobs => {
 
+        // 上に表示するグループ毎のデータ用
+        let dataTopGroup: AnalysisTopGroupData = {
+          summary: [],
+          totalHours: 0,
+        }
+
+        // 左に表示する日毎のデータ用
+        let dataLeftDaily: AnalysisLeftDailyData[] = [];
+
+        // 右に表示する作業毎のデータ用
+        let dataRightJobs: AnalysisRightJobsData[] = [];
+
+        jobs.forEach(job => {
+
+          // 上用：総合計時間に加算
+          dataTopGroup.totalHours += job.hours;
+
+          // 上用：グループの時間に加算
+          const sumaryIndex: number = dataTopGroup.summary.findIndex(x => x.groupName === job.group_name);
+          if (sumaryIndex === -1) {
+            dataTopGroup.summary.push({
+              groupName: job.group_name,
+              hours: job.hours,
+              ratio: 0,
+            })
+          } else {
+            dataTopGroup.summary[sumaryIndex].hours += job.hours;
+          }
+
+          // 左用：日の合計時間に加算
+          let dailyIndex: number = dataLeftDaily.findIndex(x => x.date === job.date);
+          if (dailyIndex === -1) {
+            dataLeftDaily.push({
+              date: job.date,
+              totalHours: job.hours,
+              breakdown: [this.createBreakdown(job, false)]
+            });
+          } else {
+            dataLeftDaily[dailyIndex].totalHours += job.hours;
+          }
+
+          // 左用：日毎の作業時間に加算
+          dailyIndex = dataLeftDaily.findIndex(x => x.date === job.date);
+          const breakdownIndex: number = dataLeftDaily[dailyIndex].breakdown.findIndex(x => x.groupName === job.group_name && x.job === job.job);
+          if (breakdownIndex === -1) {
+            dataLeftDaily[dailyIndex].breakdown.push(this.createBreakdown(job, true));
+          } else {
+            dataLeftDaily[dailyIndex].breakdown[breakdownIndex].hours += job.hours;
+          }
+
+          // 右用：作業毎に加算
+          const jobIndex: number = dataRightJobs.findIndex(x => x.groupName === job.group_name && x.jobName === job.job);
+          if (jobIndex === -1) {
+            dataRightJobs.push({
+              groupName: job.group_name,
+              jobName: job.job,
+              hours: job.hours,
+            })
+          } else {
+            dataRightJobs[jobIndex].hours += job.hours;
+          }
+
+        });
+
+        // 上用：割合を算出する
+        dataTopGroup.summary.forEach(s => {
+          s.ratio = this.calcRatio(s.hours, dataTopGroup.totalHours);
+        });
+
+        // 左用：割合を算出する
+        dataLeftDaily.forEach(day => {
+          day.breakdown.forEach(breakdown => {
+            breakdown.ratio = this.calcRatio(breakdown.hours, day.totalHours);
+          });
+        });
+
+        // 右用：グループ名でソート
+        dataRightJobs.sort((a, b) => {
+          if (a.groupName > b.groupName) {
+            return 1;
+          }
+
+          if (a.groupName < b.groupName) {
+            return -1;
+          }
+          return 0;
+        });
 
         isLoading = false;
       });
+  }
+  //#endregion
+
+  //#region calcRatio
+  /**
+   * 割合を算出する（小数第１位まで、切り捨て）
+   * @param bunshi 比べられる量
+   * @param bunbo もとにする量
+   * @returns 割合（小数第１位まで、切り捨て）
+   */
+  private calcRatio(bunshi: number, bunbo: number): number {
+    const result: number = bunshi / bunbo;
+    const percent: number = result * 100;
+    return Math.floor(percent * 10) / 10;
+  }
+  //#endregion
+
+  //#region createBreakdown
+  /**
+   * 内訳データを作成する
+   * @param job 工数データ
+   * @param isSetHours 工数を設定するか
+   * @returns 
+   */
+  private createBreakdown(job: Jobs, isSetHours: boolean): AnalysisBreakdown {
+    return {
+      groupName: job.group_name,
+      job: job.job,
+      hours: isSetHours ? job.hours : 0,
+      ratio: 0,
+    };
   }
   //#endregion
 
