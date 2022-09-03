@@ -156,15 +156,19 @@ export class JobsService {
    * @returns 対象のデータ
    */
   public getDataOneMonth(email: string, yearmonth: string): Observable<Jobs[]> {
+    return this.getDataRangeMonth(email, yearmonth, yearmonth);
+  }
+  //#endregion
+
+  public getDataRangeMonth(email: string, startYearMonth: string, endYearMonth: string): Observable<Jobs[]> {
     return this.angularFire.collectionGroup<Jobs>(this.sDaily.SUB_COLLECTION_NAME.JOBS,
       ref => ref.where(this.FIELD_NAME.USER, "==", email)
-        .where(this.FIELD_NAME.DATE, ">=", yearmonth + "01")
-        .where(this.FIELD_NAME.DATE, "<=", yearmonth + "31")
+        .where(this.FIELD_NAME.DATE, ">=", startYearMonth + "01")
+        .where(this.FIELD_NAME.DATE, "<=", endYearMonth + "31")
         .orderBy(this.FIELD_NAME.DATE, "asc")
         .orderBy(this.FIELD_NAME.INDEX, "asc")
     ).valueChanges();
   }
-  //#endregion
 
   //#region insertJobData
   /**
