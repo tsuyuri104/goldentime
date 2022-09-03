@@ -2,7 +2,6 @@
     <div class="wrapper">
         <form [formGroup]="conditionForm" class="form">
             <div class="form-cell">
-                <label for="member">メンバー</label>
                 <select formControlName="member" id="member">
                     <option *ngFor="let datum of memberData" value="{{ datum.email }}">
                         {{datum.user_name }}
@@ -10,36 +9,39 @@
                 </select>
             </div>
             <div class="form-cell">
-                <label for="startYear">開始年</label>
                 <select formControlName="startYear" id="startYear">
                     <option *ngFor="let year of optionYear;" value="{{ year }}">
                         {{ year }}
                     </option>
                 </select>
+                <span>年</span>
             </div>
             <div class="form-cell">
-                <label for="startMonth">開始月</label>
                 <select formControlName="startMonth" id="startMonth">
                     <option *ngFor="let month of optionMonth" value="{{ month }}">
                         {{ month }}
                     </option>
                 </select>
+                <span>月</span>
             </div>
             <div class="form-cell">
-                <label for="endYear">終了年</label>
+                <span>〜</span>
+            </div>
+            <div class="form-cell">
                 <select formControlName="endYear" id="endYear">
                     <option *ngFor="let year of optionYear;" value="{{ year }}">
                         {{ year }}
                     </option>
                 </select>
+                <span>年</span>
             </div>
             <div class="form-cell">
-                <label for="endMonth">終了月</label>
                 <select formControlName="endMonth" id="endMonth">
                     <option *ngFor="let month of optionMonth" value="{{ month }}">
                         {{ month }}
                     </option>
                 </select>
+                <span>月</span>
             </div>
         </form>
     </div>

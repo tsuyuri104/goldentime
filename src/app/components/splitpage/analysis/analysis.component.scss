@@ -10,8 +10,12 @@ main {
     label {
         display: contents;
     }
+    > * + * {
+        margin-left: 1em;
+    }
     &-cell {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        align-items: center;
     }
 }
