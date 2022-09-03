@@ -50,6 +50,9 @@ export class AnalysisComponent implements OnInit {
     // 年月の選択肢を作成
     this.createOptionValues();
 
+    // 初期値を設定する
+    this.setInitValue();
+
     // 監視設定
     this.setSubscribes();
   }
@@ -77,6 +80,25 @@ export class AnalysisComponent implements OnInit {
     for (let i = 0; i < 12; i++) {
       this.optionMonth.push(i + 1);
     }
+  }
+  //#endregion
+
+  //#region setInitValue
+  /**
+   * 初期値を設定する
+   */
+  private setInitValue() {
+    // メンバー
+    this.member.setValue(this.sUrdayin.getSelectedUser());
+
+    // 年月
+    const year: number = new Date().getFullYear();
+    const month: number = new Date().getMonth() + 1;
+
+    this.startYear.setValue(year);
+    this.startMonth.setValue(month);
+    this.endYear.setValue(year);
+    this.endMonth.setValue(month);
   }
   //#endregion
 
