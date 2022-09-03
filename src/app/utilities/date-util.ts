@@ -152,6 +152,18 @@ export class DateUtil {
     }
     //#endregion
 
+    //#region convertNumberToYearMonthString
+    /**
+     * 数値から文字列に年月を変換する
+     * @param year 
+     * @param month 
+     * @returns 
+     */
+    public static convertNumberToYearMonthString(year: number, month: number): string {
+        return (year).toString() + ("0" + month).slice(-2).toString();
+    }
+    //#endregion
+
     //#region splitYearMonth
     /**
      * 文字列の年月から、数値の年と月に分割する
