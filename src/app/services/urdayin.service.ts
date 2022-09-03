@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { collection, doc, getDoc, getDocs, getFirestore, query } from 'firebase/firestore';
 import { Observable, of, Subject } from 'rxjs';
 import { Urdayin } from '../interfaces/document/urdayin';
@@ -23,6 +24,7 @@ export class UrdayinService {
 
   public FIELD_NAME = class {
     public static readonly USER_NAME: string = "user_name";
+    public static readonly POSITION: string = "position";
   }
   public SUB_COLLECTION_NAME = class {
     public static readonly DAILY: string = 'daily';
@@ -33,7 +35,7 @@ export class UrdayinService {
   //#endregion
 
   //#region コンストラクタ
-  constructor() {
+  constructor(private angularFire: AngularFirestore) {
   }
   //#endregion
 
@@ -116,18 +118,10 @@ export class UrdayinService {
    * メンバー一覧を取得する
    * @returns 
    */
-  public async getMemberData(): Promise<Urdayin[]> {
-    let data: Urdayin[] = [];
-
-    const db = getFirestore();
-    const ref = query(collection(db, this.COLLECTION_NAME));
-    const snaps = await getDocs(ref);
-
-    snaps.forEach(snap => {
-      data.push(<Urdayin>snap.data());
-    });
-
-    return data;
+  public getMemberData(): Observable<Urdayin[]> {
+    return this.angularFire.collectionGroup<Urdayin>(this.COLLECTION_NAME,
+      ref => ref.where(this.FIELD_NAME.POSITION, "!=", "admin")
+    ).valueChanges();
   }
   //#endregion
 
