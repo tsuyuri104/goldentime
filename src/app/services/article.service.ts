@@ -144,35 +144,35 @@ export class ArticleService {
    */
   public async getArticleList(email: string): Promise<ArticleList[]> {
     let list: ArticleList[] = [];
-    const db = getFirestore();
+    // const db = getFirestore();
 
-    //公開非公開問わず自分の記事を取得する(削除は除く)
-    const deleted: ArticleStatus = "delete";
-    const myQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "==", email), where(ArticleFiledName.STATUS, "!=", deleted));
-    const myDocs = await getDocs(myQuery);
+    // //公開非公開問わず自分の記事を取得する(削除は除く)
+    // const deleted: ArticleStatus = "delete";
+    // const myQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "==", email), where(ArticleFiledName.STATUS, "!=", deleted));
+    // const myDocs = await getDocs(myQuery);
 
-    //公開の他人の記事を取得する
-    const theirStatus: ArticleStatus = "public";
-    const theirQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "!=", email), where(ArticleFiledName.STATUS, "==", theirStatus))
-    const theirDocs = await getDocs(theirQuery);
+    // //公開の他人の記事を取得する
+    // const theirStatus: ArticleStatus = "public";
+    // const theirQuery = query(collection(db, ArticleCollectionName.ARTICLE), where(ArticleFiledName.WRITER, "!=", email), where(ArticleFiledName.STATUS, "==", theirStatus))
+    // const theirDocs = await getDocs(theirQuery);
 
-    //メンバーデータを取得する
-    let member: Urdayin[] = await this.sUrdayin.getMemberData();
+    // //メンバーデータを取得する
+    // let member: Urdayin[] = await this.sUrdayin.getMemberData();
 
-    //自分の記事を格納する
-    myDocs.forEach(doc => {
-      let data: Article = <Article>doc.data();
-      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer), email));
-    });
+    // //自分の記事を格納する
+    // myDocs.forEach(doc => {
+    //   let data: Article = <Article>doc.data();
+    //   list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer), email));
+    // });
 
-    //他人の記事を格納する
-    theirDocs.forEach(doc => {
-      let data: Article = <Article>doc.data();
-      list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer), email));
-    });
+    // //他人の記事を格納する
+    // theirDocs.forEach(doc => {
+    //   let data: Article = <Article>doc.data();
+    //   list.push(this.setArticleListItem(doc.id, data, this.sUrdayin.pickUpUserName(member, data.writer), email));
+    // });
 
-    //更新日降順でソートする
-    list = this.sortUpdateTimestampDesc(list);
+    // //更新日降順でソートする
+    // list = this.sortUpdateTimestampDesc(list);
 
     return list;
   }
@@ -187,27 +187,27 @@ export class ArticleService {
    */
   public async getArticleData(id: string, email: string): Promise<ArticleData> {
     let data: ArticleData = this.getEmptyArticleData();
-    const db = getFirestore();
+    // const db = getFirestore();
 
-    //メンバーデータを取得する
-    let member: Urdayin[] = await this.sUrdayin.getMemberData();
+    // //メンバーデータを取得する
+    // let member: Urdayin[] = await this.sUrdayin.getMemberData();
 
-    // Articleを取得する
-    const refArticle = doc(db, ArticleCollectionName.ARTICLE, id);
-    const snapArticle = await getDoc(refArticle);
-    let article: ExArticle = <ExArticle>snapArticle.data();
-    //名前を取得して設定する
-    article.writer_name = this.sUrdayin.pickUpUserName(member, article.writer);
+    // // Articleを取得する
+    // const refArticle = doc(db, ArticleCollectionName.ARTICLE, id);
+    // const snapArticle = await getDoc(refArticle);
+    // let article: ExArticle = <ExArticle>snapArticle.data();
+    // //名前を取得して設定する
+    // article.writer_name = this.sUrdayin.pickUpUserName(member, article.writer);
 
-    // Editionsを取得する
-    let edition: ExEdition = await this.sEdition.getEdition(id, article.last_edition);
+    // // Editionsを取得する
+    // let edition: ExEdition = await this.sEdition.getEdition(id, article.last_edition);
 
-    // Commentsを取得する
-    let comments: ExComment[] = await this.sComments.getComments(id, email);
+    // // Commentsを取得する
+    // let comments: ExComment[] = await this.sComments.getComments(id, email);
 
-    data.article = article;
-    data.text = edition;
-    data.comments = comments;
+    // data.article = article;
+    // data.text = edition;
+    // data.comments = comments;
 
     return data;
   }

@@ -125,7 +125,7 @@ export class ReportViewerComponent implements OnInit {
     // データ更新
     this.sArticle.updateComments(articleId).then(data => {
       // データ再取得
-      this.articleData.article.comment_volume = data;
+      this.articleData.article.comment_volume = Number(data);
     });
   }
   //#endregion

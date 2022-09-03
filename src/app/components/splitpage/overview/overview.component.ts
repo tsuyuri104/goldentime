@@ -62,7 +62,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
    */
   public async ngOnInit(): Promise<void> {
     this.createOptions();
-    this.memberData = await this.sUrdayin.getMemberData();
+    // this.memberData = await this.sUrdayin.getMemberData();
 
     //初期の検索
     this.search();

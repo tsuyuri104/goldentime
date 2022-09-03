@@ -59,24 +59,24 @@ export class CommentsService {
   public async getComments(articleId: string, email: string): Promise<ExComment[]> {
     const db = getFirestore();
 
-    //メンバーデータを取得する
-    let member: Urdayin[] = await this.sUrdayin.getMemberData();
+    // //メンバーデータを取得する
+    // let member: Urdayin[] = await this.sUrdayin.getMemberData();
 
-    //コメントデータを取得する
-    const q = query(collectionGroup(db, ArticleCollectionName.COMMENTS), where(ArticleFiledName.ARTICLE_ID, "==", articleId), orderBy(ArticleFiledName.CREATE_TIMESTAMP, "asc"));
-    const docs = await getDocs(q);
+    // //コメントデータを取得する
+    // const q = query(collectionGroup(db, ArticleCollectionName.COMMENTS), where(ArticleFiledName.ARTICLE_ID, "==", articleId), orderBy(ArticleFiledName.CREATE_TIMESTAMP, "asc"));
+    // const docs = await getDocs(q);
     let comments: ExComment[] = [];
-    docs.forEach(doc => {
-      let tmp: ExComment = <ExComment>doc.data();
+    // docs.forEach(doc => {
+    //   let tmp: ExComment = <ExComment>doc.data();
 
-      //名前を取得して設定する
-      tmp.commenter_name = this.sUrdayin.pickUpUserName(member, tmp.commenter);
+    //   //名前を取得して設定する
+    //   tmp.commenter_name = this.sUrdayin.pickUpUserName(member, tmp.commenter);
 
-      //閲覧者のコメントか判定する
-      tmp.is_mine = tmp.commenter === email;
+    //   //閲覧者のコメントか判定する
+    //   tmp.is_mine = tmp.commenter === email;
 
-      comments.push(tmp);
-    });
+    //   comments.push(tmp);
+    // });
 
     return comments;
   }
