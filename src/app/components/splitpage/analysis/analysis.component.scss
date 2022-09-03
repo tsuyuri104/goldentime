@@ -1,0 +1,17 @@
+@use "./../../../sass-utiles/mixins";
+@use "./../../../sass-utiles/color";
+
+main {
+    @include mixins.common-main();
+}
+.form {
+    display: flex;
+    flex-direction: row;
+    label {
+        display: contents;
+    }
+    &-cell {
+        display: flex;
+        flex-direction: column;
+    }
+}

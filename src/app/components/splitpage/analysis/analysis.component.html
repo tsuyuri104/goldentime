@@ -1,1 +1,42 @@
-<p>analysis works!</p>
+<main>
+    <div class="wrapper">
+        <form [formGroup]="conditionForm" class="form">
+            <div class="form-cell">
+                <label for="member">メンバー</label>
+                <select formControlName="member" id="member"></select>
+            </div>
+            <div class="form-cell">
+                <label for="startYear">開始年</label>
+                <select formControlName="startYear" id="startYear">
+                    <option *ngFor="let year of optionYear;" value="{{ year }}">
+                        {{ year }}
+                    </option>
+                </select>
+            </div>
+            <div class="form-cell">
+                <label for="startMonth">開始月</label>
+                <select formControlName="startMonth" id="startMonth">
+                    <option *ngFor="let month of optionMonth" value="{{ month }}">
+                        {{ month }}
+                    </option>
+                </select>
+            </div>
+            <div class="form-cell">
+                <label for="endYear">終了年</label>
+                <select formControlName="endYear" id="endYear">
+                    <option *ngFor="let year of optionYear;" value="{{ year }}">
+                        {{ year }}
+                    </option>
+                </select>
+            </div>
+            <div class="form-cell">
+                <label for="endMonth">終了月</label>
+                <select formControlName="endMonth" id="endMonth">
+                    <option *ngFor="let month of optionMonth" value="{{ month }}">
+                        {{ month }}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+</main>
