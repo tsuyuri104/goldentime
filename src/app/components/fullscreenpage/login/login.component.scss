@@ -30,6 +30,7 @@ main {
     display: flex;
     flex-direction: column;
     padding: 2em;
+    min-height: 80%;
     @include mixins.common-box-shadow();
     > div + div {
         margin-top: 2.5em;
