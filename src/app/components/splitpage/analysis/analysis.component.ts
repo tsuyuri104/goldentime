@@ -279,10 +279,55 @@ export class AnalysisComponent implements OnInit {
           }
         })
 
-        // 左用：割合を算出する
+        //月の一日を取得する
+        const firstDate: Date = DateUtil.getFirstDateFromYearMonth(startYearMonth);
+
+        //月の最終日を取得する
+        const lastDate: Date = DateUtil.getLastDateFromYearMonth(endYearMonth);
+        let i: number = 0;
+        let tmpDate: Date = firstDate;
+        // 左用；データにない日の枠を作成する
+        while (tmpDate <= lastDate) {
+          const index: number = dataLeftDaily.findIndex(x => DateUtil.toString(x.date) === DateUtil.toString(tmpDate));
+          if (index === -1) {
+            dataLeftDaily.push({
+              date: tmpDate,
+              totalHours: 0,
+              breakdown: [],
+            })
+          }
+          tmpDate = DateUtil.addDate(firstDate, i);
+          i++;
+        }
+
+        // 左用：日付順にソート
+        dataLeftDaily.sort((a, b) => {
+          if (a.date > b.date) {
+            return 1;
+          }
+
+          if (a.date < b.date) {
+            return -1;
+          }
+          return 0;
+        })
+
+        // 左用
         dataLeftDaily.forEach(day => {
+          // 割合を算出する
           day.breakdown.forEach(breakdown => {
             breakdown.ratio = this.calcRatio(breakdown.hours, day.totalHours);
+          });
+
+          // 工数多い順にソート
+          day.breakdown.sort((a, b) => {
+            if (a.hours > b.hours) {
+              return -1;
+            }
+            if (a.hours < b.hours) {
+              return 1;
+            }
+            return 0;
           });
         });
 
