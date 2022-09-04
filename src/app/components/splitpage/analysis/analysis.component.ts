@@ -221,7 +221,7 @@ export class AnalysisComponent implements OnInit {
   }
   //#endregion
 
-  //#region 
+  //#region search
   /**
    * 検索する
    */
