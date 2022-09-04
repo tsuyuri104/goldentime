@@ -224,6 +224,18 @@ export class AnalysisComponent implements OnInit {
           s.ratio = this.calcRatio(s.hours, dataTopGroup.totalHours);
         });
 
+        // 上用：工数多い順にソート
+        dataTopGroup.summary.sort((a, b) => {
+          if (a.hours < b.hours) {
+            return 1;
+          }
+          if (a.hours > b.hours) {
+            return -1;
+          }
+
+          return 0;
+        });
+
         // 左用：割合を算出する
         dataLeftDaily.forEach(day => {
           day.breakdown.forEach(breakdown => {
