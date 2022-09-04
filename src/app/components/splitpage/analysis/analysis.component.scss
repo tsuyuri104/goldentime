@@ -49,7 +49,7 @@ main {
             grid-column: 2/3;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: right;
             &-button {
                 @include mixins.common-sub-action-button();
                 width: fit-content;
