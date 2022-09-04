@@ -54,7 +54,7 @@
                     <button type="button" class="analysis-top-export-button">CSV出力(SJIS)</button>
                 </div>
                 <div class="analysis-top-graph">
-                    <div *ngFor="let g of dataTopGroup.summary; index as i" class="analysis-top-graph-bar"
+                    <div *ngFor="let g of dataTopGroup.summary" class="analysis-top-graph-bar"
                         [style.width]="getCssWidth(g.ratio)" [style.background-color]="getCssBgColor(g.groupName)">
                     </div>
                 </div>
