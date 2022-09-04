@@ -55,4 +55,36 @@ describe('DateUtil', () => {
   it('toStringFormatを実行（yyyy/MM/dd）', () => {
     expect(DateUtil.toStringFormat(valueA, 'yyyy/MM/dd')).toBe('2022/06/01');
   });
+
+  it('isSundayを実行(true))', () => {
+    //2022/09/04
+    expect(DateUtil.isSunday(new Date(2022, 8, 4))).toBeTrue();
+  });
+
+  it('isSundayを実行(false))', () => {
+    //2022/09/05
+    expect(DateUtil.isSunday(new Date(2022, 8, 5))).toBeFalse();
+  });
+
+  it('isSaturdayを実行(true)', () => {
+    //2022/09/03
+    expect(DateUtil.isSaturday(new Date(2022, 8, 3))).toBeTrue();
+  });
+
+  it('isSaturdayを実行(false)', () => {
+    //2022/09/4
+    expect(DateUtil.isSaturday(new Date(2022, 8, 4))).toBeFalse();
+  });
+
+  it('convertNumberToYearMonthStringを実行（月が1桁）', () => {
+    expect(DateUtil.convertNumberToYearMonthString(2022, 1)).toBe("202201");
+  });
+
+  it('convertNumberToYearMonthStringを実行（月が2桁）', () => {
+    expect(DateUtil.convertNumberToYearMonthString(2022, 11)).toBe("202211");
+  });
+
+  it('getGapDaysを実行', () => {
+    expect(DateUtil.getGapDays("202201", "202202")).toBe(59);
+  });
 });
