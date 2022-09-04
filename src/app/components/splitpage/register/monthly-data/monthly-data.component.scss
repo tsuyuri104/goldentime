@@ -21,11 +21,11 @@
         justify-content: space-between;
     }
     &-saturday {
-        color: blue;
+        color: color.$saturday;
     }
     &-sunday,
     &-holiday {
-        color: red;
+        color: color.$sunday;
     }
     &-th {
         text-align: center;

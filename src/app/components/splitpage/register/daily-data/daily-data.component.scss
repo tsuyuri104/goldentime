@@ -34,10 +34,10 @@ button[type="submit"] {
         }
         &_sunday,
         &_holiday {
-            color: red;
+            color: color.$sunday;
         }
         &_saturday {
-            color: blue;
+            color: color.$saturday;
         }
     }
     &-button {
