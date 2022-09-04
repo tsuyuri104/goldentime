@@ -164,6 +164,31 @@ export class DateUtil {
     }
     //#endregion
 
+    //#region getGapDays
+    /**
+     * 日数の差分を算出する
+     * @param startYearMonth 
+     * @param endYearMonth 
+     * @returns 
+     */
+    public static getGapDays(startYearMonth: string, endYearMonth: string): number {
+        //月の一日を取得する
+        const firstDate: Date = DateUtil.getFirstDateFromYearMonth(startYearMonth);
+
+        //月の最終日を取得する
+        const lastDate: Date = DateUtil.getLastDateFromYearMonth(endYearMonth);
+
+        const gapMilliSecconds: number = lastDate.getTime() - firstDate.getTime();
+        const gapSeconds: number = gapMilliSecconds / 1000;
+        const gapMinutes: number = gapSeconds / 60;
+        const gapHours: number = gapMinutes / 60;
+        const gapDays: number = gapHours / 24;
+
+        // 小数切り捨て
+        return Math.floor(gapDays) + 1;
+    }
+    //#endregion
+
     //#region splitYearMonth
     /**
      * 文字列の年月から、数値の年と月に分割する
