@@ -53,12 +53,13 @@ export class JobsService {
   /**
    * CSV出力用のデータを取得する
    * @param email 対象のユーザーのメールアドレス
-   * @param yearmonth 対象の年月
+   * @param startYearMonth 対象の年月
+   * @param endYearMonth 対象の年月
    * @returns 出力対象のデータ
    */
-  public getDataForCsv(email: string, yearmonth: string): Observable<string[][]> {
+  public getDataForCsv(email: string, startYearMonth: string, endYearMonth: string): Observable<string[][]> {
     //１ヶ月分のデータを取得する
-    return this.getDataOneMonth(email, yearmonth)
+    return this.getDataRangeMonth(email, startYearMonth, endYearMonth)
       .pipe(
         map(jobDocs => {
           // CSVに書き込む内容
@@ -70,13 +71,13 @@ export class JobsService {
           }
 
           //月の一日を取得する
-          const firstDate: Date = DateUtil.getFirstDateFromYearMonth(yearmonth);
+          const firstDate: Date = DateUtil.getFirstDateFromYearMonth(startYearMonth);
 
           //月の最終日を取得する
-          const lastDate: Date = DateUtil.getLastDateFromYearMonth(yearmonth);
+          const lastDate: Date = DateUtil.getLastDateFromYearMonth(endYearMonth);
 
           // 月間日数を取得する
-          const daysInMonth: number = lastDate.getDate();
+          const daysInMonth: number = DateUtil.getGapDays(startYearMonth, endYearMonth);
 
           // 日数分キーを作成してテンプレートとする
           const templateDailyHours: Map<string, number> = new Map();
