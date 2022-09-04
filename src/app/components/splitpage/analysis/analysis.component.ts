@@ -337,7 +337,7 @@ export class AnalysisComponent implements OnInit {
         this.dataLeftDaily = this.processLeftData(dataLeftDaily, startYearMonth, endYearMonth);
         this.dataRightJobs = this.processRightData(dataRightJobs);
 
-        this.isLoading = false;
+        isLoading = false;
       });
   }
   //#endregion
