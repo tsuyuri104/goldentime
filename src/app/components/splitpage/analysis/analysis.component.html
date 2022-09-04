@@ -69,7 +69,34 @@
                     </div>
                 </div>
             </div>
-            <div class="analysis-right-jobs-data">right</div>
+            <div class="analysis-right-jobs-data">
+                <table class="analysis-right-table">
+                    <thead>
+                        <tr class="analysis-right-table-header">
+                            <td></td>
+                            <td>グループ名</td>
+                            <td>作業名</td>
+                            <td>工数</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of dataRightJobs" class="analysis-right-table-row">
+                            <td class="analysis-right-table-color-cell"
+                                [style.background-color]="getCssBgColor(j.groupName)">
+                            </td>
+                            <td>
+                                {{ j.groupName }}
+                            </td>
+                            <td>
+                                {{ j.jobName }}
+                            </td>
+                            <td>
+                                {{ j.hours | number:'1.1-1' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </main>

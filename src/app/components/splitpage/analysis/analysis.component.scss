@@ -91,8 +91,34 @@ main {
             }
         }
     }
-    &-right-jobs-data {
-        grid-row: 2/3;
-        grid-column: 2/3;
+    &-right {
+        &-jobs-data {
+            grid-row: 2/3;
+            grid-column: 2/3;
+        }
+        &-table {
+            &-header {
+                background-color: color.$main;
+                > * {
+                    padding: 0.5em;
+
+                    &:last-child {
+                        text-align: right;
+                    }
+                }
+            }
+            &-row {
+                > * {
+                    padding: 0.5em;
+
+                    &:last-child {
+                        text-align: right;
+                    }
+                }
+            }
+            &-color-cell {
+                width: 1em;
+            }
+        }
     }
 }
