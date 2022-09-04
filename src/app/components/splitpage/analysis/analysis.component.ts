@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
 import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
 import { AnalysisRightJobsData } from 'src/app/interfaces/component/analysis-right-jobs-data';
@@ -7,8 +8,11 @@ import { AnalysisTopGroupData } from 'src/app/interfaces/component/analysis-top-
 import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
+import { CSVService } from 'src/app/services/csv.service';
+import { FileService } from 'src/app/services/file.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
+import { Encode } from 'src/app/types/encode';
 import { DateUtil } from 'src/app/utilities/date-util';
 
 @Component({
@@ -25,6 +29,8 @@ export class AnalysisComponent implements OnInit {
   private startMonth: FormControl = new FormControl(0);
   private endYear: FormControl = new FormControl(0);
   private endMonth: FormControl = new FormControl(0);
+
+  private csvSubscription: Subscription = new Subscription();
 
   public conditionForm = new FormGroup({
     member: this.member,
@@ -51,7 +57,9 @@ export class AnalysisComponent implements OnInit {
   constructor(
     private sConfig: ConfigService
     , private sUrdayin: UrdayinService
-    , private sJobs: JobsService) {
+    , private sJobs: JobsService
+    , private sFile: FileService
+    , private sCsv: CSVService) {
 
   }
   //#endregion
@@ -75,6 +83,16 @@ export class AnalysisComponent implements OnInit {
     this.search();
   }
   //#endregion
+
+  //#region ngOnDestroy
+  /**
+   * 破棄設定
+   */
+  public ngOnDestroy(): void {
+    this.csvSubscription.unsubscribe();
+  }
+  //#endregion
+
 
   //#region getCssWidth
   /**
@@ -108,6 +126,41 @@ export class AnalysisComponent implements OnInit {
     let result: string = "2/";
     const endLine: number = Math.ceil(totalHours) + 2;
     return result + String(endLine);
+  }
+  //#endregion
+
+  //#region exportCsv
+  /**
+   * CSV出力処理
+   * @param encode 
+   */
+  public async exportCsv(encode: Encode): Promise<void> {
+
+    const member: string = this.member.value;
+    const startYear: number = this.startYear.value;
+    const startMonth: number = this.startMonth.value;
+    const endYear: number = this.endYear.value;
+    const endMonth: number = this.endMonth.value;
+
+    const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
+    const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
+
+
+    //出力対象のデータを取得する
+    this.csvSubscription = this.sJobs.getDataForCsv(member, startYearMonth, endYearMonth).subscribe(contents => {
+
+      const daysInMonth: number = DateUtil.getGapDays(startYearMonth, endYearMonth);
+
+      //CSVフォーマットとして文字連結する
+      const colsLength: number = daysInMonth + 2;
+      let strCsvValue: string = "";
+      contents.forEach(content => {
+        strCsvValue += this.sCsv.convertStringCsvLine(content, colsLength, "0");
+      });
+
+      //出力する
+      this.sFile.download(strCsvValue, "工数一覧_" + startYearMonth + "_" + endYearMonth, "text/csv", encode);
+    });
   }
   //#endregion
 
