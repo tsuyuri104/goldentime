@@ -47,7 +47,8 @@
         <div class="analysis">
             <div class="analysis-top-group-data">
                 <div class="analysis-top-total">
-                    合計時間：{{ dataTopGroup.totalHours | number:'1.1-1' }}時間
+                    <span>合計時間：{{ dataTopGroup.totalHours | number:'1.1-1' }}時間</span>
+                    <span>{{topInfo}}</span>
                 </div>
                 <div class="analysis-top-export">
                     <button type="button" class="analysis-top-export-button"
@@ -57,7 +58,8 @@
                 </div>
                 <div class="analysis-top-graph">
                     <div *ngFor="let g of dataTopGroup.summary" class="analysis-top-graph-bar"
-                        [style.width]="getCssWidth(g.ratio)" [style.background-color]="getCssBgColor(g.groupName)">
+                        [style.width]="getCssWidth(g.ratio)" [style.background-color]="getCssBgColor(g.groupName)"
+                        (mouseover)="setTopInfo(g)" (mouseout)="clearTopInfo()">
                     </div>
                 </div>
             </div>

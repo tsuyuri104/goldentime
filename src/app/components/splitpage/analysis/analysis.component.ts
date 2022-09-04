@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
 import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
 import { AnalysisRightJobsData } from 'src/app/interfaces/component/analysis-right-jobs-data';
+import { AnalysisSummary } from 'src/app/interfaces/component/analysis-summary';
 import { AnalysisTopGroupData } from 'src/app/interfaces/component/analysis-top-group-data';
 import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
@@ -50,6 +52,8 @@ export class AnalysisComponent implements OnInit {
   };
   public dataLeftDaily: AnalysisLeftDailyData[] = [];
   public dataRightJobs: AnalysisRightJobsData[] = [];
+
+  public topInfo: string = "";
 
   //#endregion
 
@@ -161,6 +165,26 @@ export class AnalysisComponent implements OnInit {
       //出力する
       this.sFile.download(strCsvValue, "工数一覧_" + startYearMonth + "_" + endYearMonth, "text/csv", encode);
     });
+  }
+  //#endregion
+
+  //#region setTopInfo
+  /**
+   * 上部の情報を設定する
+   * @param summary 
+   */
+  public setTopInfo(summary: AnalysisSummary): void {
+    const pipe: DecimalPipe = new DecimalPipe('en-US');
+    this.topInfo = summary.groupName + " : " + pipe.transform(summary.hours, "1.1-1");
+  }
+  //#endregion
+
+  //#region clearTopInfo
+  /**
+   * 上部の情報をクリアする
+   */
+  public clearTopInfo(): void {
+    this.topInfo = "";
   }
   //#endregion
 
