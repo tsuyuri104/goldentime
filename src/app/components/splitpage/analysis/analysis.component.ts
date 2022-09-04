@@ -175,13 +175,14 @@ export class AnalysisComponent implements OnInit {
     const groupColors: string[] = [
       "#f7dbf0",
       "#f7e8db",
-      "#f7dbdf",
+      "#fbd6d9",
       "#f6f7db",
       "#e5f7db",
       "#dbf7f3",
       "#dbeaf7",
       "#dcdbf7",
-      "#eddbf7"
+      "#eddbf7",
+      "#dee6ed",
     ]
 
     console.log("検索開始");
