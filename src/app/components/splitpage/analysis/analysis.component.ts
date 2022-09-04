@@ -174,11 +174,10 @@ export class AnalysisComponent implements OnInit {
 
     const groupColors: string[] = [
       "#f7dbf0",
-      "#f7dbdf",
       "#f7e8db",
+      "#f7dbdf",
       "#f6f7db",
       "#e5f7db",
-      "#dbf7e2",
       "#dbf7f3",
       "#dbeaf7",
       "#dcdbf7",
@@ -209,14 +208,12 @@ export class AnalysisComponent implements OnInit {
 
           // 上用：グループの時間に加算
           const summaryIndex: number = dataTopGroup.summary.findIndex(x => x.groupName === job.group_name);
-          const maxSummaryIndex: number = dataTopGroup.summary.length;
-          const groupColorIndex: number = maxSummaryIndex - 1 <= groupColors.length - 1 ? maxSummaryIndex : -1;
           if (summaryIndex === -1) {
             dataTopGroup.summary.push({
               groupName: job.group_name,
               hours: job.hours,
               ratio: 0,
-              groupColor: groupColorIndex > -1 ? groupColors[groupColorIndex] : "#cbcbcb",
+              groupColor: "#cbcbcb",
             })
           } else {
             dataTopGroup.summary[summaryIndex].hours += job.hours;
@@ -273,6 +270,13 @@ export class AnalysisComponent implements OnInit {
 
           return 0;
         });
+
+        // 上用：背景色を設定する
+        dataTopGroup.summary.forEach((s, index) => {
+          if (index <= groupColors.length - 1) {
+            s.groupColor = groupColors[index];
+          }
+        })
 
         // 左用：割合を算出する
         dataLeftDaily.forEach(day => {
