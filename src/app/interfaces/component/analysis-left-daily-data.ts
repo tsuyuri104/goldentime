@@ -1,7 +1,7 @@
 import { AnalysisBreakdown } from "./analysis-breakdown";
 
 export interface AnalysisLeftDailyData {
-    date: string,
+    date: Date,
     totalHours: number,
     breakdown: AnalysisBreakdown[],
 }
