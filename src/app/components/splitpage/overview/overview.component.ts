@@ -169,23 +169,23 @@ export class OverviewComponent implements OnInit, OnDestroy {
     //出力対象の年月を取得する
     const yearmonth: string = this.convertNumberToYearMonthString(<number>year, <number>month);
 
-    //出力対象のデータを取得する
-    this.csvSubscription = this.sJobs.getDataForCsv(<string>user, yearmonth).subscribe(contents => {
+    // //出力対象のデータを取得する
+    // this.csvSubscription = this.sJobs.getDataForCsv(<string>user, yearmonth).subscribe(contents => {
 
-      //月の最終日を取得する
-      const lastDate: Date = DateUtil.getLastDateFromYearMonth(yearmonth);
-      const daysInMonth: number = lastDate.getDate();
+    //   //月の最終日を取得する
+    //   const lastDate: Date = DateUtil.getLastDateFromYearMonth(yearmonth);
+    //   const daysInMonth: number = lastDate.getDate();
 
-      //CSVフォーマットとして文字連結する
-      const colsLength: number = daysInMonth + 2;
-      let strCsvValue: string = "";
-      contents.forEach(content => {
-        strCsvValue += this.sCsv.convertStringCsvLine(content, colsLength, "0");
-      });
+    //   //CSVフォーマットとして文字連結する
+    //   const colsLength: number = daysInMonth + 2;
+    //   let strCsvValue: string = "";
+    //   contents.forEach(content => {
+    //     strCsvValue += this.sCsv.convertStringCsvLine(content, colsLength, "0");
+    //   });
 
-      //出力する
-      this.sFile.download(strCsvValue, "工数一覧_" + DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()), "text/csv", encode);
-    });
+    //   //出力する
+    //   this.sFile.download(strCsvValue, "工数一覧_" + DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate()), "text/csv", encode);
+    // });
   }
   //#endregion
 
