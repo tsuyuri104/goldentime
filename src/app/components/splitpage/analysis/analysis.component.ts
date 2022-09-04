@@ -234,7 +234,7 @@ export class AnalysisComponent implements OnInit {
 
           // 左用：日毎の作業時間に加算
           dailyIndex = dataLeftDaily.findIndex(x => DateUtil.toString(x.date) === job.date);
-          const breakdownIndex: number = dataLeftDaily[dailyIndex].breakdown.findIndex(x => x.groupName === job.group_name && x.job === job.job);
+          const breakdownIndex: number = dataLeftDaily[dailyIndex].breakdown.findIndex(x => x.groupName === job.group_name);
           if (breakdownIndex === -1) {
             dataLeftDaily[dailyIndex].breakdown.push(this.createBreakdown(job, true));
           } else {
@@ -332,7 +332,6 @@ export class AnalysisComponent implements OnInit {
   private createBreakdown(job: Jobs, isSetHours: boolean): AnalysisBreakdown {
     return {
       groupName: job.group_name,
-      job: job.job,
       hours: isSetHours ? job.hours : 0,
       ratio: 0,
     };
