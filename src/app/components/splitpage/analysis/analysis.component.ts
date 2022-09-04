@@ -98,6 +98,19 @@ export class AnalysisComponent implements OnInit {
   }
   //#endregion
 
+  //#region getCssGridColmn
+  /**
+   * CSSのグリッドの列数を取得する
+   * @param totalHours 
+   * @returns 
+   */
+  public getCssGridColmn(totalHours: number): string {
+    let result: string = "2/";
+    const endLine: number = Math.ceil(totalHours) + 2;
+    return result + String(endLine);
+  }
+  //#endregion
+
   //#region createOptionValues
   /**
    * 選択肢を作成する

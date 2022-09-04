@@ -59,7 +59,16 @@
                     </div>
                 </div>
             </div>
-            <div class="analysis-left-daily-data">left</div>
+            <div class="analysis-left-daily-data">
+                <div class="analysis-left-row" *ngFor="let d of dataLeftDaily">
+                    <span class="analysis-left-row-title"> {{d.date | date:'MM/dd'}}</span>
+                    <div class="analysis-left-row-graph" [style.grid-column]="getCssGridColmn(d.totalHours)">
+                        <div *ngFor="let b of d.breakdown" class="analysis-left-row-graph-bar"
+                            [style.width]="getCssWidth(b.ratio)" [style.background-color]="getCssBgColor(b.groupName)">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="analysis-right-jobs-data">right</div>
         </div>
     </div>
