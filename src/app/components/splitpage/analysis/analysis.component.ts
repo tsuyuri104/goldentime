@@ -76,6 +76,17 @@ export class AnalysisComponent implements OnInit {
   }
   //#endregion
 
+  //#region getCssWidth
+  /**
+   * CSSのWidthを取得する（単位：パーセント）
+   * @param ratio 
+   * @returns 
+   */
+  public getCssWidth(ratio: number): string {
+    return String(ratio) + "%";
+  }
+  //#endregion
+
   //#region createOptionValues
   /**
    * 選択肢を作成する

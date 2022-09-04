@@ -45,7 +45,20 @@
             </div>
         </form>
         <div class="analysis">
-            <div class="analysis-top-group-data">top</div>
+            <div class="analysis-top-group-data">
+                <div class="analysis-top-total">
+                    合計時間：{{ dataTopGroup.totalHours | number:'1.1-1' }}時間
+                </div>
+                <div class="analysis-top-export">
+                    <button type="button" class="analysis-top-export-button">CSV出力(UTF8)</button>
+                    <button type="button" class="analysis-top-export-button">CSV出力(SJIS)</button>
+                </div>
+                <div class="analysis-top-graph">
+                    <div *ngFor="let g of dataTopGroup.summary; index as i" class="analysis-top-graph-bar"
+                        [style.width]="getCssWidth(g.ratio)">
+                    </div>
+                </div>
+            </div>
             <div class="analysis-left-daily-data">left</div>
             <div class="analysis-right-jobs-data">right</div>
         </div>
