@@ -42,16 +42,8 @@ export class AnalysisComponent implements OnInit {
     summary: [],
     totalHours: 0
   };
-  public dataLeftDaily: AnalysisLeftDailyData = {
-    date: '',
-    totalHours: 0,
-    breakdown: []
-  };
-  public dataRightJobs: AnalysisRightJobsData = {
-    groupName: '',
-    jobName: '',
-    hours: 0
-  }
+  public dataLeftDaily: AnalysisLeftDailyData[] = [];
+  public dataRightJobs: AnalysisRightJobsData[] = [];
 
   //#endregion
 
@@ -250,6 +242,11 @@ export class AnalysisComponent implements OnInit {
           }
           return 0;
         });
+
+        // 加工結果をグローバル変数に設定
+        this.dataTopGroup = dataTopGroup;
+        this.dataLeftDaily = dataLeftDaily;
+        this.dataRightJobs = dataRightJobs;
 
         isLoading = false;
       });
