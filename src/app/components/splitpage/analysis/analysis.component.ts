@@ -87,6 +87,17 @@ export class AnalysisComponent implements OnInit {
   }
   //#endregion
 
+  //#region getCssBgColor
+  /**
+   * CSSの背景色を取得する
+   * @param groupName 
+   * @returns 
+   */
+  public getCssBgColor(groupName: string): string {
+    return String(this.dataTopGroup.summary.find(x => x.groupName === groupName)?.groupColor);
+  }
+  //#endregion
+
   //#region createOptionValues
   /**
    * 選択肢を作成する
@@ -161,6 +172,19 @@ export class AnalysisComponent implements OnInit {
     const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
     const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
 
+    const groupColors: string[] = [
+      "#f7dbf0",
+      "#f7dbdf",
+      "#f7e8db",
+      "#f6f7db",
+      "#e5f7db",
+      "#dbf7e2",
+      "#dbf7f3",
+      "#dbeaf7",
+      "#dcdbf7",
+      "#eddbf7"
+    ]
+
     console.log("検索開始");
 
     this.sJobs.getDataRangeMonth(member, startYearMonth, endYearMonth)
@@ -184,15 +208,18 @@ export class AnalysisComponent implements OnInit {
           dataTopGroup.totalHours += job.hours;
 
           // 上用：グループの時間に加算
-          const sumaryIndex: number = dataTopGroup.summary.findIndex(x => x.groupName === job.group_name);
-          if (sumaryIndex === -1) {
+          const summaryIndex: number = dataTopGroup.summary.findIndex(x => x.groupName === job.group_name);
+          const maxSummaryIndex: number = dataTopGroup.summary.length;
+          const groupColorIndex: number = maxSummaryIndex - 1 <= groupColors.length - 1 ? maxSummaryIndex : -1;
+          if (summaryIndex === -1) {
             dataTopGroup.summary.push({
               groupName: job.group_name,
               hours: job.hours,
               ratio: 0,
+              groupColor: groupColorIndex > -1 ? groupColors[groupColorIndex] : "#cbcbcb",
             })
           } else {
-            dataTopGroup.summary[sumaryIndex].hours += job.hours;
+            dataTopGroup.summary[summaryIndex].hours += job.hours;
           }
 
           // 左用：日の合計時間に加算

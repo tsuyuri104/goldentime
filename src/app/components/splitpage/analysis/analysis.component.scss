@@ -55,16 +55,6 @@ main {
             grid-column: 1/3;
             display: flex;
             flex-direction: row;
-            $index: 1;
-            @each $color in color.$graph-colors {
-                & &-bar:nth-child(#{$index}) {
-                    background-color: $color;
-                }
-                $index: $index + 1;
-            }
-            & &-bar:nth-child(n + #{$index}) {
-                background-color: color.$text-lighter;
-            }
             &-bar {
                 display: block;
                 height: 1.5em;
