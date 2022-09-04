@@ -262,19 +262,6 @@ export class AnalysisComponent implements OnInit {
     const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
     const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
 
-    const groupColors: string[] = [
-      "#f7dbf0",
-      "#f7e8db",
-      "#fbd6d9",
-      "#f6f7db",
-      "#e5f7db",
-      "#dbf7f3",
-      "#dbeaf7",
-      "#dcdbf7",
-      "#eddbf7",
-      "#dee6ed",
-    ]
-
     console.log("検索開始");
 
     this.sJobs.getDataRangeMonth(member, startYearMonth, endYearMonth)
@@ -345,101 +332,150 @@ export class AnalysisComponent implements OnInit {
 
         });
 
-        // 上用：割合を算出する
-        dataTopGroup.summary.forEach(s => {
-          s.ratio = this.calcRatio(s.hours, dataTopGroup.totalHours);
-        });
-
-        // 上用：工数多い順にソート
-        dataTopGroup.summary.sort((a, b) => {
-          if (a.hours < b.hours) {
-            return 1;
-          }
-          if (a.hours > b.hours) {
-            return -1;
-          }
-
-          return 0;
-        });
-
-        // 上用：背景色を設定する
-        dataTopGroup.summary.forEach((s, index) => {
-          if (index <= groupColors.length - 1) {
-            s.groupColor = groupColors[index];
-          }
-        })
-
-        //月の一日を取得する
-        const firstDate: Date = DateUtil.getFirstDateFromYearMonth(startYearMonth);
-
-        //月の最終日を取得する
-        const lastDate: Date = DateUtil.getLastDateFromYearMonth(endYearMonth);
-        let i: number = 0;
-        let tmpDate: Date = firstDate;
-        // 左用；データにない日の枠を作成する
-        while (tmpDate <= lastDate) {
-          const index: number = dataLeftDaily.findIndex(x => DateUtil.toString(x.date) === DateUtil.toString(tmpDate));
-          if (index === -1) {
-            dataLeftDaily.push({
-              date: tmpDate,
-              totalHours: 0,
-              breakdown: [],
-            })
-          }
-          tmpDate = DateUtil.addDate(firstDate, i);
-          i++;
-        }
-
-        // 左用：日付順にソート
-        dataLeftDaily.sort((a, b) => {
-          if (a.date > b.date) {
-            return 1;
-          }
-
-          if (a.date < b.date) {
-            return -1;
-          }
-          return 0;
-        })
-
-        // 左用
-        dataLeftDaily.forEach(day => {
-          // 割合を算出する
-          day.breakdown.forEach(breakdown => {
-            breakdown.ratio = this.calcRatio(breakdown.hours, day.totalHours);
-          });
-
-          // 工数多い順にソート
-          day.breakdown.sort((a, b) => {
-            if (a.hours > b.hours) {
-              return -1;
-            }
-            if (a.hours < b.hours) {
-              return 1;
-            }
-            return 0;
-          });
-        });
-
-        // 右用：グループ名でソート
-        dataRightJobs.sort((a, b) => {
-          if (a.groupName > b.groupName) {
-            return 1;
-          }
-
-          if (a.groupName < b.groupName) {
-            return -1;
-          }
-          return 0;
-        });
-
         // 加工結果をグローバル変数に設定
-        this.dataTopGroup = dataTopGroup;
-        this.dataLeftDaily = dataLeftDaily;
-        this.dataRightJobs = dataRightJobs;
+        this.dataTopGroup = this.processTopData(dataTopGroup);
+        this.dataLeftDaily = this.processLeftData(dataLeftDaily, startYearMonth, endYearMonth);
+        this.dataRightJobs = this.processRightData(dataRightJobs);
 
-        isLoading = false;
+        this.isLoading = false;
       });
+  }
+  //#endregion
+
+  //#region processTopData
+  /**
+   * 上部用のデータを加工する
+   * @param dataTopGroup 
+   * @returns 
+   */
+  private processTopData(dataTopGroup: AnalysisTopGroupData): AnalysisTopGroupData {
+    // 割合を算出する
+    dataTopGroup.summary.forEach(s => {
+      s.ratio = this.calcRatio(s.hours, dataTopGroup.totalHours);
+    });
+
+    // 工数多い順にソート
+    this.sortHours(dataTopGroup.summary);
+
+    const groupColors: string[] = [
+      "#f7dbf0",
+      "#f7e8db",
+      "#fbd6d9",
+      "#f6f7db",
+      "#e5f7db",
+      "#dbf7f3",
+      "#dbeaf7",
+      "#dcdbf7",
+      "#eddbf7",
+      "#dee6ed",
+    ];
+
+    // 背景色を設定する
+    dataTopGroup.summary.forEach((s, index) => {
+      if (index <= groupColors.length - 1) {
+        s.groupColor = groupColors[index];
+      }
+    });
+
+    return dataTopGroup;
+  }
+  //#endregion
+
+  //#region processLeftData
+  /**
+   * 左用のデータを加工する
+   * @param dataLeftDaily 
+   * @param startYearMonth 
+   * @param endYearMonth 
+   * @returns 
+   */
+  private processLeftData(dataLeftDaily: AnalysisLeftDailyData[], startYearMonth: string, endYearMonth: string): AnalysisLeftDailyData[] {
+    //月の一日を取得する
+    const firstDate: Date = DateUtil.getFirstDateFromYearMonth(startYearMonth);
+
+    //月の最終日を取得する
+    const lastDate: Date = DateUtil.getLastDateFromYearMonth(endYearMonth);
+    let i: number = 0;
+    let tmpDate: Date = firstDate;
+    // データにない日の枠を作成する
+    while (tmpDate <= lastDate) {
+      const index: number = dataLeftDaily.findIndex(x => DateUtil.toString(x.date) === DateUtil.toString(tmpDate));
+      if (index === -1) {
+        dataLeftDaily.push({
+          date: tmpDate,
+          totalHours: 0,
+          breakdown: [],
+        })
+      }
+      tmpDate = DateUtil.addDate(firstDate, i);
+      i++;
+    }
+
+    // 日付順にソート
+    dataLeftDaily.sort((a, b) => {
+      if (a.date > b.date) {
+        return 1;
+      }
+
+      if (a.date < b.date) {
+        return -1;
+      }
+      return 0;
+    });
+
+    dataLeftDaily.forEach(day => {
+      // 割合を算出する
+      day.breakdown.forEach(breakdown => {
+        breakdown.ratio = this.calcRatio(breakdown.hours, day.totalHours);
+      });
+
+      // 工数多い順にソート
+      this.sortHours(day.breakdown);
+    });
+
+    return dataLeftDaily;
+  }
+  //#endregion
+
+  //#region processRightData
+  /**
+   * 右用のデータを加工する
+   * @param dataRightJobs 
+   * @returns 
+   */
+  private processRightData(dataRightJobs: AnalysisRightJobsData[]): AnalysisRightJobsData[] {
+    // グループ名でソート
+    dataRightJobs.sort((a, b) => {
+      if (a.groupName > b.groupName) {
+        return 1;
+      }
+
+      if (a.groupName < b.groupName) {
+        return -1;
+      }
+      return 0;
+    });
+    return dataRightJobs;
+  }
+  //#endregion
+
+  //#region sortHours
+  /**
+   * 工数でソートする
+   * @param value 
+   * @returns 
+   */
+  private sortHours(value: AnalysisSummary[] | AnalysisBreakdown[]): AnalysisSummary[] | AnalysisBreakdown[] {
+    return value.sort((a, b) => {
+      if (a.hours < b.hours) {
+        return 1;
+      }
+      if (a.hours > b.hours) {
+        return -1;
+      }
+
+      return 0;
+    });
   }
   //#endregion
 
