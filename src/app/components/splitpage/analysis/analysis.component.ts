@@ -194,7 +194,7 @@ export class AnalysisComponent implements OnInit {
   /**
    * 選択肢を作成する
    */
-  private createOptionValues() {
+  private createOptionValues(): void {
 
     // メンバー
     this.sUrdayin.getMemberData()
@@ -219,7 +219,7 @@ export class AnalysisComponent implements OnInit {
   /**
    * 初期値を設定する
    */
-  private setInitValue() {
+  private setInitValue(): void {
     // メンバー
     this.member.setValue(this.sUrdayin.getSelectedUser());
 
@@ -238,7 +238,7 @@ export class AnalysisComponent implements OnInit {
   /**
    * 監視を設定する
    */
-  private setSubscribes() {
+  private setSubscribes(): void {
     this.member.valueChanges.subscribe(x => this.search());
     this.startYear.valueChanges.subscribe(x => this.search());
     this.startMonth.valueChanges.subscribe(x => this.search());
@@ -251,7 +251,7 @@ export class AnalysisComponent implements OnInit {
   /**
    * 検索する
    */
-  private search() {
+  private search(): void {
 
     let isLoading: boolean = true;
 
