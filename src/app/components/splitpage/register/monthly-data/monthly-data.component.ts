@@ -152,7 +152,8 @@ export class MonthlyDataComponent implements OnInit {
     const lastDate: Date = DateUtil.getLastDate(date);
 
     //祝日を取得する
-    this.sHoliday.getHolidayData(DateUtil.toStringYearMonth(date)).then(holidays => {
+    const yearMonth: string = DateUtil.toStringYearMonth(date);
+    this.sHoliday.getHolidayData(yearMonth, yearMonth).subscribe(holidays => {
       // 取得した祝日単位で処理する
       holidays.forEach(h => {
 
@@ -163,7 +164,7 @@ export class MonthlyDataComponent implements OnInit {
           row.days.forEach(day => {
 
             // 日付と祝日が一致した場合はフラグを更新する
-            if (day.fullDate === h) {
+            if (day.fullDate === h.date) {
               day.isHoliday = true;
             }
           });
