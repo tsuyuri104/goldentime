@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
 import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
 import { AnalysisRightJobsData } from 'src/app/interfaces/component/analysis-right-jobs-data';
@@ -12,6 +12,7 @@ import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
 import { CSVService } from 'src/app/services/csv.service';
 import { FileService } from 'src/app/services/file.service';
+import { HolidayService } from 'src/app/services/holiday.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Encode } from 'src/app/types/encode';
@@ -63,7 +64,8 @@ export class AnalysisComponent implements OnInit {
     , private sUrdayin: UrdayinService
     , private sJobs: JobsService
     , private sFile: FileService
-    , private sCsv: CSVService) {
+    , private sCsv: CSVService
+    , private sHoliday: HolidayService) {
 
   }
   //#endregion
@@ -298,12 +300,16 @@ export class AnalysisComponent implements OnInit {
           }
 
           // 左用：日の合計時間に加算
+          const jobDate: Date = DateUtil.toDate(job.date);
           let dailyIndex: number = dataLeftDaily.findIndex(x => DateUtil.toString(x.date) === job.date);
           if (dailyIndex === -1) {
             dataLeftDaily.push({
-              date: DateUtil.toDate(job.date),
+              date: jobDate,
               totalHours: job.hours,
-              breakdown: [this.createBreakdown(job, false)]
+              breakdown: [this.createBreakdown(job, false)],
+              isSaturday: DateUtil.isSaturday(jobDate),
+              isSunday: DateUtil.isSunday(jobDate),
+              isHoliday: false,
             });
           } else {
             dataLeftDaily[dailyIndex].totalHours += job.hours;
@@ -337,6 +343,17 @@ export class AnalysisComponent implements OnInit {
         this.dataLeftDaily = this.processLeftData(dataLeftDaily, startYearMonth, endYearMonth);
         this.dataRightJobs = this.processRightData(dataRightJobs);
 
+        // 祝日設定
+        this.sHoliday.getHolidayData(startYearMonth, endYearMonth).subscribe(holidays => {
+          console.log("get holidays")
+          this, this.dataLeftDaily.forEach(d => {
+            if (holidays.find(x => x.date === DateUtil.toString(d.date))) {
+              d.isHoliday = true;
+            }
+          });
+        });
+
+        console.log("end serch");
         isLoading = false;
       });
   }
@@ -405,6 +422,9 @@ export class AnalysisComponent implements OnInit {
           date: tmpDate,
           totalHours: 0,
           breakdown: [],
+          isSaturday: DateUtil.isSaturday(tmpDate),
+          isSunday: DateUtil.isSunday(tmpDate),
+          isHoliday: false,
         })
       }
       tmpDate = DateUtil.addDate(firstDate, i);
