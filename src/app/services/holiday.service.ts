@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { map, Observable } from 'rxjs';
 import { Holiday } from '../interfaces/document/holiday';
 import { DateUtil } from '../utilities/date-util';
 
@@ -24,7 +26,7 @@ export class HolidayService {
   //#endregion
 
   //#region コンストラクタ
-  constructor() {
+  constructor(private angularFire: AngularFirestore) {
 
   }
   //#endregion
@@ -35,20 +37,14 @@ export class HolidayService {
   /**
    * 祝日データを取得する
    * @param yearmonth 
+   * @param startYearMonth
    * @returns 
    */
-  public async getHolidayData(yearmonth: string): Promise<string[]> {
-    let data: string[] = [];
-
-    const db = getFirestore();
-    const ref = query(collection(db, this.COLLECTION_NAME), where(this.FIELD_NAME.YEARMONTH, "==", yearmonth));
-    const snaps = await getDocs(ref);
-
-    snaps.forEach(snap => {
-      data.push((<Holiday>snap.data()).date);
-    });
-
-    return data;
+  public getHolidayData(startYearMonth: string, endYearMonth: string): Observable<Holiday[]> {
+    return this.angularFire.collection<Holiday>(this.COLLECTION_NAME,
+      ref => ref.where(this.FIELD_NAME.YEARMONTH, ">=", startYearMonth)
+        .where(this.FIELD_NAME.YEARMONTH, "<=", endYearMonth)
+    ).valueChanges();
   }
   //#endregion
 
