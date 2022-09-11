@@ -5,15 +5,15 @@ main {
     @include mixins.common-main();
 }
 .tag {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    > * {
-        margin: 0.2em;
+    &-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
-    &-wrapper {
+    &-list {
+        padding-left: 1em;
         > * {
-            margin: 0.25em;
+            margin: 0.5em 0;
         }
     }
     &-delete {
@@ -21,8 +21,4 @@ main {
     }
 }
 .section {
-    & {
-        margin-left: 1em;
-        margin-top: 0.25em;
-    }
 }
