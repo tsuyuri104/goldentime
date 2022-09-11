@@ -1,0 +1,63 @@
+{
+    "copyrightJson": [
+        {
+            "category": "イラスト・アイコン・絵文字",
+            "index": 1,
+            "items": [
+                {
+                    "name": "Icon Park",
+                    "url": "https://iconpark.oceanengine.com/",
+                    "isDeleted": false
+                },
+                {
+                    "name": "twemoji",
+                    "url": "https://twemoji.twitter.com/",
+                    "isDeleted": false
+                }
+            ]
+        },
+        {
+            "category": "フォント",
+            "index": 2,
+            "items": [
+                {
+                    "name": "Noto Serif Japanese",
+                    "url": "https://fonts.google.com/noto/specimen/Noto+Serif+JP",
+                    "isDeleted": false
+                }
+            ]
+        },
+        {
+            "category": "Angularライブラリ",
+            "index": 3,
+            "items": [
+                {
+                    "name": "ngx-toastr",
+                    "url": "https://www.npmjs.com/package/ngx-toastr",
+                    "isDeleted": false
+                },
+                {
+                    "name": "ngx-quill",
+                    "url": "https://www.npmjs.com/package/ngx-quill",
+                    "isDeleted": true
+                },
+                {
+                    "name": "ngx-diff",
+                    "url": "https://www.npmjs.com/package/ngx-diff",
+                    "isDeleted": true
+                }
+            ]
+        },
+        {
+            "category": "JSライブラリ",
+            "index": 4,
+            "items": [
+                {
+                    "name": "encoding.js",
+                    "url": "https://www.npmjs.com/package/encoding-japanese",
+                    "isDeleted": false
+                }
+            ]
+        }
+    ]
+}
