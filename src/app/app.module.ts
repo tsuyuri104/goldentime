@@ -20,7 +20,6 @@ import { RegisterComponent } from './components/splitpage/register/register.comp
 import { LoginComponent } from './components/fullscreenpage/login/login.component';
 import { DailyDataComponent } from './components/splitpage/register/daily-data/daily-data.component';
 import { MonthlyDataComponent } from './components/splitpage/register/monthly-data/monthly-data.component';
-import { OverviewComponent } from './components/splitpage/overview/overview.component';
 import { NavigationComponent } from './components/parts/navigation/navigation.component';
 import { LOCALE_ID } from '@angular/core';
 import localeJa from '@angular/common/locales/ja';
@@ -58,7 +57,6 @@ registerLocaleData(localeJa);
     LoginComponent,
     DailyDataComponent,
     MonthlyDataComponent,
-    OverviewComponent,
     NavigationComponent,
     HeaderComponent,
     FooterComponent,
