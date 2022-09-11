@@ -35,10 +35,13 @@
     flex-direction: row;
     justify-content: flex-start;
     min-height: calc(100vh - const.$header-height - const.$footer-heigh - (const.$main-margin * 2));
+    @include ForNarrowMode() {
+        flex-direction: column;
+        padding: 1em;
+    }
+
     .wrapper {
         width: calc(100vw - const.$nav-width - (const.$main-margin * 2));
-        // max-width: $wrapper-max-width;
-        // overflow: scroll;
         @include ForNarrowMode() {
             width: 100vw;
             max-width: 100vw;

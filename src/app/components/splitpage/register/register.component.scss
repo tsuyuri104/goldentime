@@ -9,9 +9,4 @@ main {
             margin-left: 0;
         }
     }
-
-    @include mixins.ForNarrowMode() {
-        flex-direction: column;
-        padding: 1em;
-    }
 }
