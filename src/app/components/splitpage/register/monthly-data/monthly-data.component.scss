@@ -4,9 +4,6 @@
 .wrapper {
     max-width: 380px;
     min-height: 100%;
-    > div {
-        padding: 1em;
-    }
     @include mixins.ForNarrowMode() {
         display: none;
     }
