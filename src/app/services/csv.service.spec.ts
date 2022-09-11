@@ -13,4 +13,10 @@ describe('CSVService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('convertStringCsvLineを実行', () => {
+    const contents: string[] = ["あ", "い", "う", "え", "お", "か", "き"];
+    const result: string = '"あ","い","う","え","お","か","き","空","空","空"\n';
+    expect(service.convertStringCsvLine(contents, 10, "空")).toBe(result);
+  });
 });
