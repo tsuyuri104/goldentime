@@ -35,9 +35,6 @@ import { SvgConfoundedFaceComponent } from "./components/svg/svg-confounded-face
 import { SvgSettingComponent } from './components/svg/svg-setting/svg-setting.component';
 import { SvgDeleteComponent } from './components/svg/svg-delete/svg-delete.component';
 import { SettingsComponent } from './components/splitpage/settings/settings.component';
-import { ReportListComponent } from './components/splitpage/report-list/report-list.component';
-import { ReportViewerComponent } from './components/splitpage/report-viewer/report-viewer.component';
-import { ReportEditorComponent } from './components/splitpage/report-editor/report-editor.component';
 import { TimestampPipe } from './pipes/timestamp.pipe';
 import { TimesagoPipe } from './pipes/timesago.pipe';
 import { EmojiSparklingHeartComponent } from './components/emoji/emoji-sparkling-heart/emoji-sparkling-heart.component';
@@ -49,7 +46,6 @@ import { CopyrightComponent } from './components/splitpage/copyright/copyright.c
 import { SvgLogComponent } from './components/svg/svg-log/svg-log.component';
 import { SvgLockComponent } from './components/svg/svg-lock/svg-lock.component';
 import { SvgUnlockComponent } from './components/svg/svg-unlock/svg-unlock.component';
-import { ReportDifferComponent } from './components/splitpage/report-differ/report-differ.component';
 import { AnalysisComponent } from './components/splitpage/analysis/analysis.component';
 import { SvgAnalysisComponent } from './components/svg/svg-analysis/svg-analysis';
 
@@ -74,9 +70,6 @@ registerLocaleData(localeJa);
     SvgSettingComponent,
     SvgDeleteComponent,
     SettingsComponent,
-    ReportListComponent,
-    ReportViewerComponent,
-    ReportEditorComponent,
     TimestampPipe,
     TimesagoPipe,
     EmojiSparklingHeartComponent,
@@ -88,7 +81,6 @@ registerLocaleData(localeJa);
     SvgLogComponent,
     SvgLockComponent,
     SvgUnlockComponent,
-    ReportDifferComponent,
     AnalysisComponent,
     SvgAnalysisComponent,
   ],

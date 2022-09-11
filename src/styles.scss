@@ -2,12 +2,8 @@
 @use "./app/sass-utiles/destyle";
 @use "./app/sass-utiles/color";
 @use "./app/sass-utiles/mixins";
-@use "./app/components/splitpage/report-viewer/article";
 @use "~ngx-toastr/toastr";
-@use "./app/components/splitpage/report-differ/diff";
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400;600;800&display=swap");
-@import "~quill/dist/quill.core.css";
-@import "~quill/dist/quill.snow.css";
 
 body,
 th {
@@ -64,7 +60,4 @@ label {
 }
 strong {
     font-weight: 800;
-}
-.article-text {
-    @include article.article();
 }
