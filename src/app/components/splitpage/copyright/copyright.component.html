@@ -1,44 +1,10 @@
 <main>
     <div class="wrapper">
         <ul class="link-list">
-            <li class="link-topic">アイコン・絵文字・イラスト
+            <li class="link-topic" *ngFor="let category of data">{{category.category}}
                 <ul class="link-list">
-                    <li class="link-item">
-                        <a (click)="open($event)" data-href="https://iconpark.oceanengine.com/">Icon Park</a>
-                    </li>
-                    <li class="link-item">
-                        <a (click)="open($event)" data-href="https://twemoji.twitter.com/">twemoji</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="link-topic">フォント
-                <ul class="link-list">
-
-                    <li class="link-item">
-                        <a (click)="open($event)" data-href="https://fonts.google.com/noto/specimen/Noto+Serif+JP">Noto
-                            Serif Japanese</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="link-topic">Angularライブラリ
-                <ul class="link-list">
-
-                    <li class="link-item">
-                        <a (click)="open($event)" data-href="https://www.npmjs.com/package/ngx-quill">ngx-quill</a>
-                    </li>
-                    <li class="link-item">
-                        <a (click)="open($event)" data-href="https://www.npmjs.com/package/ngx-toastr">ngx-toastr</a>
-                    </li>
-                    <li class="link-item">
-                        <a (click)="open($event)" data-href="https://www.npmjs.com/package/ngx-diff">ngx-diff</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="link-topic">JSライブラリ
-                <ul class="link-list">
-
-                    <li class="link-item">
-                        <a (click)="open($event)" href="https://www.npmjs.com/package/encoding-japanese">encoding.js</a>
+                    <li class="link-item" *ngFor="let item of category.items">
+                        <a (click)="open(item.url)" [class.link-item_deleted]="item.isDeleted">{{item.name}}</a>
                     </li>
                 </ul>
             </li>

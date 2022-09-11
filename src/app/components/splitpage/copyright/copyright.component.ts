@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Copyright } from 'src/app/interfaces/component/copyright';
+import { CopyrightService } from 'src/app/services/copyright.service';
 
 @Component({
   selector: 'app-copyright',
@@ -7,8 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CopyrightComponent implements OnInit {
 
+  public data: Copyright[] = [];
+
   //#region コンストラクタ
-  constructor() {
+  constructor(private sCopyright: CopyrightService) {
 
   }
   //#endregion
@@ -19,7 +23,8 @@ export class CopyrightComponent implements OnInit {
   /**
    * 初期設定
    */
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.sCopyright.getJson().subscribe(x => this.data = x);
   }
   //#endregion
 
@@ -30,11 +35,9 @@ export class CopyrightComponent implements OnInit {
   //#region open
   /**
    * 別タブで開く
-   * @param event 
+   * @param url 
    */
-  public open(event: Event): void {
-    let elm: HTMLLinkElement = <HTMLLinkElement>event.target;
-    const url: string = <string>elm.getAttribute("data-href");
+  public open(url: string): void {
     window.open(url);
   }
   //#endregion

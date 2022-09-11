@@ -17,5 +17,8 @@ main {
     &-item {
         cursor: pointer;
         @include mixins.common-list-marker();
+        &_deleted {
+            text-decoration: line-through;
+        }
     }
 }
