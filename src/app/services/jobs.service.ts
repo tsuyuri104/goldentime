@@ -161,6 +161,14 @@ export class JobsService {
   }
   //#endregion
 
+  //#region getDataRangeMonth
+  /**
+   * 複数月分の仕事データを取得する
+   * @param email 
+   * @param startYearMonth 
+   * @param endYearMonth 
+   * @returns 
+   */
   public getDataRangeMonth(email: string, startYearMonth: string, endYearMonth: string): Observable<Jobs[]> {
     return this.angularFire.collectionGroup<Jobs>(this.sDaily.SUB_COLLECTION_NAME.JOBS,
       ref => ref.where(this.FIELD_NAME.USER, "==", email)
@@ -170,6 +178,7 @@ export class JobsService {
         .orderBy(this.FIELD_NAME.INDEX, "asc")
     ).valueChanges();
   }
+  //#endregion
 
   //#region insertJobData
   /**
