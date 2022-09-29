@@ -264,8 +264,6 @@ export class AnalysisComponent implements OnInit {
     const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
     const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
 
-    console.log("検索開始");
-
     this.sJobs.getDataRangeMonth(member, startYearMonth, endYearMonth)
       .subscribe(jobs => {
 
@@ -345,7 +343,6 @@ export class AnalysisComponent implements OnInit {
 
         // 祝日設定
         this.sHoliday.getHolidayData(startYearMonth, endYearMonth).subscribe(holidays => {
-          console.log("get holidays")
           this, this.dataLeftDaily.forEach(d => {
             if (holidays.find(x => x.date === DateUtil.toString(d.date))) {
               d.isHoliday = true;
@@ -353,7 +350,6 @@ export class AnalysisComponent implements OnInit {
           });
         });
 
-        console.log("end serch");
         isLoading = false;
       });
   }
