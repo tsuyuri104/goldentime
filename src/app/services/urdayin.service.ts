@@ -25,6 +25,7 @@ export class UrdayinService {
   public FIELD_NAME = class {
     public static readonly USER_NAME: string = "user_name";
     public static readonly POSITION: string = "position";
+    public static readonly VALID: string = "valid";
   }
   public SUB_COLLECTION_NAME = class {
     public static readonly DAILY: string = 'daily';
@@ -121,6 +122,7 @@ export class UrdayinService {
   public getMemberData(): Observable<Urdayin[]> {
     return this.angularFire.collectionGroup<Urdayin>(this.COLLECTION_NAME,
       ref => ref.where(this.FIELD_NAME.POSITION, "!=", "admin")
+        .where(this.FIELD_NAME.VALID, "==", true)
     ).valueChanges();
   }
   //#endregion
