@@ -81,8 +81,8 @@ main {
         &-row {
             display: grid;
             grid-template-rows: 1.5em;
-            // 1日16時間を想定
-            grid-template-columns: 2.5em repeat(16, 1fr);
+            // 1日16時間を想定(0.5刻み)
+            grid-template-columns: 2.5em repeat((16 * 2), 1fr);
             align-items: center;
             &-title {
                 grid-row: 1/2;

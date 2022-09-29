@@ -74,6 +74,9 @@
                             [style.width]="getCssWidth(b.ratio)" [style.background-color]="getCssBgColor(b.groupName)">
                         </div>
                     </div>
+                    <div *ngIf="d.totalHours !== 0 && d.totalHours !== 7.5">
+                        {{ d.totalHours | number:'1.1-1' }}
+                    </div>
                 </div>
             </div>
             <div class="analysis-right-jobs-data">

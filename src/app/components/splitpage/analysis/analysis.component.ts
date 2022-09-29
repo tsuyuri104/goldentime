@@ -130,7 +130,15 @@ export class AnalysisComponent implements OnInit {
    */
   public getCssGridColmn(totalHours: number): string {
     let result: string = "2/";
-    const endLine: number = Math.ceil(totalHours) + 2;
+
+    // 0.5刻みにならない場合
+    if (totalHours % 0.5 > 0) {
+      // 0.5刻みで切り上げる
+      totalHours = Math.ceil(Math.ceil(totalHours * 10) / 10);
+    }
+
+    // 30分1枠
+    const endLine: number = (totalHours * 2) + 2;
     return result + String(endLine);
   }
   //#endregion
