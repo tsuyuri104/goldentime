@@ -76,7 +76,7 @@ export class AnalysisComponent implements OnInit {
    */
   public ngOnInit(): void {
 
-    // 年月の選択肢を作成
+    // 選択肢を作成
     this.createOptionValues();
 
     // 初期値を設定する
