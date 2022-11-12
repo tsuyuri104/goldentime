@@ -16,6 +16,7 @@ import { HolidayService } from 'src/app/services/holiday.service';
 import { JobsService } from 'src/app/services/jobs.service';
 import { UrdayinService } from 'src/app/services/urdayin.service';
 import { Encode } from 'src/app/types/encode';
+import { TabNames } from 'src/app/types/tab-names';
 import { DateUtil } from 'src/app/utilities/date-util';
 
 @Component({
@@ -56,6 +57,8 @@ export class AnalysisComponent implements OnInit {
 
   public topInfo: string = "";
 
+  public selectedTabName: TabNames = "summary";
+
   //#endregion
 
   //#region コンストラクタ
@@ -75,6 +78,8 @@ export class AnalysisComponent implements OnInit {
    * 初期設定
    */
   public ngOnInit(): void {
+
+    console.log("分析初期");
 
     // 選択肢を作成
     this.createOptionValues();
@@ -99,102 +104,13 @@ export class AnalysisComponent implements OnInit {
   }
   //#endregion
 
-
-  //#region getCssWidth
+  //#region selectTab
   /**
-   * CSSのWidthを取得する（単位：パーセント）
-   * @param ratio 
-   * @returns 
+   * タブを選択する
+   * @param tabName 
    */
-  public getCssWidth(ratio: number): string {
-    return String(ratio) + "%";
-  }
-  //#endregion
-
-  //#region getCssBgColor
-  /**
-   * CSSの背景色を取得する
-   * @param groupName 
-   * @returns 
-   */
-  public getCssBgColor(groupName: string): string {
-    return String(this.dataTopGroup.summary.find(x => x.groupName === groupName)?.groupColor);
-  }
-  //#endregion
-
-  //#region getCssGridColmn
-  /**
-   * CSSのグリッドの列数を取得する
-   * @param totalHours 
-   * @returns 
-   */
-  public getCssGridColmn(totalHours: number): string {
-    let result: string = "2/";
-
-    // 0.5刻みにならない場合
-    if (totalHours % 0.5 > 0) {
-      // 0.5刻みで切り上げる
-      totalHours = Math.ceil(Math.ceil(totalHours * 10) / 10);
-    }
-
-    // 30分1枠
-    const endLine: number = (totalHours * 2) + 2;
-    return result + String(endLine);
-  }
-  //#endregion
-
-  //#region exportCsv
-  /**
-   * CSV出力処理
-   * @param encode 
-   */
-  public async exportCsv(encode: Encode): Promise<void> {
-
-    const member: string = this.member.value;
-    const startYear: number = this.startYear.value;
-    const startMonth: number = this.startMonth.value;
-    const endYear: number = this.endYear.value;
-    const endMonth: number = this.endMonth.value;
-
-    const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
-    const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
-
-
-    //出力対象のデータを取得する
-    this.csvSubscription = this.sJobs.getDataForCsv(member, startYearMonth, endYearMonth).subscribe(contents => {
-
-      const daysInMonth: number = DateUtil.getGapDays(startYearMonth, endYearMonth);
-
-      //CSVフォーマットとして文字連結する
-      const colsLength: number = daysInMonth + 2;
-      let strCsvValue: string = "";
-      contents.forEach(content => {
-        strCsvValue += this.sCsv.convertStringCsvLine(content, colsLength, "0");
-      });
-
-      //出力する
-      this.sFile.download(strCsvValue, "工数一覧_" + startYearMonth + "_" + endYearMonth, "text/csv", encode);
-    });
-  }
-  //#endregion
-
-  //#region setTopInfo
-  /**
-   * 上部の情報を設定する
-   * @param summary 
-   */
-  public setTopInfo(summary: AnalysisSummary): void {
-    const pipe: DecimalPipe = new DecimalPipe('en-US');
-    this.topInfo = summary.groupName + " : " + pipe.transform(summary.hours, "1.1-1");
-  }
-  //#endregion
-
-  //#region clearTopInfo
-  /**
-   * 上部の情報をクリアする
-   */
-  public clearTopInfo(): void {
-    this.topInfo = "";
+  public selectTab(tabName: TabNames): void {
+    this.selectedTabName = tabName;
   }
   //#endregion
 

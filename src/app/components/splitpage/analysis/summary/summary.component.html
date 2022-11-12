@@ -1,0 +1,60 @@
+<div class="summary">
+    <div class="summary-top-group-data">
+        <div class="summary-top-total">
+            <span>合計時間：{{ dataTopGroup.totalHours | number:'1.1-1' }}時間</span>
+            <span>{{topInfo}}</span>
+        </div>
+
+        <div class="summary-top-export">
+            <button type="button" class="summary-top-export-button" (click)="exportCsv('UTF8')">CSV出力(UTF8)</button>
+            <button type="button" class="summary-top-export-button" (click)="exportCsv('SJIS')">CSV出力(SJIS)</button>
+        </div>
+
+        <div *ngFor="let g of dataTopGroup.summary" class="summary-top-graph-bar" [style.width]="getCssWidth(g.ratio)"
+            [style.background-color]="getCssBgColor(g.groupName)" (mouseover)="setTopInfo(g)"
+            (mouseout)="clearTopInfo()">
+        </div>
+    </div>
+</div>
+<div class="summary-left-daily-data">
+    <div class="summary-left-row" *ngFor="let d of dataLeftDaily">
+        <span class="summary-left-row-title" [class.summary-left-row-title_saturday]="d.isSaturday"
+            [class.summary-left-row-title_sunday]="d.isSunday" [class.summary-left-row-title_holiday]="d.isHoliday">
+            {{d.date | date:'MM/dd'}}</span>
+        <div class="summary-left-row-graph" [style.grid-column]="getCssGridColmn(d.totalHours)">
+            <div *ngFor="let b of d.breakdown" class="summary-left-row-graph-bar" [style.width]="getCssWidth(b.ratio)"
+                [style.background-color]="getCssBgColor(b.groupName)">
+            </div>
+        </div>
+        <div *ngIf="d.totalHours !== 0 && d.totalHours !== 7.5">
+            {{ d.totalHours | number:'1.1-1' }}
+        </div>
+    </div>
+</div>
+<div class="summary-right-jobs-data">
+    <table class="summary-right-table">
+        <thead>
+            <tr class="summary-right-table-header">
+                <td></td>
+                <td>グループ名</td>
+                <td>作業名</td>
+                <td>工数</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let j of dataRightJobs" class="summary-right-table-row">
+                <td class="summary-right-table-color-cell" [style.background-color]="getCssBgColor(j.groupName)">
+                </td>
+                <td>
+                    {{ j.groupName }}
+                </td>
+                <td>
+                    {{ j.jobName }}
+                </td>
+                <td>
+                    {{ j.hours | number:'1.1-1' }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
