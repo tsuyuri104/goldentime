@@ -1,6 +1,6 @@
 import { AnalysisBreakdown } from "./analysis-breakdown";
 
-export interface AnalysisLeftDailyData {
+export interface AnalysisDailyData {
     date: Date,
     totalHours: number,
     breakdown: AnalysisBreakdown[],
