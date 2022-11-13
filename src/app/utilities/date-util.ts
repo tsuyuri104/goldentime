@@ -173,10 +173,10 @@ export class DateUtil {
      */
     public static getGapDays(startYearMonth: string, endYearMonth: string): number {
         //月の一日を取得する
-        const firstDate: Date = DateUtil.getFirstDateFromYearMonth(startYearMonth);
+        const firstDate: Date = this.getFirstDateFromYearMonth(startYearMonth);
 
         //月の最終日を取得する
-        const lastDate: Date = DateUtil.getLastDateFromYearMonth(endYearMonth);
+        const lastDate: Date = this.getLastDateFromYearMonth(endYearMonth);
 
         const gapMilliSecconds: number = lastDate.getTime() - firstDate.getTime();
         const gapSeconds: number = gapMilliSecconds / 1000;
