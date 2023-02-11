@@ -1,6 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormControlName } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, FormControlName } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
 import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
@@ -27,15 +27,15 @@ export class AnalysisComponent implements OnInit {
 
   //#region 変数
 
-  private member: FormControl = new FormControl('');
-  private startYear: FormControl = new FormControl(0);
-  private startMonth: FormControl = new FormControl(0);
-  private endYear: FormControl = new FormControl(0);
-  private endMonth: FormControl = new FormControl(0);
+  private member: UntypedFormControl = new UntypedFormControl('');
+  private startYear: UntypedFormControl = new UntypedFormControl(0);
+  private startMonth: UntypedFormControl = new UntypedFormControl(0);
+  private endYear: UntypedFormControl = new UntypedFormControl(0);
+  private endMonth: UntypedFormControl = new UntypedFormControl(0);
 
   private csvSubscription: Subscription = new Subscription();
 
-  public conditionForm = new FormGroup({
+  public conditionForm = new UntypedFormGroup({
     member: this.member,
     startYear: this.startYear,
     startMonth: this.startMonth,
