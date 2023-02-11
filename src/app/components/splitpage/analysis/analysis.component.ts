@@ -3,10 +3,10 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
-import { AnalysisInclusiveData } from 'src/app/interfaces/component/analysis-inclusive-data';
-import { AnalysisDailyData } from 'src/app/interfaces/component/analysis-daily-data';
-import { AnalysisJobData } from 'src/app/interfaces/component/analysis-job-data';
+import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
+import { AnalysisRightJobsData } from 'src/app/interfaces/component/analysis-right-jobs-data';
 import { AnalysisSummary } from 'src/app/interfaces/component/analysis-summary';
+import { AnalysisTopGroupData } from 'src/app/interfaces/component/analysis-top-group-data';
 import { Jobs } from 'src/app/interfaces/document/jobs';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
@@ -48,11 +48,12 @@ export class AnalysisComponent implements OnInit {
   public optionMonth: number[] = [];
   public memberData: Urdayin[] = [];
 
-  public dataTopGroup: AnalysisInclusiveData = {
+  public dataTopGroup: AnalysisTopGroupData = {
+    summary: [],
     totalHours: 0
   };
-  public dataLeftDaily: AnalysisDailyData[] = [];
-  public dataRightJobs: AnalysisJobData[] = [];
+  public dataLeftDaily: AnalysisLeftDailyData[] = [];
+  public dataRightJobs: AnalysisRightJobsData[] = [];
 
   public topInfo: string = "";
 
@@ -191,15 +192,16 @@ export class AnalysisComponent implements OnInit {
       .subscribe(jobs => {
 
         // 上に表示するグループ毎のデータ用
-        let dataTopGroup: AnalysisInclusiveData = {
+        let dataTopGroup: AnalysisTopGroupData = {
+          summary: [],
           totalHours: 0,
         }
 
         // 左に表示する日毎のデータ用
-        let dataLeftDaily: AnalysisDailyData[] = [];
+        let dataLeftDaily: AnalysisLeftDailyData[] = [];
 
         // 右に表示する作業毎のデータ用
-        let dataRightJobs: AnalysisJobData[] = [];
+        let dataRightJobs: AnalysisRightJobsData[] = [];
 
         jobs.forEach(job => {
 
@@ -207,17 +209,17 @@ export class AnalysisComponent implements OnInit {
           dataTopGroup.totalHours += job.hours;
 
           // 上用：グループの時間に加算
-          // const summaryIndex: number = dataTopGroup.summary.findIndex(x => x.groupName === job.group_name);
-          // if (summaryIndex === -1) {
-          //   dataTopGroup.summary.push({
-          //     groupName: job.group_name,
-          //     hours: job.hours,
-          //     ratio: 0,
-          //     groupColor: "#cbcbcb",
-          //   })
-          // } else {
-          //   dataTopGroup.summary[summaryIndex].hours += job.hours;
-          // }
+          const summaryIndex: number = dataTopGroup.summary.findIndex(x => x.groupName === job.group_name);
+          if (summaryIndex === -1) {
+            dataTopGroup.summary.push({
+              groupName: job.group_name,
+              hours: job.hours,
+              ratio: 0,
+              groupColor: "#cbcbcb",
+            })
+          } else {
+            dataTopGroup.summary[summaryIndex].hours += job.hours;
+          }
 
           // 左用：日の合計時間に加算
           const jobDate: Date = DateUtil.toDate(job.date);
@@ -283,34 +285,34 @@ export class AnalysisComponent implements OnInit {
    * @param dataTopGroup 
    * @returns 
    */
-  private processTopData(dataTopGroup: AnalysisInclusiveData): AnalysisInclusiveData {
-    // // 割合を算出する
-    // dataTopGroup.summary.forEach(s => {
-    //   s.ratio = this.calcRatio(s.hours, dataTopGroup.totalHours);
-    // });
+  private processTopData(dataTopGroup: AnalysisTopGroupData): AnalysisTopGroupData {
+    // 割合を算出する
+    dataTopGroup.summary.forEach(s => {
+      s.ratio = this.calcRatio(s.hours, dataTopGroup.totalHours);
+    });
 
-    // // 工数多い順にソート
-    // this.sortHours(dataTopGroup.summary);
+    // 工数多い順にソート
+    this.sortHours(dataTopGroup.summary);
 
-    // const groupColors: string[] = [
-    //   "#f7dbf0",
-    //   "#f7e8db",
-    //   "#fbd6d9",
-    //   "#f6f7db",
-    //   "#e5f7db",
-    //   "#dbf7f3",
-    //   "#dbeaf7",
-    //   "#dcdbf7",
-    //   "#eddbf7",
-    //   "#dee6ed",
-    // ];
+    const groupColors: string[] = [
+      "#f7dbf0",
+      "#f7e8db",
+      "#fbd6d9",
+      "#f6f7db",
+      "#e5f7db",
+      "#dbf7f3",
+      "#dbeaf7",
+      "#dcdbf7",
+      "#eddbf7",
+      "#dee6ed",
+    ];
 
-    // // 背景色を設定する
-    // dataTopGroup.summary.forEach((s, index) => {
-    //   if (index <= groupColors.length - 1) {
-    //     s.groupColor = groupColors[index];
-    //   }
-    // });
+    // 背景色を設定する
+    dataTopGroup.summary.forEach((s, index) => {
+      if (index <= groupColors.length - 1) {
+        s.groupColor = groupColors[index];
+      }
+    });
 
     return dataTopGroup;
   }
@@ -324,7 +326,7 @@ export class AnalysisComponent implements OnInit {
    * @param endYearMonth 
    * @returns 
    */
-  private processLeftData(dataLeftDaily: AnalysisDailyData[], startYearMonth: string, endYearMonth: string): AnalysisDailyData[] {
+  private processLeftData(dataLeftDaily: AnalysisLeftDailyData[], startYearMonth: string, endYearMonth: string): AnalysisLeftDailyData[] {
     //月の一日を取得する
     const firstDate: Date = DateUtil.getFirstDateFromYearMonth(startYearMonth);
 
@@ -381,7 +383,7 @@ export class AnalysisComponent implements OnInit {
    * @param dataRightJobs 
    * @returns 
    */
-  private processRightData(dataRightJobs: AnalysisJobData[]): AnalysisJobData[] {
+  private processRightData(dataRightJobs: AnalysisRightJobsData[]): AnalysisRightJobsData[] {
     // グループ名でソート
     dataRightJobs.sort((a, b) => {
       if (a.groupName > b.groupName) {

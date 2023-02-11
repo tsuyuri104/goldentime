@@ -2,10 +2,10 @@ import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AnalysisDailyData } from 'src/app/interfaces/component/analysis-daily-data';
-import { AnalysisInclusiveData } from 'src/app/interfaces/component/analysis-inclusive-data';
-import { AnalysisJobData } from 'src/app/interfaces/component/analysis-job-data';
+import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
+import { AnalysisRightJobsData } from 'src/app/interfaces/component/analysis-right-jobs-data';
 import { AnalysisSummary } from 'src/app/interfaces/component/analysis-summary';
+import { AnalysisTopGroupData } from 'src/app/interfaces/component/analysis-top-group-data';
 import { Urdayin } from 'src/app/interfaces/document/urdayin';
 import { ConfigService } from 'src/app/services/config.service';
 import { CSVService } from 'src/app/services/csv.service';
@@ -45,11 +45,12 @@ export class SummaryComponent implements OnInit {
   public optionMonth: number[] = [];
   public memberData: Urdayin[] = [];
 
-  public dataTopGroup: AnalysisInclusiveData = {
+  public dataTopGroup: AnalysisTopGroupData = {
+    summary: [],
     totalHours: 0
   };
-  public dataLeftDaily: AnalysisDailyData[] = [];
-  public dataRightJobs: AnalysisJobData[] = [];
+  public dataLeftDaily: AnalysisLeftDailyData[] = [];
+  public dataRightJobs: AnalysisRightJobsData[] = [];
 
   public topInfo: string = "";
 
@@ -86,8 +87,7 @@ export class SummaryComponent implements OnInit {
    * @returns 
    */
   public getCssBgColor(groupName: string): string {
-    // return String(this.dataTopGroup.summary.find(x => x.groupName === groupName)?.groupColor);
-    return "";
+    return String(this.dataTopGroup.summary.find(x => x.groupName === groupName)?.groupColor);
   }
   //#endregion
 
