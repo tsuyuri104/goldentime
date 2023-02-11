@@ -48,8 +48,6 @@ import { SvgLockComponent } from './components/svg/svg-lock/svg-lock.component';
 import { SvgUnlockComponent } from './components/svg/svg-unlock/svg-unlock.component';
 import { AnalysisComponent } from './components/splitpage/analysis/analysis.component';
 import { SvgAnalysisComponent } from './components/svg/svg-analysis/svg-analysis';
-import { SummaryComponent } from './components/splitpage/analysis/summary/summary.component';
-import { DetailComponent } from './components/splitpage/analysis/detail/detail.component';
 
 registerLocaleData(localeJa);
 
@@ -84,8 +82,6 @@ registerLocaleData(localeJa);
     SvgUnlockComponent,
     AnalysisComponent,
     SvgAnalysisComponent,
-    SummaryComponent,
-    DetailComponent,
   ],
   imports: [
     BrowserModule,
