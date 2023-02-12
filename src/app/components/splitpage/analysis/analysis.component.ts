@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
 import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
 import { AnalysisRightJobsData } from 'src/app/interfaces/component/analysis-right-jobs-data';
