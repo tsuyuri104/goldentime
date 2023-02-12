@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray } from '@angular/forms';
+import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Daily } from 'src/app/interfaces/document/daily';
 import { Jobs } from 'src/app/interfaces/document/jobs';
@@ -30,11 +30,12 @@ export class DailyDataComponent implements OnInit {
   /**
    * 入力項目
    */
-  public frmDaily: UntypedFormGroup = this.fb.group({
-    memo: '',
-    jobs: this.fb.array([this.createJob()])
+  public frmDaily = new FormGroup({
+    memo: new FormControl<string>(''),
+    jobs: new FormArray([
+      this.createJob(),
+    ]),
   });
-  public jobs: UntypedFormArray = new UntypedFormArray([]);
 
   //#endregion
 
@@ -45,7 +46,6 @@ export class DailyDataComponent implements OnInit {
     , private sUrdayin: UrdayinService
     , private sJobs: JobsService
     , private sGroupName: GroupNameService
-    , private fb: UntypedFormBuilder
     , private toastr: ToastrService
     , private sHoliday: HolidayService
   ) {
@@ -82,7 +82,7 @@ export class DailyDataComponent implements OnInit {
    * フォームから仕事配列を取得する
    */
   public getJobsArray() {
-    return this.frmDaily.get("jobs") as UntypedFormArray
+    return this.frmDaily.get("jobs") as FormArray
   }
   //#endregion
 
@@ -91,8 +91,7 @@ export class DailyDataComponent implements OnInit {
    * 仕事カードを追加する
    */
   public addJobCard(): void {
-    this.jobs = this.getJobsArray()
-    this.jobs.push(this.createJob());
+    this.frmDaily.controls.jobs.push(this.createJob());
   }
   //#endregion
 
@@ -101,8 +100,7 @@ export class DailyDataComponent implements OnInit {
    * 仕事カードを削除する
    */
   public deleteJobCard(index: number): void {
-    this.jobs = this.getJobsArray();
-    this.jobs.removeAt(index);
+    this.frmDaily.controls.jobs.removeAt(index);
     this.setTotalHours();
   }
   //#endregion
@@ -121,7 +119,11 @@ export class DailyDataComponent implements OnInit {
    * 日次データを更新する
    */
   public async updateDailyData(): Promise<void> {
-    let inputData: Daily = this.frmDaily.value;
+    let inputData: Daily = {
+      memo: <string>this.frmDaily.controls.memo.value,
+      jobs: this.frmDaily.controls.jobs.value,
+      total: 0,
+    };
     const email: string = this.sUrdayin.getSelectedUser();
     const yearmonth: string = DateUtil.toStringYearMonth(this.sUrdayin.getSelectedDate());
     const date: string = DateUtil.toString(this.sUrdayin.getSelectedDate());
@@ -218,7 +220,7 @@ export class DailyDataComponent implements OnInit {
    * @returns 一日の合計時間
    */
   private calcTotalHours(): number {
-    const jobs = this.frmDaily.get('jobs') as UntypedFormArray;
+    const jobs = this.frmDaily.get('jobs') as FormArray;
     let counter: number = 0;
     jobs.controls.forEach(c => {
       counter += Number(c.value.hours);
@@ -232,11 +234,11 @@ export class DailyDataComponent implements OnInit {
    * 空の仕事配列の要素を作成する
    * @returns 仕事配列の要素
    */
-  private createJob(): UntypedFormGroup {
-    return this.fb.group(<Jobs>{
-      job: '',
-      hours: 0,
-      group_name: '',
+  private createJob(): FormGroup {
+    return new FormGroup({
+      job: new FormControl<string>(''),
+      hours: new FormControl<number>(0),
+      group_name: new FormControl<string>(''),
     });
   }
   //#endregion
@@ -247,14 +249,12 @@ export class DailyDataComponent implements OnInit {
    * @param datum 取得した仕事情報
    * @returns フォームグループに変換した仕事情報
    */
-  private convertFormGroup(datum: Daily, jobs: Jobs[]): UntypedFormGroup {
-    let group = this.fb.group({
-      memo: datum.memo,
-      total: datum.total,
-      jobs: this.fb.array(this.convertFormArray(jobs)),
+  private convertFormGroup(datum: Daily, jobs: Jobs[]): FormGroup {
+    return new FormGroup({
+      memo: new FormControl<string>(datum.memo),
+      total: new FormControl<number>(datum.total),
+      jobs: new FormArray(this.convertFormArray(jobs)),
     });
-
-    return group;
   }
   //#endregion
 
@@ -264,14 +264,14 @@ export class DailyDataComponent implements OnInit {
    * @param data 仕事配列
    * @returns フォームグループに変換した仕事配列
    */
-  private convertFormArray(data: Jobs[]): UntypedFormGroup[] {
-    let arr: UntypedFormGroup[] = [];
+  private convertFormArray(data: Jobs[]): FormGroup[] {
+    let arr: FormGroup[] = [];
 
     data.forEach(datum => {
-      arr.push(this.fb.group(<Jobs>{
-        job: datum.job,
-        hours: datum.hours,
-        group_name: datum.group_name,
+      arr.push(new FormGroup({
+        job: new FormControl<string>(datum.job),
+        hours: new FormControl<number>(datum.hours),
+        group_name: new FormControl<string>(datum.group_name),
       }));
     });
 

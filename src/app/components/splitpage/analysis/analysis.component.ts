@@ -1,6 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, FormControlName } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { AnalysisBreakdown } from 'src/app/interfaces/component/analysis-breakdown';
 import { AnalysisLeftDailyData } from 'src/app/interfaces/component/analysis-left-daily-data';
@@ -27,20 +27,14 @@ export class AnalysisComponent implements OnInit {
 
   //#region 変数
 
-  private member: UntypedFormControl = new UntypedFormControl('');
-  private startYear: UntypedFormControl = new UntypedFormControl(0);
-  private startMonth: UntypedFormControl = new UntypedFormControl(0);
-  private endYear: UntypedFormControl = new UntypedFormControl(0);
-  private endMonth: UntypedFormControl = new UntypedFormControl(0);
-
   private csvSubscription: Subscription = new Subscription();
 
-  public conditionForm = new UntypedFormGroup({
-    member: this.member,
-    startYear: this.startYear,
-    startMonth: this.startMonth,
-    endYear: this.endYear,
-    endMonth: this.endMonth,
+  public conditionForm = new FormGroup({
+    member: new FormControl<string>(''),
+    startYear: new FormControl<number>(0),
+    startMonth: new FormControl<number>(0),
+    endYear: new FormControl<number>(0),
+    endMonth: new FormControl<number>(0),
   });
 
   public optionYear: number[] = [];
@@ -150,11 +144,11 @@ export class AnalysisComponent implements OnInit {
    */
   public async exportCsv(encode: Encode): Promise<void> {
 
-    const member: string = this.member.value;
-    const startYear: number = this.startYear.value;
-    const startMonth: number = this.startMonth.value;
-    const endYear: number = this.endYear.value;
-    const endMonth: number = this.endMonth.value;
+    const member: string = <string>this.conditionForm.controls.member.value;
+    const startYear: number = <number>this.conditionForm.controls.startYear.value;
+    const startMonth: number = <number>this.conditionForm.controls.startMonth.value;
+    const endYear: number = <number>this.conditionForm.controls.endYear.value;
+    const endMonth: number = <number>this.conditionForm.controls.endMonth.value;
 
     const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
     const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
@@ -229,16 +223,16 @@ export class AnalysisComponent implements OnInit {
    */
   private setInitValue(): void {
     // メンバー
-    this.member.setValue(this.sUrdayin.getSelectedUser());
+    this.conditionForm.controls.member.setValue(this.sUrdayin.getSelectedUser());
 
     // 年月
     const year: number = new Date().getFullYear();
     const month: number = new Date().getMonth() + 1;
 
-    this.startYear.setValue(year);
-    this.startMonth.setValue(month);
-    this.endYear.setValue(year);
-    this.endMonth.setValue(month);
+    this.conditionForm.controls.startYear.setValue(year);
+    this.conditionForm.controls.startMonth.setValue(month);
+    this.conditionForm.controls.endYear.setValue(year);
+    this.conditionForm.controls.endMonth.setValue(month);
   }
   //#endregion
 
@@ -247,11 +241,11 @@ export class AnalysisComponent implements OnInit {
    * 監視を設定する
    */
   private setSubscribes(): void {
-    this.member.valueChanges.subscribe(x => this.search());
-    this.startYear.valueChanges.subscribe(x => this.search());
-    this.startMonth.valueChanges.subscribe(x => this.search());
-    this.endYear.valueChanges.subscribe(x => this.search());
-    this.endMonth.valueChanges.subscribe(x => this.search());
+    this.conditionForm.controls.member.valueChanges.subscribe(x => this.search());
+    this.conditionForm.controls.startYear.valueChanges.subscribe(x => this.search());
+    this.conditionForm.controls.startMonth.valueChanges.subscribe(x => this.search());
+    this.conditionForm.controls.endYear.valueChanges.subscribe(x => this.search());
+    this.conditionForm.controls.endMonth.valueChanges.subscribe(x => this.search());
   }
   //#endregion
 
@@ -263,11 +257,11 @@ export class AnalysisComponent implements OnInit {
 
     let isLoading: boolean = true;
 
-    const member: string = this.member.value;
-    const startYear: number = this.startYear.value;
-    const startMonth: number = this.startMonth.value;
-    const endYear: number = this.endYear.value;
-    const endMonth: number = this.endMonth.value;
+    const member: string = <string>this.conditionForm.controls.member.value;
+    const startYear: number = <number>this.conditionForm.controls.startYear.value;
+    const startMonth: number = <number>this.conditionForm.controls.startMonth.value;
+    const endYear: number = <number>this.conditionForm.controls.endYear.value;
+    const endMonth: number = <number>this.conditionForm.controls.endMonth.value;
 
     const startYearMonth: string = DateUtil.convertNumberToYearMonthString(startYear, startMonth);
     const endYearMonth: string = DateUtil.convertNumberToYearMonthString(endYear, endMonth);
