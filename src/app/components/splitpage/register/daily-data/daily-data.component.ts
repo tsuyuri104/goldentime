@@ -81,7 +81,7 @@ export class DailyDataComponent implements OnInit {
   /**
    * フォームから仕事配列を取得する
    */
-  public getJobsArray() {
+  public getJobsArray(): FormArray {
     return this.frmDaily.get("jobs") as FormArray
   }
   //#endregion
