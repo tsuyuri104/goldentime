@@ -220,7 +220,7 @@ export class DailyDataComponent implements OnInit {
    * @returns 一日の合計時間
    */
   private calcTotalHours(): number {
-    const jobs = this.frmDaily.get('jobs') as FormArray;
+    const jobs = this.frmDaily.controls.jobs;
     let counter: number = 0;
     jobs.controls.forEach(c => {
       counter += Number(c.value.hours);
